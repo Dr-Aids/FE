@@ -1,0 +1,43 @@
+import "./Sidebar.css";
+import MainLogo from "../assets/login-logo.png";
+import { useNavigate } from "react-router-dom";
+
+function Profile({ name }) {
+  return (
+    <div className="profile__container">
+      <img className="profile__image" src="https://i.imgur.com/yXOvdOSs.jpg" />
+      <b>Dr. {name}</b>
+    </div>
+  );
+}
+
+function MenuContent({ content, address }) {
+  const nav = useNavigate();
+  return (
+    <h3 className="menu__item" onClick={() => nav(address)}>
+      {content}
+    </h3>
+  );
+}
+
+function Menu() {
+  return (
+    <div className="menu__container">
+      <MenuContent content="메인" address="/main" />
+      <MenuContent content="환자" address="/patient" />
+      <MenuContent content="예측처방" address="/prescription" />
+      <MenuContent content="특이사항" address="/remark" />
+      <MenuContent content="설정" address="/settings" />
+    </div>
+  );
+}
+
+export default function Sidebar() {
+  return (
+    <div className="sidebar__container">
+      <img src={MainLogo} />
+      <Profile name="정연준" />
+      <Menu />
+    </div>
+  );
+}

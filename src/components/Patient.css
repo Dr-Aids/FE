@@ -1,0 +1,18 @@
+.patient__container {
+  display: flex;
+  gap: 15px;
+  background-color: #cbe8ee;
+  padding: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.patient__name {
+}
+.patient__age {
+  flex: 1;
+}
+.patient__birth {
+}
+.patient__sex {
+}

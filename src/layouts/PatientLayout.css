@@ -1,0 +1,4 @@
+.patient__layout__container {
+  display: flex;
+  gap: 1rem;
+}
