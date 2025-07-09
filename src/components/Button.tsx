@@ -1,9 +1,8 @@
-import "./button.css";
-
-export default function Button({ onClick, children }) {
+import "./Button.css";
+export default function Button({ content, onClick }) {
   return (
-    <button className="btn" onClick={onClick}>
-      {children}
+    <button className="button" onClick={onClick}>
+      {content}
     </button>
   );
 }
