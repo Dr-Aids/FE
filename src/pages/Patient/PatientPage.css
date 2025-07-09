@@ -1,9 +1,21 @@
 .patient__page__container {
   display: flex;
   gap: 50px;
+  flex-direction: column;
 }
 
 .patient__page__weight_list {
   display: flex;
   gap: 10px;
+}
+
+.patient__page__bp__container {
+  display: flex;
+  gap: 40px;
+}
+
+.patient__page__record__container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
