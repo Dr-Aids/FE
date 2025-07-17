@@ -7,13 +7,14 @@ export default function PatientLayout() {
   return (
     <div className="patient__layout__container">
       <section className="patient__layout__main">
-        <nav>
+        환자정보
+        <nav className="patient__layout__header">
           <PatientInfo
             name="정연준"
             age={18}
             birth="2002.07.31"
             sex="남"
-            disease={"당뇨"}
+            disease={"당뇨병성 신종"}
           />
         </nav>
         <section>
