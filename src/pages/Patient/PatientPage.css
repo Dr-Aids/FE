@@ -9,6 +9,18 @@
   gap: 10px;
 }
 
+.patient__page__graph {
+  display: flex;
+  flex-direction: column;
+}
+
+.patient__page__graph_container {
+  display: flex;
+  gap: 10px;
+  border: 1px solid gray;
+  padding: 20px;
+}
+
 .patient__page__bp__container {
   display: flex;
   gap: 40px;
