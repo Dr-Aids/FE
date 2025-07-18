@@ -1,0 +1,47 @@
+.patient__info__container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.patient__info__main {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 30px;
+}
+.patient__info__info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.patient__info__name {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.patient__info__sex {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.patient__info__buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.patient__info__dropdown {
+  background-color: #f5f4f5;
+  padding-inline: 10px;
+  padding-block: 5px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.patient-summary-card__hr {
+  height: 2px;
+  border: none;
+  background-color: black;
+  margin-top: 20px;
+}
