@@ -1,3 +1,4 @@
+import "./RemarkPage.css";
 export default function RemarkPage() {
-  return <>특이사항</>;
+  return <div className="remark-page__container">특이사항</div>;
 }

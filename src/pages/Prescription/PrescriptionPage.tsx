@@ -1,3 +1,4 @@
+import "./PrescriptionPage.css";
 export default function Prescription() {
-  return <>처방 페이지</>;
+  return <div className="prescription-page__container">처방 페이지</div>;
 }
