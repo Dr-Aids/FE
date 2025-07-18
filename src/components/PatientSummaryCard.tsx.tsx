@@ -13,7 +13,7 @@ export default function PatientSummaryCard({
   return (
     <>
       <div className="patient__info__container">
-        <SectionHeader title={"환자 정보"} />
+        <SectionHeader title={pageName} />
         <div className="patient__info__main">
           <div className="patient__info__info">
             <div className="patient__info__name">{name}</div>

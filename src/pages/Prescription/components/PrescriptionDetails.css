@@ -1,0 +1,8 @@
+.prescription__details__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.prescription__detail__graphs {
+  display: flex;
+}
