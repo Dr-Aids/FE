@@ -1,33 +1,12 @@
 .patient__page__container {
   display: flex;
-  gap: 50px;
-  flex-direction: column;
-}
-
-.patient__page__weight_list {
-  display: flex;
   gap: 10px;
-}
-
-.patient__page__graph {
-  display: flex;
-  flex-direction: column;
-}
-
-.patient__page__graph_container {
-  display: flex;
-  gap: 10px;
-  border: 1px solid gray;
-  padding: 20px;
-}
-
-.patient__page__bp__container {
-  display: flex;
-  gap: 40px;
-}
-
-.patient__page__record__container {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  background-color: white;
+  margin: 100px;
+  padding: 50px;
+  border: 1px solid #fffeff;
+  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
 }
