@@ -1,5 +1,6 @@
 import PatientListPage from "../../components/PatientListPage";
 import PatientSummaryCard from "../../components/PatientSummaryCard.tsx";
+import RemarkAllPatients from "./components/RemarkAllPatients.tsx";
 import "./RemarkPage.css";
 export default function RemarkPage() {
   return (
@@ -13,7 +14,7 @@ export default function RemarkPage() {
           disease={"당뇨병성 신종"}
           pageName="환자 정보"
         />
-        특이사항 오는 곳
+        <RemarkAllPatients />
       </div>
       <PatientListPage />
     </div>
