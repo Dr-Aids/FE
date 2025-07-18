@@ -1,6 +1,4 @@
-.patient__page__container {
-  display: flex;
-  gap: 10px;
+.remark-page__container {
   background-color: white;
   margin: 100px;
   padding: 50px;

@@ -1,5 +1,5 @@
 import "./LoginPage.css";
-import Button from "../../components/LoginButton";
+import Button from "../../components/ui/LoginButton";
 import LoginLogo from "../../assets/login-logo.png";
 import { useNavigate } from "react-router-dom";
 

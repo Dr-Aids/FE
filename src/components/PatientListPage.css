@@ -1,0 +1,8 @@
+.patient-list-page__container {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  border-left: 1px solid black;
+  padding-left: 30px;
+  margin-left: 30px;
+}

@@ -1,0 +1,51 @@
+.patient-details__container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 35px;
+}
+
+.patient__page__weight_list {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.patient__page__graph {
+  display: flex;
+  flex-direction: column;
+}
+
+.patient__page__graph_container {
+  display: flex;
+  gap: 10px;
+  border: 1px solid gray;
+  padding: 20px;
+}
+
+.patient__page__bp__container {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.patient__page__bp__chart__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.patient__page__bp__chart__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.patient__page__bp__buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.patient__page__record__container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}

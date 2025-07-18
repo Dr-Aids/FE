@@ -1,0 +1,29 @@
+.record__container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.record__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.record__title {
+  font-size: 16px;
+  color: #1e6774;
+  font-weight: 500;
+}
+
+.record__buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.record__content {
+  width: 395px;
+  height: 100px;
+  border: 1px solid gray;
+  border-radius: 7px;
+  padding: 20px;
+}

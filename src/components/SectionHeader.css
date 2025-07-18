@@ -1,0 +1,9 @@
+.header__container {
+  display: flex;
+  justify-content: space-between;
+}
+.page__name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e6774;
+}

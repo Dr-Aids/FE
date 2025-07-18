@@ -1,6 +1,8 @@
 import "./MainLayout.css";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
+
+// 사이드바가 포함된 레이아웃
 
 export default function MainLayout() {
   return (
@@ -8,7 +10,7 @@ export default function MainLayout() {
       <aside>
         <Sidebar />
       </aside>
-      <main>
+      <main className="main-layout__page__container">
         <Outlet />
       </main>
     </div>
