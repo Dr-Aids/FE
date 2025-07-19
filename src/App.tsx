@@ -9,6 +9,7 @@ import RemarkPage from "./pages/Remark/RemarkPage";
 import SettingPage from "./pages/Settings/SettingPage";
 import MainLayout from "./layouts/MainLayout";
 import SignupPage from "./pages/Signup/SignupPage";
+import RemarkPersonalPage from "./pages/Remark/RemarkPersonalPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/patient" element={<PatientPage />} />
           <Route path="/prescription" element={<Prescription />} />
           <Route path="/remark" element={<RemarkPage />} />
+          <Route path="/remark/:patientId" element={<RemarkPersonalPage />} />
           <Route path="/settings" element={<SettingPage />} />
         </Route>
       </Routes>
