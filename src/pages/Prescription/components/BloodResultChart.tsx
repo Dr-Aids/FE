@@ -7,19 +7,26 @@ import {
   Legend,
   Bar,
 } from "recharts";
+import { bloodResultData } from "../../../mocks/bloodResultData";
 export default function BloodResultChart({ data }) {
   return (
-    <div>
-      <BarChart width={480} height={180} data={data}>
+    <div
+      style={{
+        border: "1px solid rgba(220,220,220,0.5)",
+        borderRadius: "10px",
+        padding: "50px 50px 20px 20px",
+      }}
+    >
+      <BarChart width={360} height={300} data={bloodResultData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="Pre" fill="#CBE8EE" />
-        <Bar dataKey="Dry" fill="#E6F1FD" />
-        <Bar dataKey="Post" fill="#7FBBE9" />
-        <Bar dataKey="Post" fill="#7FBBE9" />
+        <Bar dataKey="Iron" fill="green" />
+        <Bar dataKey="Ferritine" fill="red" />
+        <Bar dataKey="TIBC" fill="pink" />
+        <Bar dataKey="PTH" fill="skyblue" />
       </BarChart>
     </div>
   );
