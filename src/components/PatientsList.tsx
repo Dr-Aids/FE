@@ -2,7 +2,7 @@ import "./PatientsList.css";
 import PatientRow from "./PatientRow";
 import { patients } from "../mocks/patientData";
 
-export default function PatientsList() {
+export default function PatientsList({ usingPage }) {
   return (
     <div className="patients__list__container">
       <div className="patients__list__title">
@@ -12,7 +12,7 @@ export default function PatientsList() {
       </div>
       <div className="patients__list__list">
         {patients.map((patient, i) => (
-          <PatientRow key={i} {...patient} index={i} />
+          <PatientRow key={i} {...patient} index={i} usingPage={usingPage} />
         ))}
       </div>
     </div>
