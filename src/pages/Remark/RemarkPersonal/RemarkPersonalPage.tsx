@@ -1,5 +1,5 @@
-import PatientListPage from "../../components/PatientListPage";
-import PatientSummaryCard from "../../components/PatientSummaryCard.tsx";
+import PatientListPage from "../../../components/PatientListPage.tsx";
+import PatientSummaryCard from "../../../components/PatientSummaryCard.tsx.tsx";
 import RemarkPersonalDetails from "./components/RemarkPersonalDetails.tsx";
 import "./RemarkPersonalPage.css";
 
