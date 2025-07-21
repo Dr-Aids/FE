@@ -1,13 +1,30 @@
+import { bloodData } from "../../../../mocks/BloodData";
+import BloodHistoryChart from "./BloodHistoryChart";
+import ContentBox from "./ContentBox";
 import "./RemarkPersonalDetails.css";
+import RemarkPersonalTable from "./RemarkPersonalTable";
+import WeightCMPChart from "./WeightCMPChart";
 
 export default function RemarkPersonalDetails() {
   return (
     <div className="remark__personal__content__container">
-      <div>테이블</div>
+      <div>
+        <RemarkPersonalTable />
+      </div>
       <div className="remark__personal__graphs__container">
-        <div>혈압기록</div>
-        <div>박스박스</div>
-        <div>몸무게 비교</div>
+        <div>
+          혈압기록
+          <BloodHistoryChart data={bloodData} />
+        </div>
+        <div>
+          <ContentBox title={"내원 시 BP"} content={"170/100"} />
+          <ContentBox title={"현재 BP"} content={"136/76"} />
+          <ContentBox title={"평균 몸무게에 비해"} content={"+1.8 kg"} />
+          <ContentBox title={"현재 BP"} content={"136 / 76"} />
+        </div>
+        <div>
+          <WeightCMPChart />
+        </div>
       </div>
     </div>
   );
