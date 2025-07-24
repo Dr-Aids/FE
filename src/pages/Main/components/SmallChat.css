@@ -1,14 +1,15 @@
 .smallchat__container {
-  width: 350px;
-  height: 200px;
+  width: 80%;
+  height: 300px;
   padding-block: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border: 1px solid #f9f9fa;
   border-radius: 10px;
-  background-color: rgba(220, 220, 220, 0.1);
+  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9fa;
 }
 
 .smallchat__form {
