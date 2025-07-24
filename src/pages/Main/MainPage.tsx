@@ -1,4 +1,5 @@
 import SectionHeader from "../../components/SectionHeader";
+import MainCard from "./components/MainCard";
 import "./MainPage.css";
 
 export default function MainPage() {
@@ -6,6 +7,10 @@ export default function MainPage() {
     <div className="mainpage__container">
       <SectionHeader title={"AI 요약 및 응답"} />
       <hr />
+      <div className="mainpage__top__content">
+        <MainCard title={"Q&A"} />
+        <MainCard title={"Summary"} />
+      </div>
     </div>
   );
 }
