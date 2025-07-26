@@ -1,15 +1,15 @@
 import "./HistoryList.css";
 import HistoryRow from "./HistoryRow";
 
-export default function HistoryList() {
+export default function HistoryList({ onRowClick }) {
   return (
     <div className="historylist__container">
-      <HistoryRow />
-      <HistoryRow />
-      <HistoryRow />
-      <HistoryRow />
-      <HistoryRow />
-      <HistoryRow />
+      <HistoryRow onRowClick={onRowClick} />
+      <HistoryRow onRowClick={onRowClick} />
+      <HistoryRow onRowClick={onRowClick} />
+      <HistoryRow onRowClick={onRowClick} />
+      <HistoryRow onRowClick={onRowClick} />
+      <HistoryRow onRowClick={onRowClick} />
     </div>
   );
 }
