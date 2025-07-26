@@ -1,4 +1,21 @@
 .remark__personal__table__container {
-  padding: 10px;
-  border: 1px solid black;
+}
+
+.remark__personal__table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.remark__personal__table > thead > tr > th {
+  padding: 20px;
+  background-color: #e6f1fd;
+  color: gray;
+  border: 1px solid gray;
+}
+
+.remark__personal__table > tbody > tr > th,
+td {
+  padding: 20px;
+  color: gray;
+  border: 1px solid gray;
+  text-align: center;
 }

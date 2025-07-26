@@ -1,12 +1,29 @@
-table {
-  letter-spacing: 1px;
+.remark__all__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
-.remark__thead th {
-  border: 1px solid black;
-  padding: 3px;
+.remark__table {
+  width: 100%;
+  border-collapse: collapse;
 }
-.remark__tobdy td {
+.remark__thead th {
+  border: 1px solid gray;
+  padding: 10px;
+  background-color: #e6f1fd;
+}
+.remark__thead th:first-child {
+  border-top-left-radius: 10px;
+}
+.remark__tbody td {
   border: 1px solid black;
-  padding: 3px;
+  padding: 5px;
+  text-align: center;
+}
+
+.remark__basis__container {
+  display: flex;
+  gap: 20px;
 }
