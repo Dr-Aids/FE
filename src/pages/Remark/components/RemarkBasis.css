@@ -1,0 +1,28 @@
+.basis__container {
+  display: flex;
+  flex-direction: column;
+  width: 550px;
+  height: 100px;
+  padding: 30px;
+  gap: 20px;
+  border-radius: 10px;
+}
+
+.basis__title__weight {
+  font-size: 20px;
+  color: #3b82f6;
+  font-weight: 600;
+}
+.basis__title__bp {
+  font-size: 20px;
+  color: #ef4444;
+  font-weight: 600;
+}
+.basis__list__weight li::marker,
+.basis__list__weight > li {
+  color: #3b82f6;
+}
+.basis__list__bp li::marker,
+.basis__list__bp > li {
+  color: #ef4444;
+}
