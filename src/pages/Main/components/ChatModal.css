@@ -1,0 +1,51 @@
+.blur__container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  z-index: 1;
+}
+
+.base__container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 60vh;
+  border-radius: 20px;
+  background-color: #f5f5f6;
+  z-index: 2;
+
+  padding: 25px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 30px;
+  align-items: center;
+}
+
+.close__modal__container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.close__modal__btn {
+  width: 40px;
+  height: 40px;
+}
+
+.modal__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #33afc5;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+}

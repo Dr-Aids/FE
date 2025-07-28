@@ -16,7 +16,7 @@ export default function RemarkPage() {
         />
         <RemarkAllPatients />
       </div>
-      <PatientListPage />
+      <PatientListPage usingPage={"remark"} />
     </div>
   );
 }

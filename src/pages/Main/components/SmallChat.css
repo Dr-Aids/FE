@@ -1,0 +1,46 @@
+.smallchat__container {
+  width: 80%;
+  height: 300px;
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #f9f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9fa;
+}
+
+.smallchat__form {
+  width: 300px;
+  padding: 10px;
+  background-color: #f9f9fa;
+  border: 1px solid #fffeff;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.smallchat__form input {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  padding-left: 10px;
+}
+
+.smallchat__form input:focus {
+  outline: none;
+}
+
+.smallchat__form button {
+  background: none;
+  border: none;
+}
+
+.smallchat__form button img {
+  background: none;
+}

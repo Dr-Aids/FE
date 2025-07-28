@@ -7,7 +7,6 @@ export default function PrescriptionTableRow({
   description,
   idx,
 }) {
-  console.log(idx);
   return (
     <tr
       className="prescription__tr"
