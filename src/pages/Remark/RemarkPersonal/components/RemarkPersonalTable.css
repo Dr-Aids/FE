@@ -13,7 +13,7 @@
 }
 
 .remark__personal__table > tbody > tr > th,
-td {
+.remark__personal__table > tbody > tr > td {
   padding: 20px;
   color: gray;
   border: 1px solid gray;
