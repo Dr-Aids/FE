@@ -1,0 +1,27 @@
+.role__btn {
+  border: none;
+  border-radius: 8px;
+  padding-block: 10px;
+  padding-inline: 40px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  flex: 0.5;
+}
+
+.role__btn__selected {
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding-block: 10px;
+  padding-inline: 40px;
+  background-color: #32afc5;
+  cursor: pointer;
+  flex: 0.5;
+}
+
+.role__btn:hover {
+  background-color: #f0efef;
+}
+.role__btn__selected:hover {
+  background-color: #009cb8;
+}
