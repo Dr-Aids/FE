@@ -10,15 +10,24 @@ import SettingPage from "./pages/Settings/SettingPage";
 import MainLayout from "./layouts/MainLayout";
 import SignupPage from "./pages/Signup/SignupPage";
 import RemarkPersonalPage from "./pages/Remark/RemarkPersonal/RemarkPersonalPage";
+import { useState } from "react";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  const [userData, setUserData] = useState(null); //로그인한 유저의 정보를 담을거임
+
   return (
     <>
       <GlobalStyles />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <LoginPage setUserData={setUserData} setIsLogin={setIsLogin} />
+          }
+        />
         <Route path="/signup" element={<SignupPage />} />
-        <Route element={<MainLayout />}>
+        <Route element={<MainLayout userData={userData} />}>
           <Route path="/main" element={<MainPage />} />
           <Route path="/patient" element={<PatientPage />} />
           <Route path="/prescription" element={<Prescription />} />
