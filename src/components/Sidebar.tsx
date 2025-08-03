@@ -1,6 +1,7 @@
 import "./Sidebar.css";
 import MainLogo from "../assets/login-logo.png";
 import { useNavigate } from "react-router-dom";
+import { userData } from "../mocks/userData";
 
 function Profile({ name }) {
   return (
@@ -32,11 +33,11 @@ function Menu() {
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar({ username }) {
   return (
     <div className="sidebar__container">
       <img src={MainLogo} />
-      <Profile name="정연준" />
+      <Profile name={username} />
       <Menu />
     </div>
   );

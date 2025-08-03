@@ -4,11 +4,11 @@ import { Outlet } from "react-router-dom";
 
 // 사이드바가 포함된 레이아웃
 
-export default function MainLayout() {
+export default function MainLayout({ userData }) {
   return (
     <div className="main-layout__container">
       <aside>
-        <Sidebar />
+        <Sidebar {...userData} />
       </aside>
       <main className="main-layout__page__container">
         <Outlet />

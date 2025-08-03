@@ -1,12 +1,16 @@
 export const userData = [
   {
     username: "정연준",
-    email: "jhje5595@naver.com",
-    password: "dbqlanghks0731!",
+    email: "1234",
+    password: "1234",
+    role: "Doctor",
+    hospital: "세종 병원",
   },
   {
     username: "최용재",
-    email: "choi@naver.com",
+    email: "cc",
     password: "good",
+    role: "Nurse",
+    hospital: "세종 병원",
   },
 ];

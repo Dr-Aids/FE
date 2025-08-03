@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { userData } from "../../mocks/userData";
 import { useState } from "react";
 
-export default function LoginPage() {
+export default function LoginPage({ setUserData, setIsLogin }) {
   const nav = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -17,6 +17,11 @@ export default function LoginPage() {
     setPw(e.target.value);
   };
 
+  function handleLoginSuccess(userData) {
+    setUserData(userData);
+    setIsLogin(true);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let nowUser = undefined; // 로그인 시도하려는 사람
@@ -26,6 +31,8 @@ export default function LoginPage() {
       alert("id를 확인해주세요!");
     } else {
       if (nowUser.password === pw) {
+        // 로그인 성공했을 때
+        handleLoginSuccess(nowUser);
         nav("/main");
       } else {
         alert("비밀번호가 일치하지 않습니다.");
