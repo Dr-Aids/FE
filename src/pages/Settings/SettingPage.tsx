@@ -1,9 +1,17 @@
 import SectionHeader from "../../components/SectionHeader";
 import Button from "../../components/ui/Button";
+import type { userData } from "../../types/userData";
 import ProfileRow from "./components/ProfileRow";
 import "./SettingPage.css";
 
-export default function SettingPage() {
+export default function SettingPage({
+  username,
+  email,
+  password,
+  role,
+  hospital,
+}: userData) {
+  console.log(username, email, password, role, hospital);
   return (
     <div className="setting-page__container">
       <SectionHeader title={"설정"} />
@@ -13,18 +21,18 @@ export default function SettingPage() {
           className="setting__profile__img"
           src="https://i.imgur.com/yXOvdOSs.jpg"
         />
-        <div className="setting__username">username님</div>
+        <div className="setting__username">{username}님</div>
         <div className="setting__user__info__container">
           <div>
-            <ProfileRow title={"Role"} content={"Doctor"} />
+            <ProfileRow title={"Role"} content={role} />
           </div>
           <hr />
           <div>
-            <ProfileRow title={"Hospital"} content={"서울 최고 세종 병원"} />
+            <ProfileRow title={"Hospital"} content={hospital} />
           </div>
           <hr />
           <div>
-            <ProfileRow title={"Email"} content={"kang@email.com"} />
+            <ProfileRow title={"Email"} content={email} />
           </div>
           <hr />
           <div>

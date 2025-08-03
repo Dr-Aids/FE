@@ -33,7 +33,7 @@ function App() {
           <Route path="/prescription" element={<Prescription />} />
           <Route path="/remark" element={<RemarkPage />} />
           <Route path="/remark/:patientId" element={<RemarkPersonalPage />} />
-          <Route path="/settings" element={<SettingPage />} />
+          <Route path="/settings" element={<SettingPage {...userData} />} />
         </Route>
       </Routes>
     </>
