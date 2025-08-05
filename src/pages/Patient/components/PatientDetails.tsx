@@ -3,31 +3,41 @@ import PRELineChart from "../components/PRELineChart";
 import Record from "./Record";
 import BarGraph from "./BarGraph";
 import WeightBox from "./WeightBox";
-import { weightData } from "../../../mocks/weightData";
-import { preData } from "../../../mocks/preData";
 import Button from "../../../components/ui/Button";
 import BloodLineChart from "./BloodLineChart";
-import { bloodData } from "../../../mocks/BloodData";
+import type { PatientRoundData } from "../../../types/patientSummaryType";
 
-export default function PatientDetails() {
+export default function PatientDetails({
+  round,
+  date,
+  preWeight: Pre,
+  avgWeight,
+  dryWeight: Dry,
+  targetUF,
+  postWeight: Post,
+  weights,
+  bloodPressure,
+  records,
+}: PatientRoundData) {
+  console.log(weights);
   return (
     <div className="patient-details__container">
       <div className="patient__page__weight_list">
-        <WeightBox title="Pre-Weight" weight={58.9} />
-        <WeightBox title="Average-Weight" weight={57.9} />
-        <WeightBox title="Dry-Weight" weight={59} />
-        <WeightBox title="Target UF" weight={59} />
-        <WeightBox title="Post-Weight" weight={59} />
+        <WeightBox title="Pre-Weight" weight={Pre} />
+        <WeightBox title="Average-Weight" weight={avgWeight} />
+        <WeightBox title="Dry-Weight" weight={Dry} />
+        <WeightBox title="Target UF" weight={targetUF} />
+        <WeightBox title="Post-Weight" weight={Post} />
       </div>
 
       <div className="patient__page__graph">
         *선택 회차의 최대 이전 5회까지만 표시됩니다.
         <div className="patient__page__graph_container">
           <div>
-            <BarGraph data={weightData} />
+            <BarGraph data={weights} />
           </div>
           <div>
-            <PRELineChart data={preData} />
+            <PRELineChart data={weights} />
           </div>
         </div>
       </div>
@@ -41,7 +51,7 @@ export default function PatientDetails() {
               <Button content={"수정"} />
             </div>
           </div>
-          <BloodLineChart data={bloodData} />
+          <BloodLineChart data={bloodPressure} />
         </div>
         <div className="patient__page__record__container">
           <Record role={"nurse"} content={"간호사"} />

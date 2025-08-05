@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import "./PatientRow.css";
-import InHospital from "./ui/InHospital";
+import InHospitalIcon from "./ui/InHospital";
 
 export default function PatientRow({
+  id,
   name = "Name",
   age = "Age",
   birth = "Birth",
-  sex = "none",
-  nowHospital = false,
+  gender = "none",
+  inHospital = false,
   index,
   usingPage,
 }) {
@@ -21,7 +22,7 @@ export default function PatientRow({
         nav(`/prescription/${name}`);
         break;
       case "patient":
-        nav(`/patient/${name}`);
+        nav(`/patient/${id}/1`);
         break;
 
       default:
@@ -39,13 +40,13 @@ export default function PatientRow({
       onClick={handleClickPatientRow}
     >
       <div className="patient__name">
-        {name} ({sex})
+        {name} ({gender})
       </div>
 
       <div className="patient__age">
         {age}세, {birth}
       </div>
-      <InHospital nowHospital={nowHospital} />
+      <InHospitalIcon inHospital={inHospital} />
     </div>
   );
 }
