@@ -12,13 +12,13 @@ export default function BarGraph({ data }) {
     <div>
       <BarChart width={480} height={180} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="Pre" fill="#CBE8EE" />
-        <Bar dataKey="Dry" fill="#E6F1FD" />
-        <Bar dataKey="Post" fill="#7FBBE9" />
+        <Bar dataKey="pre" fill="#CBE8EE" />
+        <Bar dataKey="dry" fill="#E6F1FD" />
+        <Bar dataKey="post" fill="#7FBBE9" />
       </BarChart>
     </div>
   );
