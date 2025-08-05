@@ -29,7 +29,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route element={<MainLayout userData={userData} />}>
           <Route path="/main" element={<MainPage />} />
-          <Route path="/patient" element={<PatientPage />} />
+          <Route path="/patient/:patientId/:round" element={<PatientPage />} />
           <Route path="/prescription" element={<Prescription />} />
           <Route path="/remark" element={<RemarkPage />} />
           <Route path="/remark/:patientId" element={<RemarkPersonalPage />} />
