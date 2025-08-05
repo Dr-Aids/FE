@@ -1,7 +1,6 @@
 import "./Sidebar.css";
 import MainLogo from "../assets/login-logo.png";
 import { useNavigate } from "react-router-dom";
-import { userData } from "../mocks/userData";
 
 function Profile({ name }) {
   return (
