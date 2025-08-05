@@ -1,11 +1,11 @@
 import "./InHospital.css";
 
-export default function InHospital({ nowHospital }) {
+export default function InHospitalIcon({ inHospital }) {
   return (
     <div
       className="in-hospital__icon"
       style={
-        nowHospital
+        inHospital
           ? { backgroundColor: "#94f374" }
           : { backgroundColor: "#FFCADA" }
       }
