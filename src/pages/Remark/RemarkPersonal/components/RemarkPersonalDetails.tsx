@@ -1,4 +1,3 @@
-import { bloodData } from "../../../../mocks/BloodData";
 import BloodHistoryChart from "./BloodHistoryChart";
 import ContentBox from "./ContentBox";
 import "./RemarkPersonalDetails.css";
@@ -14,7 +13,7 @@ export default function RemarkPersonalDetails() {
       <div className="remark__personal__graphs__container">
         <div>
           혈압기록
-          <BloodHistoryChart data={bloodData} />
+          {/* <BloodHistoryChart data={} /> */}
         </div>
         <div>
           <ContentBox title={"내원 시 BP"} content={"170/100"} />
