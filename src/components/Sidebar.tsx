@@ -25,8 +25,8 @@ function Menu() {
     <div className="menu__container">
       <MenuContent content="메인" address="/main" />
       <MenuContent content="환자" address="/patient/p001/1" />
-      <MenuContent content="예측처방" address="/prescription" />
-      <MenuContent content="특이사항" address="/remark" />
+      <MenuContent content="예측처방" address="/prescription/p001/1" />
+      <MenuContent content="특이사항" address="/remark/p001/1" />
       <MenuContent content="설정" address="/settings" />
     </div>
   );
