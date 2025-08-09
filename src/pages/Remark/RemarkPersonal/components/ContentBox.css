@@ -1,6 +1,11 @@
 .content__box__container {
-  width: 155px;
-  height: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 10px;
+  width: 120px;
+  height: 60px;
   background-color: rgba(220, 220, 220, 0.5);
   border: 1px solid gray;
   border-radius: 10px;
