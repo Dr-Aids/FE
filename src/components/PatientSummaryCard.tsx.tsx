@@ -1,7 +1,7 @@
 import Button from "./ui/Button";
 import "./PatientSummaryCard.css";
 import SectionHeader from "./SectionHeader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function PatientSummaryCard({
   id,
@@ -11,12 +11,13 @@ export default function PatientSummaryCard({
   gender,
   disease,
   rounds,
-  pageName = "페이지명",
 }) {
   const nav = useNavigate();
+  const location = useLocation();
+  const pageName = location.pathname.split("/")[1];
   function handleChangeOption(e) {
     const address = e.target.value;
-    nav(`/patient/${address}`);
+    nav(`/${pageName}/${address}`);
   }
   return (
     <>

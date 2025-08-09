@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./PatientRow.css";
 import InHospitalIcon from "./ui/InHospital";
 
@@ -10,24 +10,12 @@ export default function PatientRow({
   gender = "none",
   inHospital = false,
   index,
-  usingPage,
 }) {
   const nav = useNavigate();
+  const location = useLocation();
+  const pageName = location.pathname.split("/")[1];
   function handleClickPatientRow() {
-    switch (usingPage) {
-      case "remark":
-        nav(`/remark/${name}`);
-        break;
-      case "prescription":
-        nav(`/prescription/${name}`);
-        break;
-      case "patient":
-        nav(`/patient/${id}/1`);
-        break;
-
-      default:
-        break;
-    }
+    nav(`/${pageName}/${id}/1`);
   }
   return (
     <div
