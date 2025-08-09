@@ -13,11 +13,11 @@ export default function PRELineChart({ data }) {
     <div>
       <LineChart width={330} height={180} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="PRE" stroke="#8884d8" />
+        <Line type="monotone" dataKey="pre" stroke="#8884d8" />
       </LineChart>
     </div>
   );

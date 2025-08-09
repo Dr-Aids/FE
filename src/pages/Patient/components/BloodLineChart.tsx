@@ -13,12 +13,12 @@ export default function BloodLineChart({ data }) {
     <div>
       <LineChart width={470} height={280} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="time" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="Bad" stroke="#FF928A" />
-        <Line type="monotone" dataKey="Good" stroke="#8979FF" />
+        <Line type="monotone" dataKey="sys" stroke="#FF928A" />
+        <Line type="monotone" dataKey="dia" stroke="#8979FF" />
       </LineChart>
     </div>
   );

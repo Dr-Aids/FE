@@ -1,7 +1,6 @@
 import "./Sidebar.css";
 import MainLogo from "../assets/login-logo.png";
 import { useNavigate } from "react-router-dom";
-import { userData } from "../mocks/userData";
 
 function Profile({ name }) {
   return (
@@ -25,7 +24,7 @@ function Menu() {
   return (
     <div className="menu__container">
       <MenuContent content="메인" address="/main" />
-      <MenuContent content="환자" address="/patient" />
+      <MenuContent content="환자" address="/patient/p001/1" />
       <MenuContent content="예측처방" address="/prescription" />
       <MenuContent content="특이사항" address="/remark" />
       <MenuContent content="설정" address="/settings" />
