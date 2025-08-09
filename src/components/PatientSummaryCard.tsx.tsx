@@ -4,12 +4,12 @@ import SectionHeader from "./SectionHeader";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function PatientSummaryCard({
-  id,
-  name,
-  age,
-  birth,
-  gender,
-  disease,
+  id = "",
+  name = "",
+  age = 0,
+  birth = "",
+  gender = "",
+  disease = "",
   rounds,
 }) {
   const nav = useNavigate();
@@ -41,14 +41,18 @@ export default function PatientSummaryCard({
               className="patient__info__dropdown"
               onChange={handleChangeOption}
             >
-              {rounds.map((round) => (
-                <option
-                  key={id + "/" + round.round}
-                  value={id + "/" + round.round}
-                >
-                  {round.round}회차 / {round.date}
-                </option>
-              ))}
+              {rounds ? (
+                rounds.map((round) => (
+                  <option
+                    key={id + "/" + round.round}
+                    value={id + "/" + round.round}
+                  >
+                    {round.round}회차 / {round.date}
+                  </option>
+                ))
+              ) : (
+                <></>
+              )}
             </select>
           </form>
         </div>
