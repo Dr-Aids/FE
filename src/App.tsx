@@ -30,7 +30,10 @@ function App() {
         <Route element={<MainLayout userData={userData} />}>
           <Route path="/main" element={<MainPage />} />
           <Route path="/patient/:patientId/:round" element={<PatientPage />} />
-          <Route path="/prescription" element={<Prescription />} />
+          <Route
+            path="/prescription/:patientId/:round"
+            element={<Prescription />}
+          />
           <Route path="/remark" element={<RemarkPage />} />
           <Route path="/remark/:patientId" element={<RemarkPersonalPage />} />
           <Route path="/settings" element={<SettingPage {...userData} />} />

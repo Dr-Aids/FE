@@ -6,10 +6,11 @@ export default function PrescriptionTable() {
     <div className="prescription__table__container">
       <table className="prescription__table">
         <thead className="prescription__thead">
-          <th>Date</th>
-          <th>Hematinic</th>
-          <th>IU</th>
-          <th>Description</th>
+          <tr>
+            <th>Date</th>
+            <th>Hematinic</th>
+            <th>IU</th>
+          </tr>
         </thead>
         <tbody className="prescription__tbody">
           {prescriptionData.map((data, idx) => (

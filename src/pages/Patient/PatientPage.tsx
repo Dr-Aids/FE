@@ -27,12 +27,11 @@ export default function PatientPage() {
           gender={patient.gender}
           disease={"당뇨병성 신종"}
           rounds={patient.rounds}
-          pageName="환자 정보"
         />
         <PatientDetails {...roundData} />
       </div>
 
-      <PatientListPage usingPage={"patient"} />
+      <PatientListPage />
     </div>
   );
 }
