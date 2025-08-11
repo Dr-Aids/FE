@@ -1,10 +1,16 @@
 .header__container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 20px;
 }
 .page__name {
   font-size: 18px;
   font-weight: 700;
   color: #1e6774;
+}
+
+.header__hr {
+  height: 2px;
+  border: none;
+  background-color: black;
 }
