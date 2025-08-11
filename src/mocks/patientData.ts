@@ -6,6 +6,7 @@ export const patients: Patient[] = [
     name: "김세희",
     age: 76,
     gender: "여",
+    disease: "당뇨병성 신종",
     birth: "1964.11.18",
     inHospital: true,
     bloodTests: [
@@ -316,6 +317,7 @@ export const patients: Patient[] = [
     name: "이민수",
     age: 82,
     gender: "남",
+    disease: "허리디스크",
     birth: "1943.02.17",
     inHospital: false,
     rounds: [
@@ -876,6 +878,7 @@ export const patients: Patient[] = [
     name: "최준호",
     age: 50,
     gender: "남",
+    disease: "당뇨병성 굿굿",
     birth: "1975.08.22",
     inHospital: true,
     rounds: [
@@ -1156,6 +1159,7 @@ export const patients: Patient[] = [
     name: "박지영",
     age: 67,
     gender: "여",
+    disease: "복합부위 통증 증후군",
     birth: "1958.10.11",
     inHospital: true,
     rounds: [

@@ -12,23 +12,5 @@ export default function Prescription() {
   const round = useParams().round;
   const patient = patientList.filter((p) => p.id === patientId)[0];
 
-  console.log(patient);
-  return (
-    <div className="prescription__page__container">
-      <div className="prescription__main__content">
-        <PatientSummaryCard
-          id={patient.id}
-          name={patient.name}
-          age={patient.age}
-          birth={patient.birth}
-          gender={patient.gender}
-          disease={"당뇨병성 신종"}
-          rounds={patient.rounds}
-        />
-        <PrescriptionDetails />
-      </div>
-
-      <PatientListPage />
-    </div>
-  );
+  return <PrescriptionDetails />;
 }

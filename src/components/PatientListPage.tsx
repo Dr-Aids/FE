@@ -5,8 +5,12 @@ import SectionHeader from "./SectionHeader";
 export default function PatientListPage() {
   return (
     <div className="patient-list-page__container">
-      <SectionHeader title={"Patients"} />
-      <PatientsList />
+      <div>
+        <SectionHeader title={"Patients"} />
+      </div>
+      <div className="patient-list">
+        <PatientsList />
+      </div>
     </div>
   );
 }

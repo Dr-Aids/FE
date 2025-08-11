@@ -18,7 +18,6 @@ export default function MainPage() {
   return (
     <div className="mainpage__container">
       <SectionHeader title={"AI 요약 및 응답"} />
-      <hr />
       <div className="mainpage__top__content">
         <MainCard title={"Q&A"} />
         <MainCard title={"Summary"} />

@@ -9,8 +9,11 @@ export default function ChatModal({ isModalOpen, onClose }) {
       {isModalOpen && (
         <>
           <div className="blur__container" onClick={onClose}>
-            <div className="base__container">
-              <div className="close__modal__container">
+            <div
+              className="base__container"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="close__modal__container" onClick={onClose}>
                 <img className="close__modal__btn" src={CloseButton} />
               </div>
               <div className="modal__header">
