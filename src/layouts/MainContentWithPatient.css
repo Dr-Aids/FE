@@ -1,0 +1,32 @@
+/* 흰 카드 컨테이너  */
+.with-patient-layout__container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px; /* 메인 + 오른쪽 패널 */
+  gap: 24px;
+
+  background-color: #fff;
+  padding: 32px; /* 내부 여백 */
+  border: 1px solid #fffeff;
+  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+
+  width: 100%;
+  height: auto; /* 내용 높이에 맞춤 */
+  box-sizing: border-box;
+  overflow: hidden; /* 살짝 넘침 방지(필요 시) */
+}
+
+.with-patient-layout__main__content {
+  flex: 1; /* 남은 공간 채우기 */
+  overflow-x: auto; /* 가로 스크롤 허용 */
+  overflow-y: hidden; /* 세로 스크롤 방지 */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 8px; /* 스크롤바와 콘텐츠 간격 */
+}
+
+/* 내부 요소가 가로로 잘리지 않게 */
+.with-patient-layout__main__content > * {
+  flex-shrink: 0; /* 줄어들지 않음 */
+}

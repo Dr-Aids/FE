@@ -11,6 +11,7 @@ import MainLayout from "./layouts/MainLayout";
 import SignupPage from "./pages/Signup/SignupPage";
 import RemarkPersonalPage from "./pages/Remark/RemarkPersonal/RemarkPersonalPage";
 import { useState } from "react";
+import MainContentWithPatient from "./layouts/MainContentWithPatient";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -28,18 +29,21 @@ function App() {
         />
         <Route path="/signup" element={<SignupPage />} />
         <Route element={<MainLayout userData={userData} />}>
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/patient/:patientId/:round" element={<PatientPage />} />
-          <Route
-            path="/prescription/:patientId/:round"
-            element={<Prescription />}
-          />
-          <Route path="/remark" element={<RemarkPage />} />
-          <Route
-            path="/remark/:patientId/:round"
-            element={<RemarkPersonalPage />}
-          />
-          <Route path="/settings" element={<SettingPage {...userData} />} />
+          <Route path="main" element={<MainPage />} />
+          <Route element={<MainContentWithPatient />}>
+            {/*여기부터는 우측에 환자 리스트 뜨는애들 */}
+            <Route path="remark" element={<RemarkPage />} />
+            <Route path="patient/:patientId/:round" element={<PatientPage />} />
+            <Route
+              path="prescription/:patientId/:round"
+              element={<Prescription />}
+            />
+            <Route
+              path="remark/:patientId/:round"
+              element={<RemarkPersonalPage />}
+            />
+          </Route>
+          <Route path="settings" element={<SettingPage {...userData} />} />
         </Route>
       </Routes>
     </>
