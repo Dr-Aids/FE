@@ -1,10 +1,21 @@
 .main-layout__container {
   display: flex;
+  min-height: 100vh;
 }
-
+.sidebar-column {
+  background: white;
+  width: 20%;
+}
+.sidebar__container {
+  flex: 0 0 320px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: auto;
+}
 .main-layout__page__container {
-  min-width: 1300px;
-  max-width: 1500px;
-  min-height: 1000px;
-  max-height: 1200px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: auto;
+  padding: 40px;
 }

@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 export default function MainLayout({ userData }) {
   return (
     <div className="main-layout__container">
-      <aside>
+      <aside className="sidebar-column">
         <Sidebar {...userData} />
       </aside>
       <main className="main-layout__page__container">
