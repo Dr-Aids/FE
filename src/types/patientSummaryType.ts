@@ -36,6 +36,7 @@ export interface Patient {
   id: string;
   name: string;
   gender: "남" | "여";
+  disease: string;
   age: number;
   birth: string;
   inHospital: boolean;
