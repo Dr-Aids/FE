@@ -15,21 +15,5 @@ export default function RemarkPersonalPage() {
     (r) => r.round.toString() === round?.toString()
   )[0];
 
-  return (
-    <div className="remark-personal__container">
-      <div className="remark-personal__main__content">
-        <PatientSummaryCard
-          id={patient.id}
-          name={patient.name}
-          age={patient.age}
-          birth={patient.birth}
-          gender={patient.gender}
-          disease={"당뇨병성 신종"}
-          rounds={patient.rounds}
-        />
-        <RemarkPersonalDetails />
-      </div>
-      <PatientListPage />
-    </div>
-  );
+  return <RemarkPersonalDetails />;
 }
