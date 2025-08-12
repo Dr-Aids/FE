@@ -9,7 +9,7 @@ import RemarkPage from "./pages/Remark/RemarkPage";
 import SettingPage from "./pages/Settings/SettingPage";
 import MainLayout from "./layouts/MainLayout";
 import SignupPage from "./pages/Signup/SignupPage";
-import RemarkPersonalPage from "./pages/Remark/RemarkPersonal/RemarkPersonalPage";
+import RemarkPersonalPage from "./pages/RemarkPersonal/RemarkPersonalPage";
 import { useState } from "react";
 import MainContentWithPatient from "./layouts/MainContentWithPatient";
 

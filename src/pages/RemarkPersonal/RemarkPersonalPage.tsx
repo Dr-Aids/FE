@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
-import PatientListPage from "../../../components/PatientListPage.tsx";
-import PatientSummaryCard from "../../../components/PatientSummaryCard.tsx.tsx";
-import { patients } from "../../../mocks/patientData.ts";
+import { patients } from "../../mocks/patientData.ts";
 import RemarkPersonalDetails from "./components/RemarkPersonalDetails.tsx";
 import "./RemarkPersonalPage.css";
 
