@@ -4,7 +4,7 @@ import Record from "./Record";
 import BarGraph from "./BarGraph";
 import WeightBox from "./WeightBox";
 import Button from "../../../components/ui/Button";
-import BloodLineChart from "./BloodLineChart";
+import BloodLineChart from "../../../components/BloodLineChart";
 import type { PatientRoundData } from "../../../types/patientSummaryType";
 
 export default function PatientDetails({
