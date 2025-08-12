@@ -1,7 +1,6 @@
 import "./HistoryCard.css";
 import HistoryIcon from "../../../assets/history_icon.svg";
 import HistoryList from "./HistoryList";
-import ChatModal from "./ChatModal";
 
 export default function HistoryCard({ title, onRowClick }) {
   return (

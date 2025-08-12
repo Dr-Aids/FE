@@ -1,7 +1,7 @@
 import "./MainCard.css";
 import VoiceIcon from "../../../assets/voice_icon.svg";
 import DocumentIcon from "../../../assets/document_icon.svg";
-import SmallChat from "./SmallChat";
+import SmallChat from "./chat//SmallChat";
 
 export default function MainCard({ title }) {
   return (
