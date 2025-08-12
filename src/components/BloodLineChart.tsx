@@ -7,10 +7,11 @@ import {
   Legend,
   Line,
 } from "recharts";
+import "./BloodLineChart.css";
 
 export default function BloodLineChart({ data }) {
   return (
-    <div>
+    <div className="blood__chart__container">
       <LineChart width={470} height={280} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="time" />
