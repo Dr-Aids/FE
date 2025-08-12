@@ -1,6 +1,6 @@
 .history__card__container {
-  width: 500px;
-  height: 550px;
+  width: 100%;
+  height: auto;
   background-color: white;
   border: 1px solid #fffeff;
   border-radius: 10px;
@@ -8,7 +8,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 30px;
+  padding-block: 40px;
+  padding-inline: 30px;
+  box-sizing: border-box;
 }
 
 .history__card__header {
@@ -16,6 +19,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15px;
 }
 
 .history__card__title {
@@ -24,10 +28,10 @@
   color: #33afc5;
 }
 .history__card__icon {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border: 1px solid #fffeff;
-  border-radius: 50%;
-  padding: 30px;
+  border-radius: 40%;
+  padding: 25px;
   box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
 }

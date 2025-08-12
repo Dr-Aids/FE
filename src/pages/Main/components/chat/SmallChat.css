@@ -1,6 +1,6 @@
 .smallchat__container {
-  width: 80%;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   padding-block: 20px;
   display: flex;
   flex-direction: column;
@@ -13,9 +13,10 @@
 }
 
 .smallchat__form {
-  width: 300px;
-  padding: 10px;
-  background-color: #f9f9fa;
+  width: 90%;
+  height: 70px;
+  box-sizing: border-box;
+  background: none;
   border: 1px solid #fffeff;
   border-radius: 10px;
   box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
@@ -24,12 +25,14 @@
   align-items: center;
 }
 
-.smallchat__form input {
+.smallchat__form > input {
   flex: 1;
   padding: 10px;
   background: none;
   border: none;
-  padding-left: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
 }
 
 .smallchat__form input:focus {

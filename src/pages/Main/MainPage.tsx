@@ -3,7 +3,7 @@ import HistoryCard from "./components/HistoryCard";
 import MainCard from "./components/MainCard";
 import "./MainPage.css";
 import { useState } from "react";
-import ChatModal from "./components/ChatModal";
+import ChatModal from "./components/chat/ChatModal";
 
 export default function MainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
