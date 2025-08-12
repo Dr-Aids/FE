@@ -1,6 +1,6 @@
 import Button from "./ui/Button";
 import "./PatientSummaryCard.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { Patient } from "../types/patientSummaryType";
 
 export default function PatientSummaryCard({
@@ -14,7 +14,14 @@ export default function PatientSummaryCard({
 }: Patient) {
   const nav = useNavigate();
   const location = useLocation();
+  const { patientId, round } = useParams<{
+    patientId: string;
+    round: string;
+  }>();
   const pageName = location.pathname.split("/")[1];
+
+  const selectedValue = `${patientId}/${round}`;
+
   function handleChangeOption(e) {
     const address = e.target.value;
     nav(`/${pageName}/${address}`);
@@ -38,6 +45,7 @@ export default function PatientSummaryCard({
           <select
             className="patient__info__dropdown"
             onChange={handleChangeOption}
+            value={selectedValue}
           >
             {rounds ? (
               rounds.map((round) => (
