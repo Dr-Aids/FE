@@ -1,6 +1,20 @@
 .profile-row__container {
   font-size: 24px;
+  font-weight: 500;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
+  gap: 20px;
   align-items: center;
+}
+
+.profile__icon__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+}
+.profile-row-title {
+  flex: 1;
 }

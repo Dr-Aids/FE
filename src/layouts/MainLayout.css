@@ -4,10 +4,8 @@
 }
 .sidebar-column {
   background: white;
-  width: 20%;
 }
 .sidebar__container {
-  flex: 0 0 320px;
   height: 100vh;
   position: sticky;
   top: 0;

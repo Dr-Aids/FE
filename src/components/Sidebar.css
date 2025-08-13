@@ -34,7 +34,7 @@
 .sidebar__container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 260px;
   height: 100%;
   padding: 0 40px;
   padding-top: 25px;
