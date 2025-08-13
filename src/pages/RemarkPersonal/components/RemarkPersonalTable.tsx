@@ -1,14 +1,27 @@
+import type { PatientRoundData } from "../../../types/patientSummaryType";
 import "./RemarkPersonalTable.css";
 
-export default function RemarkPersonalTable() {
+export default function RemarkPersonalTable({
+  nowRound,
+  prevRound,
+}: {
+  nowRound: PatientRoundData;
+  prevRound: PatientRoundData | null;
+}) {
   return (
     <div className="remark__personal__table__container">
       <table className="remark__personal__table">
         <thead>
           <tr>
             <th>구분</th>
-            <th scope="col">4회차 / 2025.04.17</th>
-            <th scope="col">5회차 / 2025.04.28</th>
+            <th scope="col">
+              {!prevRound
+                ? "-"
+                : prevRound?.round + `회차 / ` + prevRound?.date}
+            </th>
+            <th scope="col">
+              {nowRound.round}회차 / {nowRound.date}
+            </th>
           </tr>
         </thead>
         <tbody>
