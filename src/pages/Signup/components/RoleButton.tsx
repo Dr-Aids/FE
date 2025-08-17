@@ -1,10 +1,20 @@
 import "./RoleButton.css";
-export default function RoleButton({ role, isSelcetd, onClick }) {
+
+type RoleButtonProp = {
+  role: "Doctor" | "Nurse";
+  isSelected: boolean;
+  onClick: () => void;
+};
+export default function RoleButton({
+  role,
+  isSelected,
+  onClick,
+}: RoleButtonProp) {
   return (
     <button
       onClick={onClick}
       type="button"
-      className={isSelcetd ? "role__btn__selected" : "role__btn"}
+      className={isSelected ? "role__btn__selected" : "role__btn"}
     >
       {role}
     </button>
