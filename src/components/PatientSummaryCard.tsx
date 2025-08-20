@@ -1,41 +1,89 @@
 import Button from "./ui/Button";
 import "./PatientSummaryCard.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import type { Patient } from "../types/patientSummaryType";
+import type { PatientSummaryHeader } from "../types/patientSummaryType";
+import { useEffect, useState } from "react";
 
-export default function PatientSummaryCard({
-  id,
-  name,
-  age,
-  birth,
-  gender,
-  disease,
-  rounds,
-}: Patient) {
+type SessionItem = {
+  session: number;
+  date: string;
+};
+
+export default function PatientSummaryCard() {
   const nav = useNavigate();
   const location = useLocation();
-  const { patientId, round } = useParams<{
+  const { patientId, session } = useParams<{
     patientId: string;
-    round: string;
+    session: string;
   }>();
   const pageName = location.pathname.split("/")[1];
 
-  const selectedValue = `${patientId}/${round}`;
+  const [patient, setPatient] = useState<PatientSummaryHeader | null>();
+  const [sessions, setSessions] = useState<SessionItem[] | null>();
 
-  function handleChangeOption(e) {
+  const selectedValue = `${patientId}/${session}`;
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    const fetchPatientSummary = async () => {
+      try {
+        if (!token)
+          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+
+        const response = await fetch(`/api/patient/info/${patientId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+        const data = await response.json();
+        setPatient(data);
+      } catch (err) {
+        console.log("에러메세지(fetchPatientSummary) : ", err);
+      }
+    };
+
+    const fetchAllSession = async () => {
+      try {
+        if (!token)
+          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+
+        const response = await fetch(`/api/session/${patientId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+        const data = await response.json();
+
+        setSessions(data);
+      } catch (err) {
+        console.log("에러메세지(fetchAllSession) : ", err);
+      }
+    };
+
+    // 함수 호출부
+    Promise.all([fetchPatientSummary(), fetchAllSession()]);
+  }, []);
+
+  function handleChangeOption(e: React.ChangeEvent<HTMLSelectElement>) {
     const address = e.target.value;
     nav(`/${pageName}/${address}`);
   }
+
+  if (!patient || !sessions) return <div>데이터 불러오는중...</div>;
+
   return (
     <div className="patient__info__container">
       <div className="patient__info__main">
         <div className="patient__info__info">
-          <div className="patient__info__name">{name}</div>
-          <div className="patient__info__sex">{gender}</div>|
-          <div>
-            {age}세 / {birth}
+          <div className="patient__info__name">{patient.name}</div>
+          <div className="patient__info__sex">
+            {patient.gender === "MALE" ? "남" : "여"}
           </div>
-          |<div>{disease}</div>
+          |
+          <div>
+            {patient.age}세 / {patient.birth}
+          </div>
+          |<div>{patient.disease}</div>
           <div className="patient__info__buttons">
             <Button content={"삭제"} onClick={() => alert("삭제버튼 누름")} />
             <Button content={"수정"} onClick={() => alert("수정버튼 누름")} />
@@ -47,13 +95,13 @@ export default function PatientSummaryCard({
             onChange={handleChangeOption}
             value={selectedValue}
           >
-            {rounds ? (
-              rounds.map((round) => (
+            {sessions ? (
+              sessions.map((item) => (
                 <option
-                  key={id + "/" + round.round}
-                  value={id + "/" + round.round}
+                  key={patient.id + "/" + item.session}
+                  value={patient.id + "/" + item.session}
                 >
-                  {round.round}회차 / {round.date}
+                  {item.session}회차 / {item.date}
                 </option>
               ))
             ) : (
