@@ -21,6 +21,9 @@
   gap: 10px;
   border: 1px solid gray;
   padding: 20px;
+  justify-content: space-around;
+  box-sizing: border-box;
+  border-radius: 15px;
 }
 
 .patient__page__bp__container {
@@ -44,8 +47,8 @@
   gap: 5px;
 }
 
-.patient__page__record__container {
+.patient__bottom__container {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  border: 1px solid black;
+  justify-content: space-around;
 }
