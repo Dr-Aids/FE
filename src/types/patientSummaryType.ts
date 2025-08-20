@@ -1,3 +1,12 @@
+export type Patient = {
+  id: number;
+  name: string;
+  gender: "MALE" | "FEMALE";
+  age: number;
+  birth: string;
+  visiting: boolean;
+};
+
 export interface PatientRecord {
   // 환자 기록 -> UI 수정하고 다시
   time: string;
@@ -30,15 +39,4 @@ export interface PatientRoundData {
   weights: WeightStat[];
   bloodPressure: BloodPressure[];
   records: PatientRecord[];
-}
-
-export interface Patient {
-  id: string;
-  name: string;
-  gender: "남" | "여";
-  disease: string;
-  age: number;
-  birth: string;
-  inHospital: boolean;
-  rounds: PatientRoundData[];
 }
