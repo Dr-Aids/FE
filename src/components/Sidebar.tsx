@@ -21,13 +21,13 @@ const navigation = [
   {
     title: "환자",
     icon: Users,
-    url: "patient/p001/1",
+    url: "patient/1/1",
     isActive: false,
   },
   {
     title: "예측처방",
     icon: Pill,
-    url: "prescription/p001/1",
+    url: "prescription/1/1",
     isActive: false,
   },
   {
