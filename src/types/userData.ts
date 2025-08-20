@@ -1,7 +1,7 @@
-export type userData = {
-  username: string;
+export type User = {
   email: string;
-  password: string;
-  role: string;
-  hospital: string;
-};
+  hospitalName: string;
+  id: number;
+  role: "DOCTOR" | "NURSE";
+  username: string;
+} | null;
