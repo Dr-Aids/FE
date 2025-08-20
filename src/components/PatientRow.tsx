@@ -1,16 +1,19 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./PatientRow.css";
 import InHospitalIcon from "./ui/InHospital";
+import type { Patient } from "../types/patientSummaryType";
+
+type PatientRowProps = Patient & { index: number };
 
 export default function PatientRow({
   id,
-  name = "Name",
-  age = "Age",
-  birth = "Birth",
-  gender = "none",
-  inHospital = false,
+  name,
+  gender,
+  age,
+  birth,
+  visiting,
   index,
-}) {
+}: PatientRowProps) {
   const nav = useNavigate();
   const location = useLocation();
   const pageName = location.pathname.split("/")[1];
@@ -28,13 +31,13 @@ export default function PatientRow({
       onClick={handleClickPatientRow}
     >
       <div className="patient__name">
-        {name} ({gender})
+        {name} ({gender === "MALE" ? "남" : "여"})
       </div>
 
       <div className="patient__age">
         {age}세, {birth}
       </div>
-      <InHospitalIcon inHospital={inHospital} />
+      <InHospitalIcon inHospital={visiting} />
     </div>
   );
 }
