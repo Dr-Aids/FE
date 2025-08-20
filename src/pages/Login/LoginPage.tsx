@@ -2,41 +2,29 @@ import "./LoginPage.css";
 import Button from "../../components/ui/LoginButton";
 import LoginLogo from "../../assets/login-logo.png";
 import { useNavigate } from "react-router-dom";
-import { userData } from "../../mocks/userData";
 import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
-export default function LoginPage({ setUserData, setIsLogin }) {
+export default function LoginPage() {
   const nav = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const { login } = useAuth();
 
-  function handleInputId(e) {
+  function handleInputId(e: React.ChangeEvent<HTMLInputElement>) {
     setId(e.target.value);
   }
-  const handleInputPw = (e) => {
+  const handleInputPw = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPw(e.target.value);
   };
 
-  function handleLoginSuccess(userData) {
-    setUserData(userData);
-    setIsLogin(true);
-  }
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let nowUser = undefined; // 로그인 시도하려는 사람
-    nowUser = userData.find((user) => user.email === id);
-    if (!nowUser) {
-      // 입력한 id가 DB에 존재하지 않을 때
-      alert("id를 확인해주세요!");
-    } else {
-      if (nowUser.password === pw) {
-        // 로그인 성공했을 때
-        handleLoginSuccess(nowUser);
-        nav("/main");
-      } else {
-        alert("비밀번호가 일치하지 않습니다.");
-      }
+    try {
+      await login(id, pw);
+      nav("/main");
+    } catch (err) {
+      alert(err);
     }
   };
 
