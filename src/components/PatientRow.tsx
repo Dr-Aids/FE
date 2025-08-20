@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./PatientRow.css";
 import InHospitalIcon from "./ui/InHospital";
-import type { Patient } from "../types/patientSummaryType";
+import type { PatientListRow } from "../types/patientSummaryType";
 
-type PatientRowProps = Patient & { index: number };
+type PatientRowProps = PatientListRow & { index: number };
 
 export default function PatientRow({
   id,
