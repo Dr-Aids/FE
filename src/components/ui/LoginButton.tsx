@@ -1,8 +1,8 @@
 import "./LoginButton.css";
 
-export default function LoginButton({ onClick, children }) {
+export default function LoginButton({ children }: { children: string }) {
   return (
-    <button className="login__button" onClick={onClick}>
+    <button type="submit" className="login__button">
       {children}
     </button>
   );
