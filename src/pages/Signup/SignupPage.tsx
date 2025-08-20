@@ -34,7 +34,7 @@ export default function SignupPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const nav = useNavigate();
 
-  const handleInputChage = (field: keyof FormData, value: string) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     // 입력 시 해당 필드의 에러 메시지 제거
     if (errors[field]) {
@@ -67,7 +67,7 @@ export default function SignupPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!checkField()) {
       return;
@@ -121,7 +121,7 @@ export default function SignupPage() {
               placeholder="Email"
               value={formData.email}
               autoComplete="email"
-              onChange={(e) => handleInputChage("email", e.target.value)}
+              onChange={(e) => handleInputChange("email", e.target.value)}
               style={{ border: errors.email ? "1px solid red" : "" }}
             />
             {errors.email && <span>{errors.email}</span>}
@@ -135,7 +135,7 @@ export default function SignupPage() {
               placeholder="Password"
               autoComplete="new-password"
               value={formData.password}
-              onChange={(e) => handleInputChage("password", e.target.value)}
+              onChange={(e) => handleInputChange("password", e.target.value)}
               style={{ border: errors.password ? "1px solid red" : "" }}
             />
             {errors.password && <span>{errors.password}</span>}
@@ -148,12 +148,12 @@ export default function SignupPage() {
               <RoleButton
                 role={"Doctor"}
                 isSelected={formData.role === "DOCTOR"}
-                onClick={() => handleInputChage("role", "DOCTOR")}
+                onClick={() => handleInputChange("role", "DOCTOR")}
               />
               <RoleButton
                 role={"Nurse"}
                 isSelected={formData.role === "NURSE"}
-                onClick={() => handleInputChage("role", "NURSE")}
+                onClick={() => handleInputChange("role", "NURSE")}
               />
             </div>
             {errors.role && <span>{errors.role}</span>}
@@ -165,7 +165,7 @@ export default function SignupPage() {
             <input
               placeholder="Name"
               value={formData.name}
-              onChange={(e) => handleInputChage("name", e.target.value)}
+              onChange={(e) => handleInputChange("name", e.target.value)}
               style={{ border: errors.name ? "1px solid red" : "" }}
             />
 
@@ -178,9 +178,9 @@ export default function SignupPage() {
             <select
               className="signup__selcet"
               value={formData.hospital}
-              onChange={(e) => handleInputChage("hospital", e.target.value)}
+              onChange={(e) => handleInputChange("hospital", e.target.value)}
             >
-              <option selected disabled hidden>
+              <option value="" disabled hidden>
                 Hospital
               </option>
               {hospitalList.map((item) => (
