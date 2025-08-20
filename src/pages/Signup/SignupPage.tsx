@@ -3,6 +3,7 @@ import "./SignupPage.css";
 import LoginLogo from "../../assets/login-logo.png";
 import RoleButton from "./components/RoleButton";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface FormErrors {
   email?: string;
@@ -31,6 +32,7 @@ export default function SignupPage() {
     hospital: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const nav = useNavigate();
 
   const handleInputChage = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -73,7 +75,7 @@ export default function SignupPage() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("https://draids.site/join", {
+        const response = await fetch("/api/join", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -86,10 +88,14 @@ export default function SignupPage() {
           credentials: "include",
         });
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          const text = await response.text();
+          throw new Error(`HTTP ${response.status} - ${text}`);
         }
         const data = await response.json();
-        console.log(data);
+        console.log("요청 성공 : ", data);
+
+        alert("회원가입 성공!");
+        nav("/");
       } catch (error) {
         console.error("API 요청 에러:", error);
       }
@@ -141,13 +147,13 @@ export default function SignupPage() {
             <div className="role__btn__container">
               <RoleButton
                 role={"Doctor"}
-                isSelected={formData.role === "doctor"}
-                onClick={() => handleInputChage("role", "doctor")}
+                isSelected={formData.role === "DOCTOR"}
+                onClick={() => handleInputChage("role", "DOCTOR")}
               />
               <RoleButton
                 role={"Nurse"}
-                isSelected={formData.role === "nurse"}
-                onClick={() => handleInputChage("role", "nurse")}
+                isSelected={formData.role === "NURSE"}
+                onClick={() => handleInputChage("role", "NURSE")}
               />
             </div>
             {errors.role && <span>{errors.role}</span>}
