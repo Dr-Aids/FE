@@ -21,9 +21,20 @@
 }
 
 .record__content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   width: 395px;
-  height: 100px;
+  min-height: 315px;
+  overflow-y: auto;
   border: 1px solid gray;
+
   border-radius: 7px;
   padding: 20px;
+}
+
+.recordrow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }

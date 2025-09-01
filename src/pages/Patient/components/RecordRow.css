@@ -1,0 +1,7 @@
+.recordrow__container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: start;
+  align-items: center;
+}
