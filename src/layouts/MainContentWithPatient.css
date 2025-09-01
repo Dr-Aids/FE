@@ -19,10 +19,11 @@
 .with-patient-layout__main__content {
   flex: 1; /* 남은 공간 채우기 */
   overflow-x: auto; /* 가로 스크롤 허용 */
-  overflow-y: hidden; /* 세로 스크롤 방지 */
+  overflow-y: auto; /* 세로 스크롤 방지 */
   display: flex;
   flex-direction: column;
   gap: 24px;
+
   padding-bottom: 8px; /* 스크롤바와 콘텐츠 간격 */
 }
 
