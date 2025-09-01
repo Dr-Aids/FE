@@ -7,26 +7,12 @@ import Button from "../../../components/ui/Button";
 import BloodLineChart from "../../../components/BloodLineChart";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-type WeightListItem = {
-  averageWeight: number | null;
-  controlUF: number | null;
-  dryWeight: number | null;
-  postWeight: number | null;
-  preWeight: number | null;
-  targetUF: number | null;
-};
-
-type FiveSessionWeightList = Pick<
+import type {
+  Bp,
+  BpNote,
+  FiveSessionWeightList,
   WeightListItem,
-  "preWeight" | "dryWeight" | "postWeight"
-> & { session: number; date: string };
-
-type Bp = {
-  time: string;
-  sbp: number;
-  dbp: number;
-};
+} from "../../../types/PatientDetailTypes";
 
 export default function PatientDetails() {
   const { patientId, session } = useParams<{
@@ -38,6 +24,7 @@ export default function PatientDetails() {
   const [fiveSessionWeightList, setFiveSessionWeightList] = useState<
     FiveSessionWeightList[] | null
   >();
+  const [records, setRecords] = useState<BpNote[]>([]);
 
   const [bp, setBp] = useState<Bp | null>();
 
@@ -100,7 +87,6 @@ export default function PatientDetails() {
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
         const data = await response.json();
-        console.log(data);
         // State에 값 넣어주는 지점
         setBp(data);
       } catch (err) {
@@ -108,8 +94,35 @@ export default function PatientDetails() {
       }
     };
 
+    const fetchBpNotes = async () => {
+      try {
+        if (!accessToken) throw new Error("잘못된 접근입니다");
+
+        const response = await fetch(
+          `/api/session/bpnotes?patientId=${patientId}&session=${session}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+
+        const data = await response.json();
+        console.log(data);
+        // State에 값 넣어주는 지점
+        setRecords(data);
+      } catch (err) {
+        console.log("에러메세지(fetchBp) : ", err);
+      }
+    };
+
     // 실제 호출 부분
-    Promise.all([fetchWeight(), fetchFiveSessionWeight(), fetchBp()]);
+    Promise.all([
+      fetchWeight(),
+      fetchFiveSessionWeight(),
+      fetchBp(),
+      fetchBpNotes(),
+    ]);
   }, [patientId, session]);
 
   return (
@@ -146,19 +159,17 @@ export default function PatientDetails() {
       </div>
 
       <div className="patient__bottom__container">
-        <div className="patient__page__bp__container">
-          <div className="patient__page__bp__chart__container">
-            <div className="patient__page__bp__chart__header">
-              혈압
-              <div className="patient__page__bp__buttons">
-                <Button content={"삭제"} />
-                <Button content={"수정"} />
-              </div>
+        <div className="patient__page__bp__chart__container">
+          <div className="patient__page__bp__chart__header">
+            혈압
+            <div className="patient__page__bp__buttons">
+              <Button content={"삭제"} />
+              <Button content={"수정"} />
             </div>
-            <BloodLineChart data={bp} />
           </div>
-          <Record />
+          <BloodLineChart data={bp} />
         </div>
+        <Record records={records} />
       </div>
     </div>
   );
