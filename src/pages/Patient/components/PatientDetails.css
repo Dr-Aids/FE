@@ -20,18 +20,16 @@
   display: flex;
   gap: 10px;
   border: 1px solid gray;
-  padding: 20px;
-}
-
-.patient__page__bp__container {
-  display: flex;
-  gap: 40px;
-  align-items: center;
+  padding: 30px 20px;
+  justify-content: start;
+  box-sizing: border-box;
+  border-radius: 15px;
 }
 
 .patient__page__bp__chart__container {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 .patient__page__bp__chart__header {
@@ -44,8 +42,9 @@
   gap: 5px;
 }
 
-.patient__page__record__container {
+.patient__bottom__container {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  justify-content: start;
+  gap: 40px;
+  box-sizing: border-box;
 }

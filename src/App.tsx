@@ -27,15 +27,15 @@ function App() {
               {/*여기부터는 우측에 환자 리스트 뜨는애들 */}
               <Route path="remark" element={<RemarkPage />} />
               <Route
-                path="patient/:patientId/:round"
+                path="patient/:patientId/:session"
                 element={<PatientPage />}
               />
               <Route
-                path="prescription/:patientId/:round"
+                path="prescription/:patientId/:session"
                 element={<Prescription />}
               />
               <Route
-                path="remark/:patientId/:round"
+                path="remark/:patientId/:session"
                 element={<RemarkPersonalPage />}
               />
             </Route>

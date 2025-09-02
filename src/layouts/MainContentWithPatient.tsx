@@ -11,21 +11,21 @@ export default function MainContentWithPatient() {
     round?: string;
   }>();
   const patient = patients.find((p) => p.id === patientId);
-  const roundData = patient?.rounds.find(
-    (r) => String(r.round) === String(round)
-  );
+
   const location = useLocation();
   const pageName = location.pathname.split("/")[1];
 
   return (
     <div className="with-patient-layout__container">
       <div className="with-patient-layout__main__content">
-        {patient && roundData ? (
+        {patient ? (
           <SectionHeader title={pageName}>
-            <PatientSummaryCard {...patient} />
+            <PatientSummaryCard />
           </SectionHeader>
         ) : (
-          <SectionHeader title={pageName} />
+          <SectionHeader title={pageName}>
+            <PatientSummaryCard />
+          </SectionHeader>
         )}
         <Outlet />
       </div>

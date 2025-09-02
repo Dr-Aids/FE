@@ -18,8 +18,8 @@ export default function BloodLineChart({ data }) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="sys" stroke="#FF928A" />
-        <Line type="monotone" dataKey="dia" stroke="#8979FF" />
+        <Line type="monotone" dataKey="sbp" stroke="#FF928A" />
+        <Line type="monotone" dataKey="dbp" stroke="#8979FF" />
       </LineChart>
     </div>
   );

@@ -16,9 +16,9 @@ export default function BarGraph({ data }) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="pre" fill="#CBE8EE" />
-        <Bar dataKey="dry" fill="#E6F1FD" />
-        <Bar dataKey="post" fill="#7FBBE9" />
+        <Bar dataKey="preWeight" fill="#CBE8EE" />
+        <Bar dataKey="dryWeight" fill="#E6F1FD" />
+        <Bar dataKey="postWeight" fill="#7FBBE9" />
       </BarChart>
     </div>
   );

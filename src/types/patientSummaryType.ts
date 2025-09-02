@@ -1,10 +1,20 @@
-export type Patient = {
+export type PatientListRow = {
   id: number;
   name: string;
   gender: "MALE" | "FEMALE";
   age: number;
   birth: string;
   visiting: boolean;
+};
+
+export type PatientSummaryHeader = {
+  id: number;
+  name: string;
+  age: number;
+  birth: string;
+  gender: "MALE" | "FEMALE";
+  disease: string;
+  pic: string;
 };
 
 export interface PatientRecord {
