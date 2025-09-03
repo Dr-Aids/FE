@@ -177,7 +177,10 @@ export default function RemarkPersonalDetails() {
         <div className="weight__cmp__container">
           몸무게 비교
           {session && weightCmp ? (
-            <WeightCMPChart session={session} {...weightCmp} />
+            <WeightCMPChart
+              session={(parseInt(session) - 1).toString()}
+              {...weightCmp}
+            />
           ) : (
             <div>데이터가 존재하지 않습니다.</div>
           )}

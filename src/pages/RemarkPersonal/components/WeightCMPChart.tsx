@@ -249,7 +249,9 @@ export default function WeightCMPChart({
     >
       <div style={{ width: "100%", minWidth: "200px", maxWidth: "250px" }}>
         <ComparisonChart
-          title={`${session}회차 대비 현재 몸무게`}
+          title={
+            session !== "0" ? `${session}회차 대비 현재 몸무게` : "현재 몸무게"
+          }
           currentValue={nowWeight}
           compareValue={beforePreWeight}
         />
