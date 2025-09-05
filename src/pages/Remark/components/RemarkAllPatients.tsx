@@ -1,10 +1,35 @@
 import "./RemarkAllPatients.css";
-import { specialNoteData } from "../../../mocks/specialNoteData";
 import BpIcon from "../../../assets/bp_icon.svg";
 import WeightIcon from "../../../assets/weight_icon.svg";
 import RemarkBasis from "./RemarkBasis";
+import { useEffect, useState } from "react";
+import type { RemarkPatient } from "../../../types/RemarkTypes";
+import ruleNameToText from "../../../utils/ruleNameToText";
 
 export default function RemarkAllPatients() {
+  const [remarkPatients, setRemarkPatients] = useState<RemarkPatient[]>([]);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    const fetchAllRemark = async () => {
+      try {
+        if (!accessToken) throw new Error("잘못된 접근입니다");
+
+        const response = await fetch("/api/special-note/all", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+        const data = await response.json();
+        setRemarkPatients(data);
+      } catch (err) {
+        console.log("에러메세지(fetchAllRemark) :", err);
+      }
+    };
+
+    fetchAllRemark();
+  }, []);
   return (
     <div className="remark__all__container">
       <table className="remark__table">
@@ -18,16 +43,27 @@ export default function RemarkAllPatients() {
           </tr>
         </thead>
         <tbody className="remark__tbody">
-          {specialNoteData.map((data) => (
-            <tr>
-              <td>{data.doctor}</td>
+          {remarkPatients.map((data) => (
+            <tr key={`remark-all-patients-${data.id}`}>
+              <td>{data.picname}</td>
               <td>{data.patientName}</td>
-              <td>{data.sessionInfo}</td>
               <td>
-                <img src={data.type === "체중" ? WeightIcon : BpIcon} />
-                {data.type}
+                {data.session}회차 / {data.date.replaceAll("-", ".")}
               </td>
-              <td>{data.status}</td>
+              <td>
+                {data.type === "weight" ? (
+                  <span className="type__contina">
+                    <img src={WeightIcon} />
+                    체중
+                  </span>
+                ) : (
+                  <span>
+                    <img src={BpIcon} />
+                    혈압
+                  </span>
+                )}
+              </td>
+              <td>{ruleNameToText(data)}</td>
             </tr>
           ))}
         </tbody>

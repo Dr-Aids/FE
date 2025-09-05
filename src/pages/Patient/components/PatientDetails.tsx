@@ -108,7 +108,7 @@ export default function PatientDetails() {
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
         const data = await response.json();
-        console.log(data);
+
         // State에 값 넣어주는 지점
         setRecords(data);
       } catch (err) {
