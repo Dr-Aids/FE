@@ -7,8 +7,14 @@ import {
   Legend,
   Bar,
 } from "recharts";
-import { bloodResultData } from "../../../mocks/bloodResultData";
-export default function BloodResultChart({ data }) {
+import type { BloodResult } from "../../../types/PrescriptionTypes";
+
+interface BloodResultChartProps {
+  data: BloodResult[] | null;
+}
+
+export default function BloodResultChart({ data }: BloodResultChartProps) {
+  const chartData = data ?? [];
   return (
     <div
       style={{
@@ -17,16 +23,16 @@ export default function BloodResultChart({ data }) {
         padding: "50px 50px 20px 20px",
       }}
     >
-      <BarChart width={360} height={300} data={bloodResultData}>
+      <BarChart width={360} height={300} data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="Iron" fill="green" />
-        <Bar dataKey="Ferritine" fill="red" />
-        <Bar dataKey="TIBC" fill="pink" />
-        <Bar dataKey="PTH" fill="skyblue" />
+        <Bar dataKey="iron" fill="green" />
+        <Bar dataKey="ferritine" fill="red" />
+        <Bar dataKey="tibc" fill="pink" />
+        <Bar dataKey="pth" fill="skyblue" />
         <Bar dataKey="hematocrit" fill="black" />
       </BarChart>
     </div>
