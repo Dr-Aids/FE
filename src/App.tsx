@@ -31,7 +31,7 @@ function App() {
                 element={<PatientPage />}
               />
               <Route
-                path="prescription/:patientId/:session"
+                path="prescription/:patientId/:date"
                 element={<Prescription />}
               />
               <Route

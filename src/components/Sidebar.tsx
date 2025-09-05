@@ -27,7 +27,7 @@ const navigation = [
   {
     title: "예측처방",
     icon: Pill,
-    url: "prescription/1/1",
+    url: "prescription/1/2025-12",
     isActive: false,
   },
   {
