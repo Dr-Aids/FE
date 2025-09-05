@@ -3,13 +3,17 @@ import BloodResultChart from "./BloodResultChart";
 import HbLineChart from "./HbLineChart";
 import "./PrescriptionDetails.css";
 import PrescriptionTable from "./PrescriptionTable";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import type { BloodResult, Hb } from "../../../types/PrescriptionTypes";
 
 export default function PrescriptionDetails() {
   const { patientId, date } = useParams<{
     patientId: string;
     date: string;
   }>();
+
+  const [bloodResult, setBloodResult] = useState<BloodResult[] | null>(null);
+  const [hb, setHb] = useState<Hb[] | null>(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -27,6 +31,7 @@ export default function PrescriptionDetails() {
 
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
         const data = await response.json();
+        setBloodResult(data);
       } catch (err) {
         console.log("에러메세지(fetchBloodResult) : ", err);
       }
@@ -45,6 +50,7 @@ export default function PrescriptionDetails() {
 
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
         const data = await response.json();
+        setHb(data);
       } catch (err) {
         console.log("에러메세지(fetchBloodResult) : ", err);
       }
@@ -57,11 +63,11 @@ export default function PrescriptionDetails() {
       <div className="prescription__detail__graphs">
         <div className="prescription__blood__result__container">
           혈액 검사 결과
-          <BloodResultChart />
+          <BloodResultChart data={bloodResult} />
         </div>
         <div className="prescription__hb__container">
           헤모글로빈
-          <HbLineChart />
+          <HbLineChart data={hb} />
         </div>
       </div>
       <PrescriptionTable patientId={patientId!} date={date!} />
