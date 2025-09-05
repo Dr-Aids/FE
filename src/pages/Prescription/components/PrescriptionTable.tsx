@@ -1,7 +1,45 @@
 import "./PrescriptionTable.css";
 import PrescriptionTableRow from "./PrescriptionTableRow";
-import { prescriptionData } from "../../../mocks/prescriptionData";
-export default function PrescriptionTable() {
+
+import { useEffect, useState } from "react";
+import type { Prescription } from "../../../types/PrescriptionTypes";
+
+export default function PrescriptionTable({
+  patientId,
+  date,
+}: {
+  patientId: string;
+  date: string;
+}) {
+  const [prescriptionData, setPrescriptionData] = useState<
+    Prescription[] | null
+  >(null);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    const fetchPrescription = async () => {
+      try {
+        if (!accessToken) throw new Error("잘못된 접근입니다");
+
+        const response = await fetch(
+          `/api/prescriptions/:patientId/:targetDate?patientId=${patientId}&targetDate=${date}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+        const data = await response.json();
+        setPrescriptionData(data);
+        console.log(data);
+      } catch (err) {
+        console.log("에러메세지(fetchBloodResult) : ", err);
+      }
+    };
+
+    fetchPrescription();
+  }, [patientId, date]);
   return (
     <div className="prescription__table__container">
       <table className="prescription__table">
@@ -10,11 +48,12 @@ export default function PrescriptionTable() {
             <th>Date</th>
             <th>Hematinic</th>
             <th>IU</th>
+            <th>Description</th>
           </tr>
         </thead>
         <tbody className="prescription__tbody">
-          {prescriptionData.map((data, idx) => (
-            <PrescriptionTableRow {...data} idx={idx} />
+          {prescriptionData?.map((data, index) => (
+            <PrescriptionTableRow {...data} index={index} />
           ))}
         </tbody>
       </table>
