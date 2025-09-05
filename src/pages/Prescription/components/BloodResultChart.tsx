@@ -27,6 +27,7 @@ export default function BloodResultChart({ data }) {
         <Bar dataKey="Ferritine" fill="red" />
         <Bar dataKey="TIBC" fill="pink" />
         <Bar dataKey="PTH" fill="skyblue" />
+        <Bar dataKey="hematocrit" fill="black" />
       </BarChart>
     </div>
   );
