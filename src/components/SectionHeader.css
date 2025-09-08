@@ -6,6 +6,8 @@
 .page__name {
   font-size: 18px;
   font-weight: 700;
+  display: flex;
+  justify-content: space-between;
   color: #1e6774;
 }
 
