@@ -22,5 +22,5 @@ export interface BpNote {
   time: string;
   author: string | null;
   note: string | null;
-  isChecked: boolean | null;
+  isChecked: boolean;
 }
