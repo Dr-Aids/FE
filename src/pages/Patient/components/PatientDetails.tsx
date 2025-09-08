@@ -180,7 +180,11 @@ export default function PatientDetails() {
               <TrashButton />
             </div>
           </div>
-          <BloodLineChart data={bp} />
+          {bp ? (
+            <BloodLineChart data={bp} />
+          ) : (
+            <div>혈압 데이터 불러오는중...</div>
+          )}
         </div>
         <Record records={records} />
       </div>
