@@ -23,7 +23,7 @@ export default function BloodResultChart({ data }: BloodResultChartProps) {
         padding: "50px 50px 20px 20px",
       }}
     >
-      <BarChart width={360} height={300} data={chartData}>
+      <BarChart width={500} height={350} data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
         <YAxis />
