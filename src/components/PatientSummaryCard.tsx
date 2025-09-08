@@ -1,8 +1,11 @@
-import Button from "./ui/Button";
 import "./PatientSummaryCard.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import type { PatientSummaryHeader } from "../types/patientSummaryType";
 import { useEffect, useState } from "react";
+import Modal from "./Modal";
+import PatientInfoInput from "./PatientInfoInput";
+import EditButton from "./ui/EditButton";
+import TrashButton from "./ui/TrashButton";
 
 type SessionItem = {
   session: number;
@@ -40,6 +43,7 @@ export default function PatientSummaryCard() {
 
   const [patient, setPatient] = useState<PatientSummaryHeader | null>(null);
   const [sessions, setSessions] = useState<SessionItem[] | null>(null);
+  const [openPatientModify, setOpenPatientModify] = useState<boolean>(false);
 
   // 문자열 "undefined"/"null"/"" 정규화
   const normalize = (v?: string) =>
@@ -103,6 +107,24 @@ export default function PatientSummaryCard() {
     nav(`/${pageName}/${address}`);
   }
 
+  const handleClickDelete = async () => {
+    if (!confirm("정말로 삭제하시겠습니까?")) return;
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/patient/info/${patientId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data = await res.json();
+      setSessions(data);
+    } catch (err) {
+      console.log("에러메세지(환자 삭제) : ", err);
+    }
+  };
+
   if (!patient) return <div>데이터 불러오는중...</div>;
 
   return (
@@ -117,10 +139,10 @@ export default function PatientSummaryCard() {
           <div>
             {patient.age}세 / {patient.birth}
           </div>
-          |<div>{patient.disease}</div>
+          |<div>{patient.disease}</div>|<div>담당의사 : {patient.pic}</div>
           <div className="patient__info__buttons">
-            <Button content={"삭제"} onClick={() => alert("삭제버튼 누름")} />
-            <Button content={"수정"} onClick={() => alert("수정버튼 누름")} />
+            <EditButton onClick={() => setOpenPatientModify(true)} />
+            <TrashButton onClick={handleClickDelete} />
           </div>
         </div>
 
@@ -152,6 +174,16 @@ export default function PatientSummaryCard() {
           </select>
         </form>
       </div>
+      <Modal
+        title="환자 정보 수정"
+        isOpen={openPatientModify}
+        onClose={() => setOpenPatientModify(false)}
+      >
+        <PatientInfoInput
+          patient={patient}
+          onClose={() => setOpenPatientModify(false)}
+        />
+      </Modal>
     </div>
   );
 }
