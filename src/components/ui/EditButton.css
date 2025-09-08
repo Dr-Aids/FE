@@ -1,0 +1,19 @@
+/* EditButton.css */
+.edit__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid oklch(91% 0.096 180.426);
+  border-radius: 10px;
+  background-color: white;
+  color: #33afc5;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, padding 0.2s;
+}
+
+.edit__button:hover {
+  background-color: oklch(98.4% 0.014 180.72);
+  border-color: oklch(85.5% 0.138 181.071);
+  color: black;
+}
