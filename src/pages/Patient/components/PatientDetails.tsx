@@ -29,7 +29,7 @@ export default function PatientDetails() {
     FiveSessionWeightList[] | null
   >();
   const [records, setRecords] = useState<BpNote[]>([]);
-  const [bp, setBp] = useState<Bp | null>();
+  const [bp, setBp] = useState<Bp[] | null>();
   const [openWeightModal, setOpenWeightModal] = useState<boolean>(false);
 
   useEffect(() => {
