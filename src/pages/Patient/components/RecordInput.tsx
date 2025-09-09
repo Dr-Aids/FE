@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./RecordInput.css";
-import type { Bp } from "../../../types/PatientDetailTypes";
+import type { Bp, BpNote } from "../../../types/PatientDetailTypes";
 
+// 수정하러 들어오는거면 bpNote를 받고, bps를 받지 않음
+// 새로 추가하는거면 bps만 받고, bpNote를 받지않음
 interface RecordInputProps {
   onClose: () => void;
   session: string;
-  bps: Bp[];
+  bps?: Bp[];
+  bpNote?: BpNote;
 }
 
 interface RecordFormData {
@@ -18,12 +21,16 @@ export default function RecordInput({
   onClose,
   session,
   bps,
+  bpNote,
 }: RecordInputProps) {
+  const isModify = !bps && bpNote != null;
+  console.log(bpNote?.bloodPressureId);
+
   const [formData, setFormData] = useState<RecordFormData>({
     session: session,
-    bloodId: "",
-    note: "",
-    isChecked: false,
+    bloodId: bpNote?.bloodPressureId ?? "",
+    note: bpNote?.note ?? "",
+    isChecked: bpNote?.isChecked ?? false,
   });
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -53,32 +60,46 @@ export default function RecordInput({
       isChecked: formData.isChecked,
     };
 
-    const mock = {
-      session: 1,
-      bloodId: 3,
-      note: "왜안되냐",
-      isChecked: true,
-    };
+    if (isModify) {
+      try {
+        if (!accessToken)
+          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+        const res = await fetch("/api/blood-pressure/notes", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await res.json();
+        if (!res.ok)
+          throw new Error(`HTTP Error - ${res.status} - ${data.message}`);
 
-    try {
-      console.log(requestBody);
-      if (!accessToken)
-        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch("/api/blood-pressure/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(requestBody),
-      });
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(`HTTP Error - ${res.status} - ${data.message}`);
+        onClose();
+      } catch (err) {
+        console.log("에러메세지(혈압 노트 등록) : ", err);
+      }
+    } else {
+      try {
+        if (!accessToken)
+          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+        const res = await fetch("/api/blood-pressure/notes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await res.json();
+        if (!res.ok)
+          throw new Error(`HTTP Error - ${res.status} - ${data.message}`);
 
-      onClose();
-    } catch (err) {
-      console.log("에러메세지(혈압 노트 등록) : ", err);
+        onClose();
+      } catch (err) {
+        console.log("에러메세지(혈압 노트 등록) : ", err);
+      }
     }
   };
 
@@ -91,18 +112,20 @@ export default function RecordInput({
           value={formData.bloodId}
           onChange={handleChangeOption}
           required // ← 빈 값이면 제출 안 되게
+          disabled={isModify}
         >
-          <option value="" disabled hidden>
-            선택하세요
-          </option>
-          {bps.map((item) => (
-            <option
-              key={item.bloodPressureId} // ← key 추가
-              value={String(item.bloodPressureId)} // ← value는 문자열 권장
-            >
-              {item.time}
-            </option>
-          ))}
+          {!isModify ? (
+            bps!.map((item) => (
+              <option
+                key={item.bloodPressureId}
+                value={String(item.bloodPressureId)}
+              >
+                {item.time}
+              </option>
+            ))
+          ) : (
+            <option key={bpNote.bloodPressureId}>{bpNote.time}</option>
+          )}
         </select>
       </div>
 
@@ -132,7 +155,7 @@ export default function RecordInput({
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">추가</button>
+        <button type="submit">{isModify ? "수정" : "추가"}</button>
       </div>
     </form>
   );
