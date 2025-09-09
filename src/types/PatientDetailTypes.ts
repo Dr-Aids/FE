@@ -24,4 +24,5 @@ export interface BpNote {
   author: string | null;
   note: string | null;
   isChecked: boolean;
+  bloodPressureId: string;
 }
