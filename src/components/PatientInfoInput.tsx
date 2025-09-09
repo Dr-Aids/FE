@@ -39,7 +39,8 @@ export default function PatientInfoInput({
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
     if (patient) {
