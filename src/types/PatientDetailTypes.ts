@@ -13,6 +13,7 @@ export type FiveSessionWeightList = Pick<
 > & { session: number; date: string };
 
 export type Bp = {
+  bloodPressureId: number;
   time: string;
   sbp: number;
   dbp: number;
