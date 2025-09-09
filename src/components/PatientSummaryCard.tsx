@@ -6,6 +6,8 @@ import Modal from "./Modal";
 import PatientInfoInput from "./PatientInfoInput";
 import EditButton from "./ui/EditButton";
 import TrashButton from "./ui/TrashButton";
+import SessionAdd from "./SessionAdd";
+import PlusButton from "./ui/PlusButton";
 
 type SessionItem = {
   session: number;
@@ -44,6 +46,8 @@ export default function PatientSummaryCard() {
   const [patient, setPatient] = useState<PatientSummaryHeader | null>(null);
   const [sessions, setSessions] = useState<SessionItem[] | null>(null);
   const [openPatientModify, setOpenPatientModify] = useState<boolean>(false);
+  const [openAddSessionModal, setOpenAddSessionModal] =
+    useState<boolean>(false);
 
   // 문자열 "undefined"/"null"/"" 정규화
   const normalize = (v?: string) =>
@@ -107,7 +111,7 @@ export default function PatientSummaryCard() {
     nav(`/${pageName}/${address}`);
   }
 
-  const handleClickDelete = async () => {
+  const handleClickDeletePatient = async () => {
     if (!confirm("정말로 삭제하시겠습니까?")) return;
     const accessToken = localStorage.getItem("accessToken");
     try {
@@ -122,6 +126,24 @@ export default function PatientSummaryCard() {
       setSessions(data);
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
+    }
+  };
+
+  const handleClickDeleteSession = async () => {
+    if (!confirm("정말로 삭제하시겠습니까?")) return;
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/session/${patientId}/${session}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data = await res.json();
+      setSessions(data);
+    } catch (err) {
+      console.log("에러메세지(투석 회차 삭제) : ", err);
     }
   };
 
@@ -142,37 +164,42 @@ export default function PatientSummaryCard() {
           |<div>{patient.disease}</div>|<div>담당의사 : {patient.pic}</div>
           <div className="patient__info__buttons">
             <EditButton onClick={() => setOpenPatientModify(true)} />
-            <TrashButton onClick={handleClickDelete} />
+            <TrashButton onClick={handleClickDeletePatient} />
           </div>
         </div>
 
-        <form>
-          <select
-            className="patient__info__dropdown"
-            onChange={handleChangeOption}
-            value={selectedValue}
-          >
-            {session && sessions
-              ? // session 모드: 회차 목록
-                sessions.map((item) => (
-                  <option
-                    key={`${patient.id}/${item.session}`}
-                    value={`${patient.id}/${item.session}`}
-                  >
-                    {item.session}회차 / {item.date}
-                  </option>
-                ))
-              : // month/date 모드: 월(또는 날짜) 목록
-                mockMonths.map((m) => (
-                  <option
-                    key={`${patient.id}/${m}`}
-                    value={`${patient.id}/${m}`}
-                  >
-                    {m.slice(5).indexOf("0") === 0 ? m.slice(6) : m.slice(5)}월
-                  </option>
-                ))}
-          </select>
-        </form>
+        <div className="header__session__container">
+          <form>
+            <select
+              className="patient__info__dropdown"
+              onChange={handleChangeOption}
+              value={selectedValue}
+            >
+              {session && sessions
+                ? // session 모드: 회차 목록
+                  sessions.map((item) => (
+                    <option
+                      key={`${patient.id}/${item.session}`}
+                      value={`${patient.id}/${item.session}`}
+                    >
+                      {item.session}회차 / {item.date}
+                    </option>
+                  ))
+                : // month/date 모드: 월(또는 날짜) 목록
+                  mockMonths.map((m) => (
+                    <option
+                      key={`${patient.id}/${m}`}
+                      value={`${patient.id}/${m}`}
+                    >
+                      {m.slice(5).indexOf("0") === 0 ? m.slice(6) : m.slice(5)}
+                      월
+                    </option>
+                  ))}
+            </select>
+          </form>
+          <PlusButton onClick={() => setOpenAddSessionModal(true)} />
+          <TrashButton onClick={handleClickDeleteSession} />
+        </div>
       </div>
       <Modal
         title="환자 정보 수정"
@@ -182,6 +209,16 @@ export default function PatientSummaryCard() {
         <PatientInfoInput
           patient={patient}
           onClose={() => setOpenPatientModify(false)}
+        />
+      </Modal>
+      <Modal
+        title="투석 회차 추가"
+        isOpen={openAddSessionModal}
+        onClose={() => setOpenAddSessionModal(false)}
+      >
+        <SessionAdd
+          patientId={patientId!}
+          onClose={() => setOpenAddSessionModal(false)}
         />
       </Modal>
     </div>

@@ -31,6 +31,14 @@
   gap: 5px;
 }
 
+.header__session__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
 .patient__info__dropdown {
   background-color: #f5f4f5;
   padding-inline: 10px;
