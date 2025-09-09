@@ -195,12 +195,7 @@ export default function PatientDetails() {
             <div>혈압 데이터 불러오는중...</div>
           )}
         </div>
-        <Record
-          records={records}
-          bps={bp!}
-          patientId={patientId!}
-          session={session!}
-        />
+        <Record records={records} bps={bp!} session={session!} />
       </div>
 
       <Modal
