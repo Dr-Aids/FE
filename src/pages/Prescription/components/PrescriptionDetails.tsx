@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import type { BloodResult, Hb } from "../../../types/PrescriptionTypes";
 
 export default function PrescriptionDetails() {
-  const { patientId, date } = useParams<{
+  const { patientId, date: rawDate } = useParams<{
     patientId: string;
     date: string;
   }>();
+
+  const date = rawDate!.slice(0, 7);
 
   const [bloodResult, setBloodResult] = useState<BloodResult[] | null>(null);
   const [hb, setHb] = useState<Hb[] | null>(null);
@@ -23,7 +25,7 @@ export default function PrescriptionDetails() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/blood-test/:patientId/:targetDate/all?patientId=${patientId}&targetDate=${date}-01`,
+          `/api/blood-test/all?patientId=${patientId}&targetDate=${rawDate}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
@@ -42,7 +44,7 @@ export default function PrescriptionDetails() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/blood-test/:patientId/:targetDate/only-hb?patientId=${patientId}&targetDate=${date}-01`,
+          `/api/blood-test/only-hb?patientId=${patientId}&targetDate=${date}-01`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
