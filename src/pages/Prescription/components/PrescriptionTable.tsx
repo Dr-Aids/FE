@@ -32,7 +32,6 @@ export default function PrescriptionTable({
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
         const data = await response.json();
         setPrescriptionData(data);
-        console.log(data);
       } catch (err) {
         console.log("에러메세지(fetchBloodResult) : ", err);
       }
