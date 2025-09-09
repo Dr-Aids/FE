@@ -9,25 +9,23 @@ import TrashButton from "./ui/TrashButton";
 import SessionAdd from "./SessionAdd";
 import PlusButton from "./ui/PlusButton";
 
+const toDate = (s: string) => {
+  const [y, m, d] = s.split("-");
+  return new Date(Number(y), Number(m) - 1, d ? Number(d) : 1);
+};
+
+// order: 'asc' | 'desc'
+const sortISOStrings = (arr: string[], order: "asc" | "desc" = "desc") =>
+  [...arr].sort((a, b) =>
+    order === "asc"
+      ? toDate(a).getTime() - toDate(b).getTime()
+      : toDate(b).getTime() - toDate(a).getTime()
+  );
+
 type SessionItem = {
   session: number;
   date: string;
 };
-
-const mockMonths = [
-  "2025-01",
-  "2025-02",
-  "2025-03",
-  "2025-04",
-  "2025-05",
-  "2025-06",
-  "2025-07",
-  "2025-08",
-  "2025-09",
-  "2025-10",
-  "2025-11",
-  "2025-12",
-];
 
 export default function PatientSummaryCard() {
   const nav = useNavigate();
@@ -45,6 +43,7 @@ export default function PatientSummaryCard() {
 
   const [patient, setPatient] = useState<PatientSummaryHeader | null>(null);
   const [sessions, setSessions] = useState<SessionItem[] | null>(null);
+  const [prescriptionDates, setPrescriptionDates] = useState<string[]>([]);
   const [openPatientModify, setOpenPatientModify] = useState<boolean>(false);
   const [openAddSessionModal, setOpenAddSessionModal] =
     useState<boolean>(false);
@@ -59,7 +58,7 @@ export default function PatientSummaryCard() {
   // 드롭다운의 선택값: session 모드면 session, 아니면 date(없으면 임시 기본값)
   const selectedValue = session
     ? `${patientId}/${session}`
-    : `${patientId}/${date ?? mockMonths[0]}`;
+    : `${patientId}/${date ?? prescriptionDates[0]}`;
 
   /** 1) 환자 정보는 항상 조회 */
   useEffect(() => {
@@ -78,7 +77,30 @@ export default function PatientSummaryCard() {
         console.log("에러메세지(fetchPatientSummary) : ", err);
       }
     };
+
+    const fetchPrescriptionDates = async () => {
+      try {
+        if (!token)
+          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+        const res = await fetch(
+          `/api/prescriptions/dates?patientId=${patientId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+        const data: string[] = await res.json();
+
+        // 중복 제거 후 최신순 정렬(원하면 'asc'로 변경)
+        const uniq = Array.from(new Set(data));
+        setPrescriptionDates(sortISOStrings(uniq, "asc"));
+      } catch (err) {
+        console.log("에러메세지(fetchPrescriptionDates) : ", err);
+      }
+    };
+
     if (patientId) fetchPatientSummary();
+    fetchPrescriptionDates();
   }, [patientId]);
 
   /** 2) session 파라미터가 있을 때만 세션 목록 조회 */
@@ -186,13 +208,12 @@ export default function PatientSummaryCard() {
                     </option>
                   ))
                 : // month/date 모드: 월(또는 날짜) 목록
-                  mockMonths.map((m) => (
+                  prescriptionDates.map((m) => (
                     <option
                       key={`${patient.id}/${m}`}
                       value={`${patient.id}/${m}`}
                     >
-                      {m.slice(5).indexOf("0") === 0 ? m.slice(6) : m.slice(5)}
-                      월
+                      {m.slice(0, 7)}월
                     </option>
                   ))}
             </select>
