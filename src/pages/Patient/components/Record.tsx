@@ -9,17 +9,12 @@ import RecordInput from "./RecordInput";
 interface RecordProps {
   records: BpNote[];
   bps: Bp[];
-  patientId: string;
   session: string;
 }
 
-export default function Record({
-  records,
-  bps,
-  patientId,
-  session,
-}: RecordProps) {
+export default function Record({ records, bps, session }: RecordProps) {
   const [openRecordModal, setOpenRecordModal] = useState<boolean>(false);
+
   return (
     <div className="record__container">
       <div className="record__header">
@@ -29,11 +24,13 @@ export default function Record({
       <div className="record__content">
         {records?.length !== 0 ? (
           records.map((item, idx) => {
+            if (item.author === null && item.note === null) return;
             return (
               <div className="recordrow">
                 <RecordRow
                   key={`${item.time} - ${item.author} : ${item.note} `}
-                  {...item}
+                  bpNote={item}
+                  session={session}
                 />
                 {idx !== records.length - 1 ? (
                   <hr style={{ color: "gray" }} />
