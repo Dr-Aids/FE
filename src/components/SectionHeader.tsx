@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from "react";
 import "./SectionHeader.css";
-import Button from "./ui/Button";
 import Modal from "./Modal";
 import PatientInfoInput from "./PatientInfoInput";
+import PlusButton from "./ui/PlusButton";
 
 export default function SectionHeader({
   title,
@@ -24,10 +24,7 @@ export default function SectionHeader({
       <div className="page__name">
         {changePageNameToKR(title)}
         {title === "Patients" ? (
-          <Button
-            content={"추가"}
-            onClick={() => setOpenPatientAdd(true)}
-          ></Button>
+          <PlusButton onClick={() => setOpenPatientAdd(true)} />
         ) : (
           ""
         )}
@@ -36,7 +33,7 @@ export default function SectionHeader({
       {title === "Patients" ? null : <hr className="header__hr" />}
 
       <Modal
-        title="환자 정보 수정"
+        title="환자 등록"
         isOpen={openPatientAdd}
         onClose={() => setOpenPatientAdd(false)}
       >
