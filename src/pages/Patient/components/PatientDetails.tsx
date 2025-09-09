@@ -17,6 +17,7 @@ import EditButton from "../../../components/ui/EditButton";
 import TrashButton from "../../../components/ui/TrashButton";
 import Modal from "../../../components/Modal";
 import WeightInput from "./WeightInput";
+import { formatYMDTHM } from "../../../utils/formatYMDTHM";
 
 export default function PatientDetails() {
   const { patientId, session } = useParams<{
@@ -92,7 +93,11 @@ export default function PatientDetails() {
 
         const data = await response.json();
         // State에 값 넣어주는 지점
-        setBp(data);
+        const newData = data.map((item) => ({
+          ...item,
+          time: formatYMDTHM(item.time).slice(9),
+        }));
+        setBp(newData);
       } catch (err) {
         console.log("에러메세지(fetchBp) : ", err);
       }
@@ -112,9 +117,13 @@ export default function PatientDetails() {
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
         const data = await response.json();
+        const newData = data.map((item) => ({
+          ...item,
+          time: formatYMDTHM(item.time).slice(9),
+        }));
+        setRecords(newData);
 
         // State에 값 넣어주는 지점
-        setRecords(data);
       } catch (err) {
         console.log("에러메세지(fetchBp) : ", err);
       }
@@ -186,7 +195,12 @@ export default function PatientDetails() {
             <div>혈압 데이터 불러오는중...</div>
           )}
         </div>
-        <Record records={records} />
+        <Record
+          records={records}
+          bps={bp!}
+          patientId={patientId!}
+          session={session!}
+        />
       </div>
 
       <Modal
