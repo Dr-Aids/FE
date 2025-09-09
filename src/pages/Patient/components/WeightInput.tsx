@@ -42,8 +42,8 @@ export default function WeightInput({
     }));
   };
 
-  const handleSubmit = async () => {
-    console.log(formData);
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
     try {
