@@ -1,11 +1,15 @@
+import { useState } from "react";
+import Modal from "../../components/Modal";
 import SectionHeader from "../../components/SectionHeader";
 import { useAuth } from "../../contexts/AuthContext";
+import ProfileInput from "./components/ProfileInput";
 import ProfileRow from "./components/ProfileRow";
 import "./SettingPage.css";
-import { LogOut } from "lucide-react";
+import { Edit, LogOut } from "lucide-react";
 
 export default function SettingPage() {
   const { user, logout } = useAuth();
+  const [openProfileModal, setOpenProfileModal] = useState<boolean>(false);
   const icon =
     user?.role === "DOCTOR" ? "👨‍⚕️" : user?.role === "NURSE" ? "👩‍⚕️" : "";
   return (
@@ -32,8 +36,23 @@ export default function SettingPage() {
             <LogOut size={20} />
             로그아웃
           </div>
+          <div
+            className="setting__edit"
+            onClick={() => setOpenProfileModal(true)}
+          >
+            <Edit size={20} />
+            수정하기
+          </div>
         </div>
       </div>
+
+      <Modal
+        title="회원 정보 수정"
+        isOpen={openProfileModal}
+        onClose={() => setOpenProfileModal(false)}
+      >
+        <ProfileInput user={user} onClose={() => setOpenProfileModal(false)} />
+      </Modal>
     </div>
   );
 }
