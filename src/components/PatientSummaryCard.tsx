@@ -145,7 +145,6 @@ export default function PatientSummaryCard() {
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
       const data = await res.json();
-      setSessions(data);
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
     }
