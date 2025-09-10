@@ -7,7 +7,7 @@ import RecordRow from "./RecordRow";
 import RecordInput from "./RecordInput";
 
 interface RecordProps {
-  records: BpNote[];
+  records?: BpNote[];
   bps: Bp[];
   session: string;
 }
@@ -22,7 +22,7 @@ export default function Record({ records, bps, session }: RecordProps) {
         <PlusButton onClick={() => setOpenRecordModal(true)} />
       </div>
       <div className="record__content">
-        {records?.length !== 0 ? (
+        {records != null ? (
           records.map((item, idx) => {
             if (item.author === null && item.note === null) return;
             return (
