@@ -15,8 +15,8 @@ export type FiveSessionWeightList = Pick<
 export type Bp = {
   bloodPressureId: number;
   time: string;
-  sbp: number;
-  dbp: number;
+  sbp: number | null;
+  dbp: number | null;
 };
 
 export interface BpNote {
