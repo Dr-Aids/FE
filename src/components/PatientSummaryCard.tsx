@@ -118,8 +118,16 @@ export default function PatientSummaryCard() {
         const res = await fetch(`/api/session?patientId=${patientId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
         const data = await res.json();
+
+        if (!res.ok) {
+          if (data.status === 404) {
+            setSessions(null);
+            throw new Error(`HTTP Error - ${res.status}`);
+          }
+        }
+
         setSessions(data);
       } catch (err) {
         console.log("에러메세지(fetchAllSession) : ", err);
