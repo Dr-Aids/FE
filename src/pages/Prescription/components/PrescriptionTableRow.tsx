@@ -1,3 +1,5 @@
+import EditButton from "../../../components/ui/EditButton";
+import PlusButton from "../../../components/ui/PlusButton";
 import type { Prescription } from "../../../types/PrescriptionTypes";
 import "./PrescriptionTable.css";
 
@@ -25,7 +27,19 @@ export default function PrescriptionTableRow({
       <td>{date}</td>
       <td>{hematapoieticAgent}</td>
       <td>{iu}IU</td>
-      <td>{description}</td>
+      <td
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        {description}
+        <span>
+          <PlusButton />
+          <EditButton />
+        </span>
+      </td>
     </tr>
   );
 }
