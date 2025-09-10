@@ -159,7 +159,7 @@ export default function PatientDetails() {
       const data = await res.json();
       console.log(data);
     } catch (err) {
-      console.log("에러메세지(투석 회차 삭제) : ", err);
+      console.log("에러메세지(몸무게 삭제) : ", err);
     }
   };
 
