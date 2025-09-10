@@ -1,5 +1,6 @@
 import EditButton from "../../../components/ui/EditButton";
-import PlusButton from "../../../components/ui/PlusButton";
+
+import TrashButton from "../../../components/ui/TrashButton";
 import type { Prescription } from "../../../types/PrescriptionTypes";
 import "./PrescriptionTable.css";
 
@@ -36,8 +37,8 @@ export default function PrescriptionTableRow({
       >
         {description}
         <span>
-          <PlusButton />
           <EditButton />
+          <TrashButton />
         </span>
       </td>
     </tr>
