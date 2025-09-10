@@ -18,8 +18,11 @@ import TrashButton from "../../../components/ui/TrashButton";
 import Modal from "../../../components/Modal";
 import WeightInput from "./WeightInput";
 import { formatYMDTHM } from "../../../utils/formatYMDTHM";
+import PlusButton from "../../../components/ui/PlusButton";
 
 export default function PatientDetails() {
+  const nowTime = new Date().toISOString();
+  console.log(nowTime);
   const { patientId, session } = useParams<{
     patientId: string;
     session: string;
@@ -185,8 +188,8 @@ export default function PatientDetails() {
           <div className="patient__page__bp__chart__header">
             혈압
             <div className="patient__page__bp__buttons">
+              <PlusButton />
               <EditButton />
-              <TrashButton />
             </div>
           </div>
           {bp ? (
