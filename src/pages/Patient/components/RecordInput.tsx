@@ -24,7 +24,6 @@ export default function RecordInput({
   bpNote,
 }: RecordInputProps) {
   const isModify = !bps && bpNote != null;
-  console.log(bpNote?.bloodPressureId);
 
   const [formData, setFormData] = useState<RecordFormData>({
     session: session,
