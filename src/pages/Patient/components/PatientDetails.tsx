@@ -27,11 +27,13 @@ export default function PatientDetails() {
     session: string;
   }>();
 
+  if (session?.toString() === "0") return <div>회차가 존재하지 않습니다.</div>;
+
   const [weightList, setWeightList] = useState<WeightListItem | null>();
   const [fiveSessionWeightList, setFiveSessionWeightList] = useState<
     FiveSessionWeightList[] | null
   >();
-  const [records, setRecords] = useState<BpNote[]>([]);
+  const [records, setRecords] = useState<BpNote[] | null>([]);
   const [bp, setBp] = useState<Bp[] | null>();
   const [openWeightModal, setOpenWeightModal] = useState<boolean>(false);
   const [openWeightAddModal, setOpenWeightAddModal] = useState<boolean>(false);
@@ -53,9 +55,10 @@ export default function PatientDetails() {
           }
         );
 
+        const data = await response.json();
+        if (data.code === "SESSION_NOT_FOUND") setWeightList(null);
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
-        const data = await response.json();
         // State에 값 넣어주는 지점
         setWeightList(data[0]);
       } catch (err) {
@@ -74,9 +77,10 @@ export default function PatientDetails() {
           }
         );
 
+        const data = await response.json();
+        if (data.code === "SESSION_NOT_FOUND") setFiveSessionWeightList(null);
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
-        const data = await response.json();
         // State에 값 넣어주는 지점
         setFiveSessionWeightList(data);
       } catch (err) {
@@ -95,9 +99,10 @@ export default function PatientDetails() {
           }
         );
 
+        const data = await response.json();
+        if (data.code === "SESSION_NOT_FOUND") setBp(null);
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
-        const data = await response.json();
         // State에 값 넣어주는 지점
         const newData = data.map((item) => ({
           ...item,
@@ -119,10 +124,10 @@ export default function PatientDetails() {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
-
+        const data = await response.json();
+        if (data.code === "SESSION_NOT_FOUND") setRecords(null);
         if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
-        const data = await response.json();
         const newData = data.map((item) => ({
           ...item,
           time: formatYMDTHM(item.time).slice(9),
