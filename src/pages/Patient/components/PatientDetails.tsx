@@ -19,10 +19,9 @@ import Modal from "../../../components/Modal";
 import WeightInput from "./WeightInput";
 import { formatYMDTHM } from "../../../utils/formatYMDTHM";
 import PlusButton from "../../../components/ui/PlusButton";
+import BpInput from "./BpInput";
 
 export default function PatientDetails() {
-  const nowTime = new Date().toISOString();
-  console.log(nowTime);
   const { patientId, session } = useParams<{
     patientId: string;
     session: string;
@@ -35,6 +34,8 @@ export default function PatientDetails() {
   const [records, setRecords] = useState<BpNote[]>([]);
   const [bp, setBp] = useState<Bp[] | null>();
   const [openWeightModal, setOpenWeightModal] = useState<boolean>(false);
+  const [openBpModal, setOpenBpModal] = useState<boolean>(false);
+  const [openBpModifyModal, setOpenBpModifyModal] = useState<boolean>(false);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -141,6 +142,27 @@ export default function PatientDetails() {
     ]);
   }, [patientId, session]);
 
+  const handleClickDeleteWeight = async () => {
+    if (!confirm("정말로 삭제하시겠습니까?")) return;
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(
+        `/api/weight?patientId=${patientId}&session=${session}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.log("에러메세지(투석 회차 삭제) : ", err);
+    }
+  };
+
   return (
     <div className="patient-details__container">
       {weightList ? (
@@ -149,7 +171,7 @@ export default function PatientDetails() {
             <span>체중 정보</span>
             <div className="weight__buttons">
               <EditButton onClick={() => setOpenWeightModal(true)} />
-              <TrashButton />
+              <TrashButton onClick={handleClickDeleteWeight} />
             </div>
           </span>
           <div className="patient__page__weight_list">
@@ -188,8 +210,8 @@ export default function PatientDetails() {
           <div className="patient__page__bp__chart__header">
             혈압
             <div className="patient__page__bp__buttons">
-              <PlusButton />
-              <EditButton />
+              <PlusButton onClick={() => setOpenBpModal(true)} />
+              <EditButton onClick={() => setOpenBpModifyModal(true)} />
             </div>
           </div>
           {bp ? (
@@ -211,6 +233,31 @@ export default function PatientDetails() {
           session={session!}
           weightList={weightList!}
           onClose={() => setOpenWeightModal(false)}
+        />
+      </Modal>
+
+      <Modal
+        title="혈압 정보 등록"
+        isOpen={openBpModal}
+        onClose={() => setOpenBpModal(false)}
+      >
+        <BpInput
+          patientId={patientId!}
+          session={session!}
+          onClose={() => setOpenBpModal(false)}
+        />
+      </Modal>
+
+      <Modal
+        title="혈압 정보 수정"
+        isOpen={openBpModifyModal}
+        onClose={() => setOpenBpModifyModal(false)}
+      >
+        <BpInput
+          patientId={patientId!}
+          session={session!}
+          bps={bp!}
+          onClose={() => setOpenBpModifyModal(false)}
         />
       </Modal>
     </div>
