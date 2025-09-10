@@ -1,7 +1,21 @@
 .recordrow__container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recordrow__info {
+  display: flex;
+  flex-direction: row;
   gap: 8px;
+  align-items: center;
+}
+
+.recordrow__buttons {
+  display: flex;
+  flex-direction: row;
   justify-content: start;
   align-items: center;
+  gap: 5px;
 }

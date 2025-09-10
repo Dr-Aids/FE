@@ -7,13 +7,14 @@
 .patient__info__main {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-left: 30px;
 }
 .patient__info__info {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 .patient__info__name {
   font-size: 20px;
@@ -27,6 +28,14 @@
 
 .patient__info__buttons {
   display: flex;
+  gap: 5px;
+}
+
+.header__session__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
 }
 

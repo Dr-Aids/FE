@@ -13,14 +13,16 @@ export type FiveSessionWeightList = Pick<
 > & { session: number; date: string };
 
 export type Bp = {
+  bloodPressureId: number;
   time: string;
-  sbp: number;
-  dbp: number;
+  sbp: number | null;
+  dbp: number | null;
 };
 
 export interface BpNote {
   time: string;
   author: string | null;
   note: string | null;
-  isChecked: boolean | null;
+  isChecked: boolean;
+  bloodPressureId: string;
 }

@@ -7,9 +7,10 @@ import {
   Legend,
   Line,
 } from "recharts";
-import "./BloodLineChart.css";
 
-export default function BloodLineChart({ data }) {
+import type { Bp } from "../types/PatientDetailTypes";
+
+export default function BloodLineChart({ data }: { data: Bp[] }) {
   return (
     <div className="blood__chart__container">
       <LineChart width={470} height={280} data={data}>

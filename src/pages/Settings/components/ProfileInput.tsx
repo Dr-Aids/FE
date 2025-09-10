@@ -1,0 +1,97 @@
+import React, { useState } from "react";
+import "./ProfileInput.css";
+import type { User } from "../../../types/userData";
+
+interface ProfileInputProsp {
+  onClose: () => void;
+  user: User;
+}
+export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
+  const [formData, setFormData] = useState<User>(user);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData((prev) => {
+      if (prev === null) {
+        return null;
+      }
+      return {
+        ...prev,
+        username: value,
+      };
+    });
+  };
+
+  const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as "DOCTOR" | "NURSE";
+    setFormData((prev) => {
+      if (prev === null) {
+        return null;
+      }
+      return {
+        ...prev,
+        role: value,
+      };
+    });
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    const accessToken = localStorage.getItem("accessToken");
+
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/user`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          username: formData?.username,
+          role: formData?.role,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+    } catch (err) {
+      console.log("에러메세지(회원정보 수정) : ", err);
+    }
+  };
+
+  return (
+    <form className="patient-info-modify-form" onSubmit={handleSubmit}>
+      <div className="form-row">
+        <label htmlFor="username">이름</label>
+        <input
+          type="text"
+          id="username"
+          value={formData?.username}
+          placeholder="홍길동"
+          onChange={handleInput}
+        />
+      </div>
+
+      <div className="form-row">
+        <label htmlFor="role">성별</label>
+        <select
+          id="role"
+          onChange={handleChangeOption}
+          defaultValue={formData?.role}
+          value={formData?.role}
+        >
+          <option value={"DOCTOR"}>DOCTOR</option>
+          <option value={"NURSE"}>NURSE</option>
+        </select>
+      </div>
+
+      <div className="form-actions">
+        <button type="button" onClick={onClose}>
+          취소
+        </button>
+        <button type="submit">수정</button>
+      </div>
+    </form>
+  );
+}

@@ -5,6 +5,30 @@
   padding: 35px;
 }
 
+.weight__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.weight__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weight__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
 .patient__page__weight_list {
   display: flex;
   gap: 10px;
@@ -35,6 +59,7 @@
 .patient__page__bp__chart__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .patient__page__bp__buttons {

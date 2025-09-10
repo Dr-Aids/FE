@@ -7,9 +7,15 @@ import {
   Legend,
   Line,
 } from "recharts";
-import { hbData } from "../../../mocks/hbData";
 
-export default function HbLineChart({ data }) {
+import type { Hb } from "../../../types/PrescriptionTypes";
+
+interface HbLineChart {
+  data: Hb[] | null;
+}
+
+export default function HbLineChart({ data }: HbLineChart) {
+  const chartData = data ?? [];
   return (
     <div
       style={{
@@ -18,13 +24,13 @@ export default function HbLineChart({ data }) {
         padding: "50px 50px 20px 20px",
       }}
     >
-      <LineChart width={400} height={300} data={hbData}>
+      <LineChart width={400} height={300} data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="Hb" stroke="blue" />
+        <Line type="monotone" dataKey="hemoglobin" stroke="blue" />
       </LineChart>
     </div>
   );
