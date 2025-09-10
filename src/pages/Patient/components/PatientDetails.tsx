@@ -34,6 +34,8 @@ export default function PatientDetails() {
   const [records, setRecords] = useState<BpNote[]>([]);
   const [bp, setBp] = useState<Bp[] | null>();
   const [openWeightModal, setOpenWeightModal] = useState<boolean>(false);
+  const [openWeightAddModal, setOpenWeightAddModal] = useState<boolean>(false);
+
   const [openBpModal, setOpenBpModal] = useState<boolean>(false);
   const [openBpModifyModal, setOpenBpModifyModal] = useState<boolean>(false);
 
@@ -186,7 +188,10 @@ export default function PatientDetails() {
           </div>
         </div>
       ) : (
-        <div>몸무게 불러오는중...</div>
+        <div>
+          몸무게 불러오는중...
+          <EditButton onClick={() => setOpenWeightAddModal(true)} />
+        </div>
       )}
 
       <div className="patient__page__graph">
@@ -233,6 +238,18 @@ export default function PatientDetails() {
           session={session!}
           weightList={weightList!}
           onClose={() => setOpenWeightModal(false)}
+        />
+      </Modal>
+
+      <Modal
+        title="체중 정보 등록"
+        isOpen={openWeightAddModal}
+        onClose={() => setOpenWeightAddModal(false)}
+      >
+        <WeightInput
+          patientId={patientId!}
+          session={session!}
+          onClose={() => setOpenWeightAddModal(false)}
         />
       </Modal>
 
