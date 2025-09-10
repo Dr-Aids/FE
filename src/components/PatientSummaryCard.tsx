@@ -115,7 +115,7 @@ export default function PatientSummaryCard() {
       try {
         if (!token)
           throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch(`/api/session/${patientId}`, {
+        const res = await fetch(`/api/session?patientId=${patientId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
@@ -157,10 +157,13 @@ export default function PatientSummaryCard() {
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/session/${patientId}/${session}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      const res = await fetch(
+        `/api/session?patientId=${patientId}&sessionId=${session}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
       const data = await res.json();
     } catch (err) {

@@ -31,7 +31,7 @@ export default function PatientRow({
         if (!accessToken)
           throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
 
-        const response = await fetch(`/api/session/${id}`, {
+        const response = await fetch(`/api/session?patientId=${id}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
 
