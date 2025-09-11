@@ -1,5 +1,5 @@
-import "./PrescriptionTable.css";
 import PrescriptionTableRow from "./PrescriptionTableRow";
+import "./PrescriptionTable.css";
 
 import { useEffect, useState } from "react";
 import type { Prescription } from "../../../types/PrescriptionTypes";
@@ -40,7 +40,7 @@ export default function PrescriptionTable({
     fetchPrescription();
   }, [patientId, date]);
   return (
-    <div className="prescription__table__container">
+    <div className="card-container">
       <table className="prescription__table">
         <thead className="prescription__thead">
           <tr>
