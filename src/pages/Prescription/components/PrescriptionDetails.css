@@ -1,22 +1,22 @@
 .prescription__details__container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding: 35px;
+  gap: 3rem;
+  padding: 3.5rem;
 }
 
 .prescription__detail__graphs {
   display: flex;
-  gap: 30px;
+  gap: 3rem;
 }
 .prescription__blood__result__container {
   color: #1e6774;
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 700;
 }
 .prescription__hb__container {
   color: #1e6774;
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 700;
 }
 .prescription__detail__graphs {

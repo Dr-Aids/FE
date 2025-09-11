@@ -21,7 +21,7 @@ export default function HbLineChart({ data }: HbLineChart) {
       style={{
         border: "1px solid rgba(220,220,220,0.5)",
         borderRadius: "10px",
-        padding: "50px 50px 20px 20px",
+        padding: "5rem 5rem 2rem 2rem",
       }}
     >
       <LineChart width={400} height={300} data={chartData}>

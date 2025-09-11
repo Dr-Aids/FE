@@ -2,7 +2,7 @@
   background-color: rgba(50, 175, 197, 0.8);
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 1.5rem;
 }
 
 .signup__main {
@@ -10,28 +10,28 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  margin: 50px auto;
-  gap: 10px;
+  margin: 5rem auto;
+  gap: 1rem;
   border: none;
-  width: 520px;
+  width: 52rem;
   height: auto;
   background-color: #ffffff;
   border-radius: 10px;
-  padding: 50px 80px;
+  padding: 5rem 8rem;
   box-sizing: border-box;
 }
 
 .signup__form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2rem;
   width: 100%;
   box-sizing: border-box;
 }
 
 .signup__form span {
   color: red;
-  font-size: 13px;
+  font-size: 1.3rem;
 }
 
 .email__container {
@@ -46,11 +46,11 @@
 
 .signup__main > form input {
   background-color: #f5f5f5;
-  padding: 8px;
+  padding: 0.8rem;
   border-radius: 10px;
   border: none;
   width: 100%;
-  height: 40px;
+  height: 4rem;
   box-sizing: border-box;
 }
 
@@ -61,7 +61,7 @@
 .role__btn__container {
   display: flex;
   width: 100%;
-  gap: 10px;
+  gap: 1rem;
   justify-content: space-between;
 }
 
@@ -78,9 +78,9 @@
 .signup__selcet {
   border: none;
   background-color: #f5f5f5;
-  padding: 8px;
+  padding: 0.8rem;
   border-radius: 10px;
   width: 100%;
-  height: 30px;
+  height: 3rem;
   box-sizing: border-box;
 }

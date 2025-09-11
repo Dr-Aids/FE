@@ -30,7 +30,7 @@ export default function IconDataCard({
         style={{
           display: "flex",
           flexDirection: "column",
-          padding: "0.8rempx",
+          padding: "0.8rem",
           justifyContent: "center",
           alignItems: "center",
         }}

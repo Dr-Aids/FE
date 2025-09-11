@@ -1,9 +1,9 @@
 .mainpage__container {
   background-color: white;
-  padding: 32px; /* 내부 여백 */
-  border: 1px solid #fffeff;
+  padding: 3.2rem; /* 내부 여백 */
+  border: 0.1rem solid #fffeff;
   box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  border-radius: 1rem;
 
   width: 100%;
   height: 100%;
@@ -20,11 +20,11 @@
   place-items: center;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: minmax(50px, auto);
-  gap: 20px;
-  margin-top: 32px;
+  gap: 2rem;
+  margin-top: 3.2rem;
 }
 
 .mainpage__bottom__content {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 }

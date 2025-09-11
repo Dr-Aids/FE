@@ -76,7 +76,7 @@ export default function PrescriptionTableRow({
               size={20}
               style={{
                 border: "1px solid #ccc",
-                padding: "8px",
+                padding: "0.8rem",
                 borderRadius: "12px",
                 cursor: "pointer",
                 background: "transparent",
@@ -87,7 +87,7 @@ export default function PrescriptionTableRow({
               size={20}
               style={{
                 border: "1px solid #ccc",
-                padding: "8px",
+                padding: "0.8rem",
                 borderRadius: "12px",
                 cursor: "pointer",
                 background: "transparent",
