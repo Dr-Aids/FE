@@ -114,7 +114,7 @@ export default function RecordInput({
           disabled={isModify}
         >
           <option value="" hidden>
-            선택하세요
+            {bpNote?.time ?? "선택하세요"}
           </option>
           {!isModify ? (
             bps!.map((item) => (
