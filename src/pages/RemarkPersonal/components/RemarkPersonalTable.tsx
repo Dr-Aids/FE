@@ -42,18 +42,26 @@ export default function RemarkPersonalTable({
       <table className="remark__personal__table">
         <thead>
           <tr>
-            <th>구분</th>
+            <th>
+              <h3>구분</h3>
+            </th>
             {prevRound && (
-              <th>{`${prevRound.session}회차 / ${prevRound.date}`}</th>
+              <th>
+                <h3>{`${prevRound.session}회차 / ${prevRound.date}`}</h3>
+              </th>
             )}
             <th>
-              {nowRound ? `${nowRound.session}회차 / ${nowRound.date}` : "-"}
+              <h3>
+                {nowRound ? `${nowRound.session}회차 / ${nowRound.date}` : "-"}
+              </h3>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">상태</th>
+            <th scope="row">
+              <h3>상태</h3>
+            </th>
             {prevRound && (
               <td>
                 <div className="status-icons">
@@ -86,12 +94,16 @@ export default function RemarkPersonalTable({
             </td>
           </tr>
           <tr>
-            <th scope="row">몸무게</th>
+            <th scope="row">
+              <h3>몸무게</h3>
+            </th>
             {prevRound && <td>{renderRemarks(prevWeightRemarks)}</td>}
             <td>{renderRemarks(nowWeightRemarks)}</td>
           </tr>
           <tr>
-            <th scope="row">혈압</th>
+            <th scope="row">
+              <h3>혈압</h3>
+            </th>
             {prevRound && <td>{renderRemarks(prevBpRemarks)}</td>}
             <td>{renderRemarks(nowBpRemarks)}</td>
           </tr>
