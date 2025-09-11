@@ -10,7 +10,7 @@ export default function WeightBox({
   return (
     <div className="weight__box__container">
       <div>{title}</div>
-      <b>{weight ? weight : "-"} kg</b>
+      <h4>{weight ? weight.toFixed(1) : "-"} kg</h4>
     </div>
   );
 }
