@@ -1,8 +1,10 @@
 .weight__box__container {
   display: flex;
   flex-direction: column;
-  width: 12rem;
-  height: 7rem;
+  min-width: 8rem;
+  max-width: 20rem;
+  flex: 1;
+  height: 6.8rem;
   background-color: #f5f4f5;
   border: 1px solid rgb(235, 221, 221);
   border-radius: 10px;
