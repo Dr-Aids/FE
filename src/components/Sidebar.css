@@ -65,7 +65,7 @@
 .sidebar__container {
   display: flex;
   flex-direction: column;
-  width: 20rem;
+  width: 25rem;
   height: 100%;
   padding-inline: 2rem;
   border-right: 0.1rem solid #fffeff;
