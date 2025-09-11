@@ -43,14 +43,16 @@ export default function RemarkPersonalPage() {
 
   const avgGapStr =
     weightCmp?.gapBetweenAverageAndNow != null
-      ? `${Math.abs(weightCmp.gapBetweenAverageAndNow)} kg ` +
+      ? `${Math.abs(weightCmp.gapBetweenAverageAndNow).toFixed(1)} kg ` +
         (weightCmp.gapBetweenAverageAndNow >= 0 ? "증가" : "감소")
       : "데이터가 존재하지 않습니다.";
 
   const currentWeightStr =
     weightCmp?.beforePreWeight != null &&
     weightCmp?.gapBetweenBeforeAndNow != null
-      ? `${weightCmp.beforePreWeight + weightCmp.gapBetweenBeforeAndNow} kg`
+      ? `${(
+          weightCmp.beforePreWeight + weightCmp.gapBetweenBeforeAndNow
+        ).toFixed(1)} kg`
       : "데이터가 존재하지 않습니다.";
 
   useEffect(() => {
@@ -177,19 +179,37 @@ export default function RemarkPersonalPage() {
         />
       </div>
       <div className="remark__personal__graphs__container">
-        <div className="blood__history__container card-container">
-          <h3>혈압기록</h3>
+        <div className="card-container">
+          <h3
+            style={{
+              color: "#1e6774",
+            }}
+          >
+            혈압기록
+          </h3>
           {beforeTwoBps && <BloodHistoryChart data={beforeTwoBps} />}
         </div>
         <div className="content__box__list card-container">
-          <h3>현재회차</h3>
+          <h3
+            style={{
+              color: "#1e6774",
+            }}
+          >
+            현재회차
+          </h3>
           <ContentBox title={"내원 시 BP"} content={startBpStr} />
           <ContentBox title={"현재 BP"} content={lastBpStr} />
           <ContentBox title={"평균 몸무게에 비해"} content={avgGapStr} />
           <ContentBox title={"현재 몸무게"} content={currentWeightStr} />
         </div>
         <div className="weight__cmp__container card-container">
-          <h3>몸무게 비교</h3>
+          <h3
+            style={{
+              color: "#1e6774",
+            }}
+          >
+            몸무게 비교
+          </h3>
           {session && weightCmp ? (
             <WeightCMPChart
               session={(parseInt(session) - 1).toString()}
