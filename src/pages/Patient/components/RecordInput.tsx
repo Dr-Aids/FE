@@ -77,7 +77,7 @@ export default function RecordInput({
 
         onClose();
       } catch (err) {
-        console.log("에러메세지(혈압 노트 등록) : ", err);
+        console.log("에러메세지(혈압 노트 수정) : ", err);
       }
     } else {
       try {
@@ -113,6 +113,9 @@ export default function RecordInput({
           required // ← 빈 값이면 제출 안 되게
           disabled={isModify}
         >
+          <option value="" hidden>
+            선택하세요
+          </option>
           {!isModify ? (
             bps!.map((item) => (
               <option
