@@ -2,8 +2,10 @@ import Button from "../../components/ui/LoginButton";
 import "./SignupPage.css";
 import LoginLogo from "../../assets/login-logo.png";
 import RoleButton from "./components/RoleButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Modal";
+import HospitalInput from "./components/HospitalInput";
 
 interface FormErrors {
   email?: string;
@@ -21,9 +23,15 @@ interface FormData {
   hospital?: string;
 }
 
-const hospitalList = ["희승병원", "세종병원", "서울병원"];
+interface Hospitals {
+  id: string;
+  hospitalName: string;
+}
 
 export default function SignupPage() {
+  const [hospitalList, setHospitalList] = useState<Hospitals[]>([]);
+  const [openHospitalModal, setOpenHospitalModal] = useState<boolean>(false);
+
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -33,6 +41,17 @@ export default function SignupPage() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const nav = useNavigate();
+
+  const fetchHospitals = async () => {
+    try {
+      const res = await fetch("api/hospital/list");
+      if (!res.ok) throw new Error(`HTTP ERROR - ${res.status}`);
+      const data = await res.json();
+      setHospitalList(data);
+    } catch (err) {
+      console.log("에러(병원 목록 조회) :", err);
+    }
+  };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -104,6 +123,10 @@ export default function SignupPage() {
     fetchData();
   };
 
+  useEffect(() => {
+    fetchHospitals();
+  }, []);
+
   return (
     <div className="signup__container">
       <header className="signup__header">
@@ -174,17 +197,36 @@ export default function SignupPage() {
 
           {/*병원*/}
           <div className="select__container">
-            <p>병원</p>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div>병원</div>
+              <div
+                style={{
+                  fontSize: "0.8rem",
+                  cursor: "pointer",
+                }}
+                onClick={() => setOpenHospitalModal(true)}
+              >
+                병원 추가
+              </div>
+            </div>
             <select
               className="signup__selcet"
               value={formData.hospital}
               onChange={(e) => handleInputChange("hospital", e.target.value)}
             >
               <option value="" disabled hidden>
-                Hospital
+                병원 선택
               </option>
               {hospitalList.map((item) => (
-                <option key={`SignUp-Hospital-${item}`}>{item}</option>
+                <option key={`SignUp-Hospital-${item.id}`}>
+                  {item.hospitalName}
+                </option>
               ))}
             </select>
             {errors.hospital && <span>{errors.hospital}</span>}
@@ -192,6 +234,17 @@ export default function SignupPage() {
           <Button children={"Sign Up"} />
         </form>
       </main>
+
+      <Modal
+        title="병원 등록"
+        isOpen={openHospitalModal}
+        onClose={() => setOpenHospitalModal(false)}
+      >
+        <HospitalInput
+          onClose={() => setOpenHospitalModal(false)}
+          onHospitalAdded={fetchHospitals}
+        />
+      </Modal>
     </div>
   );
 }
