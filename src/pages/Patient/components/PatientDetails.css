@@ -1,18 +1,18 @@
 .patient-details__container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding: 35px;
+  gap: 3rem;
+  padding: 3.5rem;
 }
 
 .weight__wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  gap: 0.6rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 1rem;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .weight__header {
@@ -26,12 +26,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .patient__page__weight_list {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   justify-content: space-around;
 }
 
@@ -42,18 +42,18 @@
 
 .patient__page__graph_container {
   display: flex;
-  gap: 10px;
-  border: 1px solid gray;
-  padding: 30px 20px;
+  gap: 1rem;
+  border: 0.1rem solid gray;
+  padding: 3rem 2rem;
   justify-content: start;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 1.5rem;
 }
 
 .patient__page__bp__chart__container {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .patient__page__bp__chart__header {
@@ -64,12 +64,12 @@
 
 .patient__page__bp__buttons {
   display: flex;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .patient__bottom__container {
   display: flex;
   justify-content: start;
-  gap: 40px;
+  gap: 4rem;
   box-sizing: border-box;
 }
