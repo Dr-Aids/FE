@@ -16,9 +16,9 @@ export default function Record({ records, bps, session }: RecordProps) {
   const [openRecordModal, setOpenRecordModal] = useState<boolean>(false);
 
   return (
-    <div className="record__container">
+    <div className="record__container card-container">
       <div className="record__header">
-        <div className="record__title">Records</div>
+        <h3 className="record__title">Records</h3>
         <PlusButton onClick={() => setOpenRecordModal(true)} />
       </div>
       <div className="record__content">
