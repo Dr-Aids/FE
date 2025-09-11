@@ -2,14 +2,16 @@ import "./RemarkBasis.css";
 import BpIcon from "../../../assets/bp_icon.svg";
 import WeightIcon from "../../../assets/weight_icon.svg";
 
-export default function RemarkBasis({ isWeight }) {
+export default function RemarkBasis({ isWeight }: { isWeight: boolean }) {
   const title = isWeight ? (
     <div className="basis__title__weight">
-      <img src={WeightIcon} /> 몸무게 특이사항 기준
+      <img src={WeightIcon} />
+      <h4>몸무게 특이사항 기준</h4>
     </div>
   ) : (
     <div className="basis__title__bp">
-      <img src={BpIcon} /> 혈압 특이사항 기준
+      <img src={BpIcon} />
+      <h4>혈압 특이사항 기준</h4>
     </div>
   );
   const basis1 = isWeight
