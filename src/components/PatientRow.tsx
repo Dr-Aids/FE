@@ -47,7 +47,7 @@ export default function PatientRow({
   }, []);
   return (
     <div
-      className="patient__container"
+      className="patient__row__container"
       style={
         index % 2 === 0
           ? { backgroundColor: "#cbe8ee" }
