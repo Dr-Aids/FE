@@ -15,8 +15,9 @@
   box-sizing: border-box;
 }
 
-.content__box__list.card-container {
-  flex-basis: 25rem; /* Override for this specific card */
+.content__box__list {
+  flex-basis: 25rem;
+  max-width: 25rem;
 }
 
 .blood__history__container h3,
