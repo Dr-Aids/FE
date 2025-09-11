@@ -10,9 +10,7 @@
 }
 
 .record__title {
-  font-size: 1.6rem;
   color: #1e6774;
-  font-weight: 500;
 }
 
 .record__buttons {
@@ -24,10 +22,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  width: 39.5rem;
+
   min-height: 31.5rem;
   overflow-y: auto;
-  border: 0.1rem solid gray;
 
   border-radius: 7px;
   padding: 2rem;
