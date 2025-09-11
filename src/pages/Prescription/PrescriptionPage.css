@@ -1,12 +1,16 @@
-.prescription__page__container {
+.prescription__details__container {
   display: flex;
-  gap: 1rem;
-  background-color: white;
-  box-sizing: border-box;
-  padding: 5rem;
-  border: 1px solid #fffeff;
-  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 3.5rem;
+}
+
+.prescription__detail__graphs {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.prescription__detail__graphs {
+  display: flex;
 }
