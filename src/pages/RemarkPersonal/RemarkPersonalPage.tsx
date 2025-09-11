@@ -177,19 +177,19 @@ export default function RemarkPersonalPage() {
         />
       </div>
       <div className="remark__personal__graphs__container">
-        <div className="blood__history__container">
-          혈압기록
+        <div className="blood__history__container card-container">
+          <h3>혈압기록</h3>
           {beforeTwoBps && <BloodHistoryChart data={beforeTwoBps} />}
         </div>
-        <div className="content__box__list">
-          현재회차
+        <div className="content__box__list card-container">
+          <h3>현재회차</h3>
           <ContentBox title={"내원 시 BP"} content={startBpStr} />
           <ContentBox title={"현재 BP"} content={lastBpStr} />
           <ContentBox title={"평균 몸무게에 비해"} content={avgGapStr} />
           <ContentBox title={"현재 몸무게"} content={currentWeightStr} />
         </div>
-        <div className="weight__cmp__container">
-          몸무게 비교
+        <div className="weight__cmp__container card-container">
+          <h3>몸무게 비교</h3>
           {session && weightCmp ? (
             <WeightCMPChart
               session={(parseInt(session) - 1).toString()}
