@@ -6,6 +6,13 @@ import { useEffect, useState } from "react";
 import type { RemarkPatient } from "../../../types/RemarkTypes";
 import ruleNameToText from "../../../utils/ruleNameToText";
 
+const TypeCell = ({ type }: { type: string }) => (
+  <span className="type__container">
+    <img src={type === "weight" ? WeightIcon : BpIcon} alt={type} />
+    {type === "weight" ? "체중" : "혈압"}
+  </span>
+);
+
 export default function RemarkAllPatients() {
   const [remarkPatients, setRemarkPatients] = useState<RemarkPatient[]>([]);
 
@@ -30,44 +37,37 @@ export default function RemarkAllPatients() {
 
     fetchAllRemark();
   }, []);
+
   return (
     <div className="remark__all__container">
-      <table className="remark__table">
-        <thead className="remark__thead">
-          <tr>
-            <th scope="col">담당의</th>
-            <th scope="col">환자명</th>
-            <th scope="col">회차/날짜</th>
-            <th scope="col">종류</th>
-            <th scope="col">상태</th>
-          </tr>
-        </thead>
-        <tbody className="remark__tbody">
-          {remarkPatients.map((data) => (
-            <tr key={`remark-all-patients-${data.id}`}>
-              <td>{data.picname}</td>
-              <td>{data.patientName}</td>
-              <td>
-                {data.session}회차 / {data.date.replaceAll("-", ".")}
-              </td>
-              <td>
-                {data.type === "weight" ? (
-                  <span className="type__contina">
-                    <img src={WeightIcon} />
-                    체중
-                  </span>
-                ) : (
-                  <span>
-                    <img src={BpIcon} />
-                    혈압
-                  </span>
-                )}
-              </td>
-              <td>{ruleNameToText(data)}</td>
+      <div className="table-wrapper">
+        <table className="remark__table">
+          <thead className="remark__thead">
+            <tr>
+              <th scope="col">담당의</th>
+              <th scope="col">환자명</th>
+              <th scope="col">회차/날짜</th>
+              <th scope="col">종류</th>
+              <th scope="col">상태</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="remark__tbody">
+            {remarkPatients.map((data) => (
+              <tr key={`remark-all-patients-${data.id}`}>
+                <td>{data.picname}</td>
+                <td>{data.patientName}</td>
+                <td>
+                  {data.session}회차 / {data.date.replaceAll("-", ".")}
+                </td>
+                <td>
+                  <TypeCell type={data.type} />
+                </td>
+                <td>{ruleNameToText(data)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="remark__basis__container">
         <RemarkBasis isWeight={false} />
         <RemarkBasis isWeight={true} />

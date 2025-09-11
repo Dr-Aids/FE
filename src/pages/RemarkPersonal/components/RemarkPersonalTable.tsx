@@ -1,8 +1,19 @@
-import type { RemarkPersonal } from "../../../types/RemarkTypes";
+import type { RemarkPersonal, SpecialNote } from "../../../types/RemarkTypes";
 import "./RemarkPersonalTable.css";
 
 import ruleNameToText from "../../../utils/ruleNameToText";
 import IconDataCard from "./IconDataCard";
+
+const renderRemarks = (remarks: SpecialNote[] | undefined) => {
+  if (!remarks || remarks.length === 0) {
+    return "-";
+  }
+  return remarks.map((item, index) => (
+    <span key={index} className="remark-item">
+      {ruleNameToText(item)}
+    </span>
+  ));
+};
 
 export default function RemarkPersonalTable({
   nowRound,
@@ -11,6 +22,8 @@ export default function RemarkPersonalTable({
   nowRound: RemarkPersonal | null;
   prevRound: RemarkPersonal | null;
 }) {
+  console.log(nowRound);
+
   const nowWeightRemarks = nowRound?.specialNotes.filter(
     (item) => item.type === "weight"
   );
@@ -23,124 +36,64 @@ export default function RemarkPersonalTable({
   const prevBpRemarks = prevRound?.specialNotes.filter(
     (item) => item.type === "bloodPressure"
   );
+
   return (
     <div className="remark__personal__table__container">
       <table className="remark__personal__table">
         <thead>
           <tr>
             <th>구분</th>
-            <th scope="col">
-              {prevRound === null
-                ? "-"
-                : prevRound.session + `회차 / ` + prevRound.date}
-            </th>
-            <th scope="col">
-              {nowRound === null
-                ? "-"
-                : nowRound.session + `회차 / ` + nowRound.date}
+            {prevRound && (
+              <th>{`${prevRound.session}회차 / ${prevRound.date}`}</th>
+            )}
+            <th>
+              {nowRound ? `${nowRound.session}회차 / ${nowRound.date}` : "-"}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th scope="row">상태</th>
-            <td>
-              {prevRound === null ? (
-                "-"
-              ) : (
-                <span
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                  }}
-                >
+            {prevRound && (
+              <td>
+                <div className="status-icons">
                   <IconDataCard
                     type="bp"
-                    value={`${prevRound.sbp}/${prevRound.dbp}`}
+                    value={`${prevRound.sbp ?? "-"}/${prevRound.dbp ?? "-"}`}
                   />
                   <IconDataCard
                     type="weight"
-                    value={`${prevRound.preWeight}`}
+                    value={`${prevRound.preWeight ?? "-"}`}
                   />
-                </span>
-              )}
-            </td>
+                </div>
+              </td>
+            )}
             <td>
-              {nowRound === null ? (
-                "-"
-              ) : (
-                <span
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                  }}
-                >
+              {nowRound ? (
+                <div className="status-icons">
                   <IconDataCard
                     type="bp"
-                    value={`${nowRound.sbp}/${nowRound.dbp}`}
+                    value={`${nowRound.sbp ?? "-"}/${nowRound.dbp ?? "-"}`}
                   />
-                  <IconDataCard type="weight" value={`${nowRound.preWeight}`} />
-                </span>
+                  <IconDataCard
+                    type="weight"
+                    value={`${nowRound.preWeight ?? "-"}`}
+                  />
+                </div>
+              ) : (
+                "-"
               )}
             </td>
           </tr>
           <tr>
             <th scope="row">몸무게</th>
-            <td>
-              {prevRound === null
-                ? "-"
-                : prevWeightRemarks!.length === 0
-                ? "-"
-                : prevWeightRemarks!.map((item) => (
-                    <span>
-                      {ruleNameToText(item)}
-                      <br />
-                    </span>
-                  ))}
-            </td>
-            <td>
-              {nowRound === null
-                ? "-"
-                : nowWeightRemarks!.length === 0
-                ? "-"
-                : nowWeightRemarks!.map((item) => (
-                    <span>
-                      {ruleNameToText(item)}
-                      <br />
-                    </span>
-                  ))}
-            </td>
+            {prevRound && <td>{renderRemarks(prevWeightRemarks)}</td>}
+            <td>{renderRemarks(nowWeightRemarks)}</td>
           </tr>
           <tr>
             <th scope="row">혈압</th>
-            <td>
-              {prevRound === null
-                ? "-"
-                : prevBpRemarks!.length === 0
-                ? "-"
-                : prevBpRemarks!.map((item) => (
-                    <span>
-                      {ruleNameToText(item)}
-                      <br />
-                    </span>
-                  ))}
-            </td>
-            <td>
-              {nowRound === null
-                ? "-"
-                : nowBpRemarks!.length === 0
-                ? "-"
-                : nowBpRemarks!.map((item) => (
-                    <span>
-                      {ruleNameToText(item)}
-                      <br />
-                    </span>
-                  ))}
-            </td>
+            {prevRound && <td>{renderRemarks(prevBpRemarks)}</td>}
+            <td>{renderRemarks(nowBpRemarks)}</td>
           </tr>
         </tbody>
       </table>
