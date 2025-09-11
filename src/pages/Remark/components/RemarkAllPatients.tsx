@@ -1,4 +1,5 @@
 import "./RemarkAllPatients.css";
+
 import BpIcon from "../../../assets/bp_icon.svg";
 import WeightIcon from "../../../assets/weight_icon.svg";
 import RemarkBasis from "./RemarkBasis";
@@ -40,7 +41,7 @@ export default function RemarkAllPatients() {
 
   return (
     <div className="remark__all__container">
-      <div className="table-wrapper">
+      <div className="card-container">
         <table className="remark__table">
           <thead className="remark__thead">
             <tr>
