@@ -1,7 +1,7 @@
 .remark__personal__table__container {
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 0.8rem;
+  padding: 1.6rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -15,7 +15,7 @@
   color: #4a5568; /* Tailwind's gray-600 */
   font-weight: 600;
   font-size: 0.875rem;
-  padding: 12px 16px;
+  padding: 1.2rem 1.6prem;
   border-bottom: 1px solid #e2e8f0; /* Tailwind's gray-200 */
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -23,12 +23,12 @@
 
 .remark__personal__table th,
 .remark__personal__table td {
-  padding: 16px;
+  padding: 1.6rem;
   vertical-align: middle;
 }
 
 .remark__personal__table tbody tr {
-  border-bottom: 1px solid #f7fafc; /* Tailwind's gray-100 */
+  border-bottom: 0.1rem solid #f7fafc; /* Tailwind's gray-100 */
 }
 
 .remark__personal__table tbody tr:last-child {
@@ -38,12 +38,12 @@
 .remark__personal__table tbody th {
   color: #2d3748; /* Tailwind's gray-800 */
   font-weight: 500;
-  text-align: left;
+  text-align: center;
 }
 
 .remark-item {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 0.4rem;
   color: #718096; /* Tailwind's gray-500 */
 }
 
@@ -51,5 +51,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 1.6rem;
 }
