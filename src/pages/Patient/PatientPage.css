@@ -1,32 +1,75 @@
-/* 흰 카드 컨테이너 */
-.patient__page__container {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 36rem; /* 메인 + 오른쪽 패널 */
-  gap: 2.4rem;
-
-  background-color: #fff;
-  padding: 3.2rem; /* 내부 여백 */
-  border: 1px solid #fffeff;
-  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-
-  width: 100%;
-  height: auto; /* 내용 높이에 맞춤 */
-  box-sizing: border-box;
-  overflow: hidden; /* 살짝 넘침 방지(필요 시) */
-}
-
-.patient__page__main__content {
-  flex: 1; /* 남은 공간 채우기 */
-  overflow-x: auto; /* 가로 스크롤 허용 */
-  overflow-y: hidden; /* 세로 스크롤 방지 */
+.patient-details__container {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
-  padding-bottom: 0.8rem; /* 스크롤바와 콘텐츠 간격 */
+  gap: 3rem;
+  padding: 3.5rem;
 }
 
-/* 내부 요소가 가로로 잘리지 않게 */
-.patient__page__main__content > * {
-  flex-shrink: 0; /* 줄어들지 않음 */
+.weight__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  padding: 2rem;
+}
+
+.weight__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weight__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.patient__page__weight_list {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.patient__page__graph {
+  display: flex;
+  flex-direction: column;
+}
+
+.patient__page__graph_container {
+  display: flex;
+  padding: 1rem 1rem;
+  justify-content: start;
+  box-sizing: border-box;
+  border-radius: 1.5rem;
+  overflow-x: auto;
+}
+
+.patient__page__bp__chart__container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.patient__page__bp__chart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.patient__page__bp__buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.patient__bottom__container {
+  display: flex;
+  justify-content: start;
+  gap: 4rem;
+  box-sizing: border-box;
+  flex-wrap: wrap;
 }
