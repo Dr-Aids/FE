@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import BloodLineChart from "../../../components/BloodLineChart";
 import type {
   RemarkBps,
   RemarkPersonal,
@@ -10,6 +9,13 @@ import "./RemarkPersonalDetails.css";
 import RemarkPersonalTable from "./RemarkPersonalTable";
 import WeightCMPChart from "./WeightCMPChart";
 import { useParams } from "react-router-dom";
+import type { Bp } from "../../../types/PatientDetailTypes";
+import BloodHistoryChart from "./BloodHistoryChart";
+
+export interface TwoBpsItem {
+  session: string;
+  bloodPressureDto: Bp[];
+}
 
 export default function RemarkPersonalDetails() {
   const { patientId, session } = useParams<{
@@ -22,6 +28,7 @@ export default function RemarkPersonalDetails() {
     useState<RemarkPersonal | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [bps, setBps] = useState<RemarkBps | null>(null);
+  const [beforeTwoBps, setBeforeTwoBps] = useState<TwoBpsItem[] | null>(null);
   const [weightCmp, setWeightCmp] = useState<RemarkWeightCmp | null>(null);
 
   const startBpStr =
@@ -126,28 +133,35 @@ export default function RemarkPersonalDetails() {
       }
     };
 
-    // const fetchBp = async () => {
-    //   try {
-    //     if (!accessToken) throw new Error("잘못된 접근입니다");
+    const fetchTwoBps = async () => {
+      try {
+        if (!accessToken) throw new Error("잘못된 접근입니다");
 
-    //     const response = await fetch(
-    //       `/api/session/bps?patientId=${patientId}&session=${session}`,
-    //       {
-    //         headers: { Authorization: `Bearer ${accessToken}` },
-    //       }
-    //     );
+        const response = await fetch(
+          `/api/blood-pressure/special-note/recent?patientId=${patientId}&session=${session}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
 
-    //     if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
-    //     const data = await response.json();
-    //     // State에 값 넣어주는 지점
-    //     setBp(data);
-    //   } catch (err) {
-    //     console.log("에러메세지(fetchBp) : ", err);
-    //   }
-    // };
+        const data: TwoBpsItem[] = await response.json();
+        const ordedData = data.sort(
+          (a, b) => Number(a.session) - Number(b.session)
+        );
+        setBeforeTwoBps(ordedData);
+      } catch (err) {
+        console.log("에러메세지(fetchBp) : ", err);
+      }
+    };
 
-    Promise.all([fetchPersonalRemark(), fetchBps(), fetchWeightCmp()]);
+    Promise.all([
+      fetchPersonalRemark(),
+      fetchBps(),
+      fetchWeightCmp(),
+      fetchTwoBps(),
+    ]);
   }, [patientId, session]);
 
   if (loading) return <span>로딩중...</span>;
@@ -165,7 +179,7 @@ export default function RemarkPersonalDetails() {
       <div className="remark__personal__graphs__container">
         <div className="blood__history__container">
           혈압기록
-          {/* <BloodLineChart data={nowRound.bloodPressure} /> */}
+          {beforeTwoBps && <BloodHistoryChart data={beforeTwoBps} />}
         </div>
         <div className="content__box__list">
           현재회차
