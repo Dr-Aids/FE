@@ -10,6 +10,12 @@ export interface RemarkPatient {
   value: number;
 }
 
+export interface SpecialNote {
+  id: number;
+  ruleName: string;
+  type: "weight" | "bloodPressure";
+  value: number;
+}
 // 특이사항 - 개인
 export interface RemarkPersonal {
   date: "string";
@@ -17,12 +23,7 @@ export interface RemarkPersonal {
   preWeight: number;
   sbp: number;
   session: number;
-  specialNotes: {
-    id: number;
-    ruleName: string;
-    type: "weight" | "bloodPressure";
-    value: number;
-  }[];
+  specialNotes: SpecialNote[];
 }
 
 export interface RemarkBps {
