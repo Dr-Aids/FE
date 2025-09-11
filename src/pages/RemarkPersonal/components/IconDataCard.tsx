@@ -20,12 +20,26 @@ export default function IconDataCard({
         <img
           src={type === "bp" ? BpIcon : WeightIcon}
           alt={`${type} 아이콘`}
-          width={20}
-          height={20}
+          width={30}
+          height={30}
         />
-        {type === "bp" ? "시작혈압" : "몸무게"}
       </div>
-      <span>{value}</span>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "8px",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span>{type === "bp" ? "시작혈압" : "몸무게"}</span>
+        <h3
+          style={{
+            color: "black",
+          }}
+        >{`${value}${type !== "bp" ? "kg" : ""}`}</h3>
+      </div>
     </div>
   );
 }
