@@ -11,6 +11,8 @@ import WeightCMPChart from "./components/WeightCMPChart";
 import { useParams } from "react-router-dom";
 import type { Bp } from "../../types/PatientDetailTypes";
 import BloodHistoryChart from "./components/BloodHistoryChart";
+import type { ResponseStatus } from "../../types/ResponseStatus";
+import EmptyDataState from "../../components/EmptyDataState";
 
 export interface TwoBpsItem {
   session: string;
@@ -28,7 +30,7 @@ export default function RemarkPersonalPage() {
     useState<RemarkPersonal | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [bps, setBps] = useState<RemarkBps | null>(null);
-  const [beforeTwoBps, setBeforeTwoBps] = useState<TwoBpsItem[] | null>(null);
+  const [beforeTwoBps, setBeforeTwoBps] = useState<TwoBpsItem[]>();
   const [weightCmp, setWeightCmp] = useState<RemarkWeightCmp | null>(null);
 
   const startBpStr =
@@ -108,7 +110,12 @@ export default function RemarkPersonalPage() {
           }
         );
 
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+        if (!response.ok) {
+          const data: ResponseStatus = await response.json();
+          setBps(null);
+          if (data.message === "BLOOD_PRESSURE_NOT_FOUND") return;
+          throw new Error(`HTTP Error - ${response.status}`);
+        }
         const data = await response.json();
         setBps(data);
       } catch (err) {
@@ -216,7 +223,11 @@ export default function RemarkPersonalPage() {
               {...weightCmp}
             />
           ) : (
-            <div>데이터가 존재하지 않습니다.</div>
+            <EmptyDataState
+              type="weight"
+              title="체중 데이터가 없습니다"
+              description="환자의 체중 측정 기록이 없습니다. 첫 번째 측정을 진행해주세요."
+            />
           )}
         </div>
       </div>
