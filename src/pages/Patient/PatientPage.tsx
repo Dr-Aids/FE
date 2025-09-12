@@ -21,6 +21,7 @@ import { formatYMDTHM } from "../../utils/formatYMDTHM";
 import PlusButton from "../../components/ui/PlusButton";
 import BpInput from "./components/BpInput";
 import BloodLineChart from "./components/Charts/BloodLineChart";
+import EmptyDataState from "../../components/EmptyDataState";
 
 export default function PatientPage() {
   const { patientId, session } = useParams<{
@@ -30,117 +31,124 @@ export default function PatientPage() {
 
   if (session?.toString() === "0") return <div>회차가 존재하지 않습니다.</div>;
 
-  const [weightList, setWeightList] = useState<WeightListItem | null>();
+  const [weightList, setWeightList] = useState<WeightListItem | null>(null);
   const [fiveSessionWeightList, setFiveSessionWeightList] = useState<
-    FiveSessionWeightList[] | null
-  >();
-  const [records, setRecords] = useState<BpNote[] | null>([]);
-  const [bp, setBp] = useState<Bp[] | null>();
+    FiveSessionWeightList[]
+  >([]);
+  const [records, setRecords] = useState<BpNote[]>([]);
+  const [bp, setBp] = useState<Bp[]>([]);
   const [openWeightModal, setOpenWeightModal] = useState<boolean>(false);
   const [openWeightAddModal, setOpenWeightAddModal] = useState<boolean>(false);
 
   const [openBpModal, setOpenBpModal] = useState<boolean>(false);
   const [openBpModifyModal, setOpenBpModifyModal] = useState<boolean>(false);
 
+  const accessToken = localStorage.getItem("accessToken");
+  // 환자목록 fetching하는 함수
+  const fetchWeight = async () => {
+    try {
+      if (!accessToken) throw new Error("잘못된 접근입니다");
+
+      const response = await fetch(
+        `/api/session/weight?patientId=${patientId}&session=${session}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      const data = await response.json();
+      if (data.code === "SESSION_NOT_FOUND") setWeightList(null);
+      if (!response.ok) {
+        setWeightList(null);
+        throw new Error(`HTTP Error - ${response.status}`);
+      }
+
+      // State에 값 넣어주는 지점
+      setWeightList(data[0]);
+    } catch (err) {
+      console.log("에러메세지(fetchWeight) : ", err);
+    }
+  };
+  const fetchBp = async () => {
+    try {
+      if (!accessToken) throw new Error("잘못된 접근입니다");
+
+      const response = await fetch(
+        `/api/session/bps?patientId=${patientId}&session=${session}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      const data = await response.json();
+      if (data.code === "SESSION_NOT_FOUND") setBp([]);
+      if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+
+      // State에 값 넣어주는 지점
+      const newData = data.map((item) => ({
+        ...item,
+        time: formatYMDTHM(item.time).slice(9),
+      }));
+      setBp(newData);
+    } catch (err) {
+      console.log("에러메세지(fetchBp) : ", err);
+    }
+  };
+
+  const fetchBpNotes = async () => {
+    try {
+      if (!accessToken) throw new Error("잘못된 접근입니다");
+
+      const response = await fetch(
+        `/api/session/bpnotes?patientId=${patientId}&session=${session}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      const data = await response.json();
+      if (data.code === "SESSION_NOT_FOUND") setRecords([]);
+      if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+
+      const newData = data
+        .filter((item) => item.author !== null)
+        .map((item) => ({
+          ...item,
+          time: formatYMDTHM(item.time).slice(9),
+        }));
+      setRecords(newData);
+
+      // State에 값 넣어주는 지점
+    } catch (err) {
+      console.log("에러메세지(fetchBp) : ", err);
+    }
+  };
+
+  const fetchFiveSessionWeight = async () => {
+    try {
+      if (!accessToken) throw new Error("잘못된 접근입니다");
+
+      const response = await fetch(
+        `/api/session/weights?patientId=${patientId}&session=${session}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      const data = await response.json();
+      if (data.code === "SESSION_NOT_FOUND") setFiveSessionWeightList([null]);
+      if (!response.ok) {
+        setFiveSessionWeightList([null]);
+        throw new Error(`HTTP Error - ${response.status}`);
+      }
+
+      // State에 값 넣어주는 지점
+      setFiveSessionWeightList(data);
+    } catch (err) {
+      console.log("에러메세지(fetchFiveSessionWeight) : ", err);
+    }
+  };
+
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    // 환자목록 fetching하는 함수
-    const fetchWeight = async () => {
-      try {
-        if (!accessToken) throw new Error("잘못된 접근입니다");
-
-        const response = await fetch(
-          `/api/session/weight?patientId=${patientId}&session=${session}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-
-        const data = await response.json();
-        if (data.code === "SESSION_NOT_FOUND") setWeightList(null);
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-
-        // State에 값 넣어주는 지점
-        setWeightList(data[0]);
-      } catch (err) {
-        console.log("에러메세지(fetchWeight) : ", err);
-      }
-    };
-
-    const fetchFiveSessionWeight = async () => {
-      try {
-        if (!accessToken) throw new Error("잘못된 접근입니다");
-
-        const response = await fetch(
-          `/api/session/weights?patientId=${patientId}&session=${session}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-
-        const data = await response.json();
-        if (data.code === "SESSION_NOT_FOUND") setFiveSessionWeightList(null);
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-
-        // State에 값 넣어주는 지점
-        setFiveSessionWeightList(data);
-      } catch (err) {
-        console.log("에러메세지(fetchFiveSessionWeight) : ", err);
-      }
-    };
-
-    const fetchBp = async () => {
-      try {
-        if (!accessToken) throw new Error("잘못된 접근입니다");
-
-        const response = await fetch(
-          `/api/session/bps?patientId=${patientId}&session=${session}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-
-        const data = await response.json();
-        if (data.code === "SESSION_NOT_FOUND") setBp(null);
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-
-        // State에 값 넣어주는 지점
-        const newData = data.map((item) => ({
-          ...item,
-          time: formatYMDTHM(item.time).slice(9),
-        }));
-        setBp(newData);
-      } catch (err) {
-        console.log("에러메세지(fetchBp) : ", err);
-      }
-    };
-
-    const fetchBpNotes = async () => {
-      try {
-        if (!accessToken) throw new Error("잘못된 접근입니다");
-
-        const response = await fetch(
-          `/api/session/bpnotes?patientId=${patientId}&session=${session}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        const data = await response.json();
-        if (data.code === "SESSION_NOT_FOUND") setRecords(null);
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-
-        const newData = data.map((item) => ({
-          ...item,
-          time: formatYMDTHM(item.time).slice(9),
-        }));
-        setRecords(newData);
-
-        // State에 값 넣어주는 지점
-      } catch (err) {
-        console.log("에러메세지(fetchBp) : ", err);
-      }
-    };
-
     // 실제 호출 부분
     Promise.all([
       fetchWeight(),
@@ -164,8 +172,9 @@ export default function PatientPage() {
         }
       );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-      const data = await res.json();
-      console.log(data);
+
+      fetchWeight();
+      fetchFiveSessionWeight();
     } catch (err) {
       console.log("에러메세지(몸무게 삭제) : ", err);
     }
@@ -173,21 +182,30 @@ export default function PatientPage() {
 
   return (
     <div className="patient-details__container">
-      {weightList ? (
-        <div className="card-container ">
-          <span className="weight__header">
-            <h3
-              style={{
-                color: "#1e6774",
-              }}
-            >
-              현재 회차 체중 정보
-            </h3>
-            <div className="weight__buttons">
-              <EditButton onClick={() => setOpenWeightModal(true)} />
-              <TrashButton onClick={handleClickDeleteWeight} />
-            </div>
-          </span>
+      <div className="card-container ">
+        <span className="weight__header">
+          <h3
+            style={{
+              color: "#1e6774",
+            }}
+          >
+            현재 회차 체중 정보
+          </h3>
+
+          <div className="weight__buttons">
+            {weightList ? (
+              <>
+                <EditButton onClick={() => setOpenWeightModal(true)} />
+                <TrashButton onClick={handleClickDeleteWeight} />
+              </>
+            ) : (
+              ""
+            )}
+
+            {/* <EditButton onClick={() => setOpenWeightAddModal(true)} /> */}
+          </div>
+        </span>
+        {weightList ? (
           <div className="patient__page__weight_list">
             <WeightBox title="Pre-Weight" weight={weightList.preWeight} />
             <WeightBox
@@ -198,13 +216,18 @@ export default function PatientPage() {
             <WeightBox title="Target UF" weight={weightList?.targetUF} />
             <WeightBox title="Post-Weight" weight={weightList?.postWeight} />
           </div>
-        </div>
-      ) : (
-        <div>
-          몸무게 불러오는중...
-          <EditButton onClick={() => setOpenWeightAddModal(true)} />
-        </div>
-      )}
+        ) : (
+          <>
+            <EmptyDataState
+              type="weight"
+              title="체중 데이터가 없습니다"
+              description="환자의 체중 측정 기록이 없습니다. 첫 번째 측정을 진행해주세요."
+              actionText="추가하기"
+              onAction={() => setOpenWeightAddModal(true)}
+            />
+          </>
+        )}
+      </div>
 
       <div className="card-container">
         <h3
@@ -214,13 +237,20 @@ export default function PatientPage() {
         >
           최근 5회차 체중 정보
         </h3>
-        {fiveSessionWeightList ? (
+        {fiveSessionWeightList.includes(null) &&
+        fiveSessionWeightList.length === 1 ? (
+          <>
+            <EmptyDataState
+              type="weight"
+              title="체중 데이터가 없습니다"
+              description=""
+            />
+          </>
+        ) : (
           <div className="patient__page__graph_container">
             <BarGraph data={fiveSessionWeightList} />
             <PRELineChart data={fiveSessionWeightList} />
           </div>
-        ) : (
-          <div>이전 회차 몸무게 불러오는중...</div>
         )}
       </div>
 
@@ -235,17 +265,37 @@ export default function PatientPage() {
               혈압
             </h3>
             <div className="patient__page__bp__buttons">
-              <PlusButton onClick={() => setOpenBpModal(true)} />
-              <EditButton onClick={() => setOpenBpModifyModal(true)} />
+              {bp?.length === 0 ? (
+                ""
+              ) : (
+                <>
+                  <PlusButton onClick={() => setOpenBpModal(true)} />
+                  <EditButton onClick={() => setOpenBpModifyModal(true)} />
+                </>
+              )}
             </div>
           </div>
-          {bp ? (
-            <BloodLineChart data={bp} />
+          {bp?.length === 0 ? (
+            <>
+              <EmptyDataState
+                type="bp"
+                title="혈압 데이터가 없습니다"
+                description="환자의 혈압 기록이 없습니다. 첫 번째 측정을 진행해주세요."
+                onAction={() => setOpenBpModal(true)}
+                actionText="추가하기"
+              />
+            </>
           ) : (
-            <div>혈압 데이터 불러오는중...</div>
+            <BloodLineChart data={bp} />
           )}
         </div>
-        <Record records={records} bps={bp!} session={session!} />
+
+        <Record
+          records={records!}
+          bps={bp!}
+          session={session!}
+          onChangedRecord={fetchBpNotes}
+        />
       </div>
 
       <Modal
@@ -258,6 +308,10 @@ export default function PatientPage() {
           session={session!}
           weightList={weightList!}
           onClose={() => setOpenWeightModal(false)}
+          onChangedWeight={() => {
+            fetchWeight();
+            fetchFiveSessionWeight();
+          }}
         />
       </Modal>
 
@@ -270,6 +324,10 @@ export default function PatientPage() {
           patientId={patientId!}
           session={session!}
           onClose={() => setOpenWeightAddModal(false)}
+          onChangedWeight={() => {
+            fetchWeight();
+            fetchFiveSessionWeight();
+          }}
         />
       </Modal>
 
@@ -282,6 +340,7 @@ export default function PatientPage() {
           patientId={patientId!}
           session={session!}
           onClose={() => setOpenBpModal(false)}
+          onChangedBp={fetchBp}
         />
       </Modal>
 
@@ -295,6 +354,7 @@ export default function PatientPage() {
           session={session!}
           bps={bp!}
           onClose={() => setOpenBpModifyModal(false)}
+          onChangedBp={fetchBp}
         />
       </Modal>
     </div>
