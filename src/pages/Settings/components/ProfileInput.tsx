@@ -8,6 +8,7 @@ interface ProfileInputProsp {
 }
 export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
   const [formData, setFormData] = useState<User>(user);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -40,6 +41,7 @@ export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
 
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoading(true);
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
@@ -55,8 +57,13 @@ export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
         }),
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      onClose();
+      window.location.reload();
     } catch (err) {
       console.log("에러메세지(회원정보 수정) : ", err);
+      alert("정보 수정에 실패했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,7 +97,9 @@ export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">수정</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "수정 중..." : "수정"}
+        </button>
       </div>
     </form>
   );

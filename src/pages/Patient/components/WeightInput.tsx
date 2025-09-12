@@ -7,6 +7,7 @@ interface WeightInputProps {
   onClose: () => void;
   patientId: string;
   session: string;
+  onChangedWeight: () => void;
 }
 
 type WeightFormData = Omit<
@@ -22,6 +23,7 @@ export default function WeightInput({
   weightList,
   patientId,
   session,
+  onChangedWeight,
 }: WeightInputProps) {
   const [formData, setFormData] = useState<WeightFormData>({
     patientId: patientId,
@@ -32,6 +34,8 @@ export default function WeightInput({
     preWeight: weightList?.preWeight ?? null,
     targetUF: weightList?.targetUF ?? null,
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.id;
@@ -46,6 +50,7 @@ export default function WeightInput({
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoading(true);
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
@@ -58,8 +63,14 @@ export default function WeightInput({
         body: JSON.stringify({ ...formData }),
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+      // 요청 성공시 최신 데이터 다시 렌더링 및 모달 닫기
+      onChangedWeight();
+      onClose();
     } catch (err) {
       console.log("에러메세지(체중정보 수정/추가) : ", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,7 +130,9 @@ export default function WeightInput({
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">{weightList ? "수정" : "추가"}</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "추가 중..." : weightList ? "수정" : "추가"}
+        </button>
       </div>
     </form>
   );
