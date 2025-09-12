@@ -2,7 +2,13 @@ import type { ReactNode } from "react";
 import "./ProfileRow.css";
 import { Mail, Building2, UserCheck } from "lucide-react";
 
-export default function ProfileRow({ title, content }) {
+export default function ProfileRow({
+  title,
+  content,
+}: {
+  title: string;
+  content: string;
+}) {
   let icon: ReactNode = null;
   let bg = null;
   if (title === "직책") {
@@ -23,8 +29,8 @@ export default function ProfileRow({ title, content }) {
       >
         {icon}
       </span>
-      <span className="profile-row-title">{title}</span>
-      <span>{content}</span>
+      <h3 className="profile-row-title">{title}</h3>
+      <h3>{content}</h3>
     </div>
   );
 }
