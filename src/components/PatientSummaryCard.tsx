@@ -8,19 +8,7 @@ import EditButton from "./ui/EditButton";
 import TrashButton from "./ui/TrashButton";
 import SessionAdd from "./SessionAdd";
 import PlusButton from "./ui/PlusButton";
-
-const toDate = (s: string) => {
-  const [y, m, d] = s.split("-");
-  return new Date(Number(y), Number(m) - 1, d ? Number(d) : 1);
-};
-
-// order: 'asc' | 'desc'
-const sortISOStrings = (arr: string[], order: "asc" | "desc" = "desc") =>
-  [...arr].sort((a, b) =>
-    order === "asc"
-      ? toDate(a).getTime() - toDate(b).getTime()
-      : toDate(b).getTime() - toDate(a).getTime()
-  );
+import { sortISOStrings } from "../utils/sortISOStrings";
 
 type SessionItem = {
   session: number;
@@ -60,45 +48,67 @@ export default function PatientSummaryCard() {
     ? `${patientId}/${session}`
     : `${patientId}/${date ?? prescriptionDates[0]}`;
 
+  const token = localStorage.getItem("accessToken");
+
+  const fetchPatientSummary = async () => {
+    try {
+      if (!token) throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/patient/info/${patientId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data = await res.json();
+      setPatient(data);
+    } catch (err) {
+      console.log("에러메세지(fetchPatientSummary) : ", err);
+    }
+  };
+
+  const fetchPrescriptionDates = async () => {
+    try {
+      if (!token) throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(
+        `/api/prescriptions/dates?patientId=${patientId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data: string[] = await res.json();
+
+      // 중복 제거 후 최신순 정렬(원하면 'asc'로 변경)
+      const uniq = Array.from(new Set(data));
+      setPrescriptionDates(sortISOStrings(uniq, "asc"));
+    } catch (err) {
+      console.log("에러메세지(fetchPrescriptionDates) : ", err);
+    }
+  };
+
+  const fetchAllSession = async () => {
+    try {
+      if (!token) throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/session?patientId=${patientId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.status === 404) {
+          setSessions(null);
+          if (data.code === "SESSION_NOT_FOUND") return;
+          throw new Error(`HTTP Error - ${res.status}`);
+        }
+      }
+
+      setSessions(data);
+    } catch (err) {
+      console.log("에러메세지(fetchAllSession) : ", err);
+    }
+  };
+
   /** 1) 환자 정보는 항상 조회 */
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    const fetchPatientSummary = async () => {
-      try {
-        if (!token)
-          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch(`/api/patient/info/${patientId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-        const data = await res.json();
-        setPatient(data);
-      } catch (err) {
-        console.log("에러메세지(fetchPatientSummary) : ", err);
-      }
-    };
-
-    const fetchPrescriptionDates = async () => {
-      try {
-        if (!token)
-          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch(
-          `/api/prescriptions/dates?patientId=${patientId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-        const data: string[] = await res.json();
-
-        // 중복 제거 후 최신순 정렬(원하면 'asc'로 변경)
-        const uniq = Array.from(new Set(data));
-        setPrescriptionDates(sortISOStrings(uniq, "asc"));
-      } catch (err) {
-        console.log("에러메세지(fetchPrescriptionDates) : ", err);
-      }
-    };
-
     if (patientId) fetchPatientSummary();
     fetchPrescriptionDates();
   }, [patientId]);
@@ -110,29 +120,7 @@ export default function PatientSummaryCard() {
       setSessions(null);
       return;
     }
-    const token = localStorage.getItem("accessToken");
-    const fetchAllSession = async () => {
-      try {
-        if (!token)
-          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch(`/api/session?patientId=${patientId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
 
-        const data = await res.json();
-
-        if (!res.ok) {
-          if (data.status === 404) {
-            setSessions(null);
-            throw new Error(`HTTP Error - ${res.status}`);
-          }
-        }
-
-        setSessions(data);
-      } catch (err) {
-        console.log("에러메세지(fetchAllSession) : ", err);
-      }
-    };
     fetchAllSession();
   }, [patientId, session]);
 
@@ -153,7 +141,6 @@ export default function PatientSummaryCard() {
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
       const data = await res.json();
-      console.log(data.message);
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
     }
@@ -194,10 +181,12 @@ export default function PatientSummaryCard() {
             {patient.age}세 / {patient.birth}
           </div>
           |<div>{patient.disease}</div>|<div>담당의사 : {patient.pic}</div>
-          <div className="patient__info__buttons">
-            <EditButton onClick={() => setOpenPatientModify(true)} />
-            <TrashButton onClick={handleClickDeletePatient} />
-          </div>
+          {pageName === "patient" && (
+            <div className="patient__info__buttons">
+              <EditButton onClick={() => setOpenPatientModify(true)} />
+              <TrashButton onClick={handleClickDeletePatient} />
+            </div>
+          )}
         </div>
 
         <div className="header__session__container">
@@ -207,8 +196,9 @@ export default function PatientSummaryCard() {
               onChange={handleChangeOption}
               value={selectedValue}
             >
-              {session && sessions
-                ? // session 모드: 회차 목록
+              {session ? (
+                // session 모드: 회차 목록
+                sessions ? (
                   sessions.map((item) => (
                     <option
                       key={`${patient.id}/${item.session}`}
@@ -217,19 +207,30 @@ export default function PatientSummaryCard() {
                       {item.session}회차 / {item.date}
                     </option>
                   ))
-                : // month/date 모드: 월(또는 날짜) 목록
-                  prescriptionDates.map((m) => (
-                    <option
-                      key={`${patient.id}/${m}`}
-                      value={`${patient.id}/${m}`}
-                    >
-                      {m.slice(0, 7)}월
-                    </option>
-                  ))}
+                ) : (
+                  <option value="" disabled>
+                    회차를 추가해주세요
+                  </option>
+                )
+              ) : (
+                // month/date 모드: 월(또는 날짜) 목록
+                prescriptionDates.map((m) => (
+                  <option
+                    key={`${patient.id}/${m}`}
+                    value={`${patient.id}/${m}`}
+                  >
+                    {m.slice(0, 7)}월
+                  </option>
+                ))
+              )}
             </select>
           </form>
-          <PlusButton onClick={() => setOpenAddSessionModal(true)} />
-          <TrashButton onClick={handleClickDeleteSession} />
+          {pageName === "patient" && (
+            <>
+              <PlusButton onClick={() => setOpenAddSessionModal(true)} />
+              <TrashButton onClick={handleClickDeleteSession} />
+            </>
+          )}
         </div>
       </div>
       <Modal
@@ -240,6 +241,7 @@ export default function PatientSummaryCard() {
         <PatientInfoInput
           patient={patient}
           onClose={() => setOpenPatientModify(false)}
+          onPatientModified={fetchPatientSummary}
         />
       </Modal>
       <Modal
@@ -250,6 +252,7 @@ export default function PatientSummaryCard() {
         <SessionAdd
           patientId={patientId!}
           onClose={() => setOpenAddSessionModal(false)}
+          onSessionAdded={fetchAllSession}
         />
       </Modal>
     </div>
