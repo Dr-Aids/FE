@@ -4,6 +4,8 @@
   gap: 2rem;
   border-left: 0.1rem solid black;
   padding-left: 3rem;
+  min-width: 26rem;
+  max-width: 28rem;
 }
 
 .patient-list {
