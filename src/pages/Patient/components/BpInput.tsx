@@ -7,6 +7,7 @@ interface BpInputProps {
   session: string;
   bps?: Bp[];
   onClose: () => void;
+  onChangedBp: () => void;
 }
 
 //bps가 존재하지 않으면 등록, 존재하면 수정
@@ -27,6 +28,7 @@ export default function BpInput({
   session,
   bps,
   onClose,
+  onChangedBp,
 }: BpInputProps) {
   const [formData, setFormData] = useState<BpFormData>(
     bps == null
@@ -46,6 +48,9 @@ export default function BpInput({
           measurementTime: "",
         }
   );
+
+  const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
+  const [isLoadingModify, setIsLoadingModify] = useState<boolean>(false);
 
   function todayAt(timeStr: string) {
     const [hh = "0", mm = "0", ss = "0"] = timeStr.split(":");
@@ -77,6 +82,7 @@ export default function BpInput({
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoadingModify(true);
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
@@ -92,15 +98,21 @@ export default function BpInput({
         }),
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+      onChangedBp();
+      onClose();
       //   const data = await res.json();
     } catch (err) {
       console.log("에러메세지(혈액 정보 등록) : ", err);
+    } finally {
+      setIsLoadingModify(false);
     }
   };
 
   const handleClickDeleteBp = async () => {
     if (!confirm("정말로 삭제하시겠습니까?")) return;
     const accessToken = localStorage.getItem("accessToken");
+    setIsLoadingDelete(true);
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
@@ -111,10 +123,15 @@ export default function BpInput({
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
+
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-      const data = await res.json();
+
+      onChangedBp();
+      onClose();
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
+    } finally {
+      setIsLoadingDelete(false);
     }
   };
 
@@ -198,10 +215,13 @@ export default function BpInput({
         <button
           type="button"
           onClick={bps != null ? handleClickDeleteBp : onClose}
+          disabled={isLoadingDelete}
         >
-          {bps != null ? "삭제" : "취소"}
+          {isLoadingDelete ? "삭제 중..." : bps != null ? "삭제" : "취소"}
         </button>
-        <button type="submit">{bps != null ? "수정" : "추가"}</button>
+        <button type="submit" disabled={isLoadingModify}>
+          {isLoadingModify ? "추가 중..." : bps != null ? "수정" : "추가"}
+        </button>
       </div>
     </form>
   );
