@@ -9,9 +9,14 @@ import RecordInput from "./RecordInput";
 interface RecordRowProps {
   bpNote: BpNote;
   session: string;
+  onChangedRecord: () => void;
 }
 
-export default function RecordRow({ bpNote, session }: RecordRowProps) {
+export default function RecordRow({
+  bpNote,
+  session,
+  onChangedRecord,
+}: RecordRowProps) {
   const [openModifyRecord, setOpenRecordModifyRecord] =
     useState<boolean>(false);
   const { time, isChecked, author, note } = bpNote;
@@ -30,8 +35,8 @@ export default function RecordRow({ bpNote, session }: RecordRowProps) {
         }
       );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-      const data = await res.json();
-      console.log(data.message);
+
+      onChangedRecord();
     } catch (err) {
       console.log("에러메세지(혈압 노트 삭제) : ", err);
     }
@@ -68,6 +73,7 @@ export default function RecordRow({ bpNote, session }: RecordRowProps) {
           bpNote={bpNote}
           onClose={() => setOpenRecordModifyRecord(false)}
           session={session}
+          onChangedRecord={onChangedRecord}
         />
       </Modal>
     </div>
