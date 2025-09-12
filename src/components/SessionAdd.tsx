@@ -4,6 +4,7 @@ import "./SessionAdd.css";
 interface SessionAddProps {
   onClose: () => void;
   patientId: string;
+  onSessionAdded: () => void;
 }
 
 interface SessionFormData {
@@ -14,7 +15,11 @@ interface SessionFormData {
   date: string;
 }
 
-export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
+export default function SessionAdd({
+  patientId,
+  onClose,
+  onSessionAdded,
+}: SessionAddProps) {
   const formatDate = (d = new Date()) => {
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, "0"); // 01~12
@@ -30,6 +35,8 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
     date: formatDate(),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.id;
     const value = e.target.value;
@@ -43,6 +50,7 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoading(true);
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
@@ -55,8 +63,13 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
         body: JSON.stringify({ ...formData }),
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+      onSessionAdded();
+      onClose();
     } catch (err) {
       console.log("에러메세지(투석 회차 추가) : ", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -107,7 +120,9 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">추가</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "추가 중..." : "추가"}
+        </button>
       </div>
     </form>
   );
