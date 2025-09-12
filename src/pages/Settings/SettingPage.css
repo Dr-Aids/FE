@@ -21,10 +21,6 @@
   margin-top: 10rem;
 }
 
-.setting__profile__icon {
-  font-size: 10rem;
-}
-
 .setting__username {
   display: flex;
   width: 100%;
@@ -52,6 +48,12 @@
   height: 0.1rem;
   border: none;
   background-color: rgb(220, 220, 220);
+}
+
+.setting__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .setting__logout {
