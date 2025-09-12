@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import "./PatientRow.css";
 import InHospitalIcon from "./ui/InHospital";
 import type { PatientListRow } from "../types/patientSummaryType";
 import { useEffect, useState } from "react";
+import { sortISOStrings } from "../utils/sortISOStrings";
 
 type PatientRowProps = PatientListRow & { index: number };
 
@@ -15,54 +15,89 @@ export default function PatientRow({
   visiting,
   index,
 }: PatientRowProps) {
-  const [seesionLength, setSessionLength] = useState<number>(0);
+  const [lastSession, setLastSession] = useState<number>(0);
+  const [lastDate, setLastDate] = useState<string>("9999-99-99");
   const nav = useNavigate();
   const location = useLocation();
   const pageName = location.pathname.split("/")[1];
   function handleClickPatientRow() {
-    // if (pageName === "remark") nav(`/${pageName}/${id}`);
-    nav(`/${pageName}/${id}/${seesionLength}`);
+    if (pageName === "prescription") nav(`/${pageName}/${id}/${lastDate}`);
+    else nav(`/${pageName}/${id}/${lastSession}`);
   }
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const fetchAllSession = async () => {
-      try {
-        if (!accessToken)
-          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+  const accessToken = localStorage.getItem("accessToken");
 
-        const response = await fetch(`/api/session?patientId=${id}`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+  const fetchAllSession = async () => {
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
 
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-        const data = await response.json();
+      const response = await fetch(`/api/session?patientId=${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const data = await response.json();
 
-        setSessionLength(data.length);
-      } catch (err) {
-        console.log("에러메세지(fetchAllSession) : ", err);
+      if (!response.ok) {
+        if (data.code === "SESSION_NOT_FOUND") {
+          setLastSession(0);
+          return;
+        }
+
+        throw new Error(`HTTP Error - ${response.status}`);
       }
-    };
+
+      setLastSession(data[data.length - 1].session);
+    } catch (err) {
+      console.log("에러메세지(fetchAllSession) : ", err);
+    }
+  };
+
+  const fetchPrescriptionDates = async () => {
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/prescriptions/dates?patientId=${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data: string[] = await res.json();
+
+      // 중복 제거 후 최신순 정렬(원하면 'asc'로 변경)
+      const uniq = Array.from(new Set(data));
+      setLastDate(sortISOStrings(uniq, "asc")[uniq.length - 1]);
+    } catch (err) {
+      console.log("에러메세지(fetchPrescriptionDates) : ", err);
+    }
+  };
+
+  useEffect(() => {
     fetchAllSession();
+    fetchPrescriptionDates();
   }, []);
   return (
-    <div
-      className="patient__row__container"
+    <tr
       style={
         index % 2 === 0
-          ? { backgroundColor: "#cbe8ee" }
-          : { backgroundColor: "#E6F1FD" }
+          ? { backgroundColor: "#cbe8ee", borderRadius: "1rem" }
+          : { backgroundColor: "#E6F1FD", borderRadius: "1rem" }
       }
       onClick={handleClickPatientRow}
     >
-      <div className="patient__name">
-        {name} ({gender === "MALE" ? "남" : "여"})
-      </div>
+      <td>
+        <div className="patient__name">
+          {name} ({gender === "MALE" ? "남" : "여"})
+        </div>
+      </td>
 
-      <div className="patient__age">
-        {age}세, {birth}
-      </div>
-      <InHospitalIcon inHospital={visiting} />
-    </div>
+      <td>
+        <div className="patient__age">
+          {age}세, {birth}
+        </div>
+      </td>
+
+      <td>
+        <InHospitalIcon inHospital={visiting} />
+      </td>
+    </tr>
   );
 }
