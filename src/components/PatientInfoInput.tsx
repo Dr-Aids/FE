@@ -5,11 +5,12 @@ import "./PatientInfoInput.css";
 interface PatientInfoInputProps {
   patient?: PatientSummaryHeader;
   onClose: () => void;
+  onPatientModified: () => void;
 }
-
 export default function PatientInfoInput({
   patient,
   onClose,
+  onPatientModified,
 }: PatientInfoInputProps) {
   const [formData, setFormData] = useState<PatientSummaryHeader>({
     id: patient?.id ?? -1,
@@ -20,6 +21,8 @@ export default function PatientInfoInput({
     disease: patient?.disease ?? "",
     pic: patient?.pic ?? "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.id;
@@ -43,6 +46,8 @@ export default function PatientInfoInput({
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoading(true);
+
     if (patient) {
       try {
         if (!accessToken)
@@ -56,8 +61,14 @@ export default function PatientInfoInput({
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+        // 성공했을 때 최신 데이터 반영 및 모달 닫기
+        onPatientModified();
+        onClose();
       } catch (err) {
         console.log("에러메세지(환자정보 수정) : ", err);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       try {
@@ -72,8 +83,14 @@ export default function PatientInfoInput({
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+        // 성공했을 때 최신 데이터 반영 및 모달 닫기
+        onPatientModified();
+        onClose();
       } catch (err) {
         console.log("에러메세지(환자 추가) : ", err);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -110,16 +127,6 @@ export default function PatientInfoInput({
           onChange={handleInput}
         />
       </div>
-      {/* <div className="form-row">
-        <label htmlFor="gender">성별</label>
-        <input
-          type="text"
-          id="gender"
-          value={formData.gender}
-          placeholder="23"
-          onChange={handleInput}
-        />
-      </div> */}
       <div className="form-row">
         <label htmlFor="gender">성별</label>
         <select
@@ -157,7 +164,9 @@ export default function PatientInfoInput({
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">{patient ? "수정" : "추가"}</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "추가 중..." : patient ? "수정" : "추가"}
+        </button>
       </div>
     </form>
   );
