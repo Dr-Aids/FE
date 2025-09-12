@@ -22,8 +22,6 @@ export default function RemarkPersonalTable({
   nowRound: RemarkPersonal | null;
   prevRound: RemarkPersonal | null;
 }) {
-  console.log(nowRound);
-
   const nowWeightRemarks = nowRound?.specialNotes.filter(
     (item) => item.type === "weight"
   );
@@ -71,7 +69,7 @@ export default function RemarkPersonalTable({
                   />
                   <IconDataCard
                     type="weight"
-                    value={`${prevRound.preWeight ?? "-"}`}
+                    value={`${prevRound.preWeight.toFixed(1) ?? "-"}`}
                   />
                 </div>
               </td>
@@ -85,7 +83,7 @@ export default function RemarkPersonalTable({
                   />
                   <IconDataCard
                     type="weight"
-                    value={`${nowRound.preWeight ?? "-"}`}
+                    value={`${nowRound.preWeight.toFixed(1) ?? "-"}`}
                   />
                 </div>
               ) : (
