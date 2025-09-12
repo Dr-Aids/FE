@@ -10,7 +10,10 @@ export default function MainLayout() {
   return (
     <div className="main-layout__container">
       <aside className="sidebar-column">
-        <Sidebar username={user?.username} />
+        <Sidebar
+          username={user?.username ?? "-"}
+          role={user?.role ?? "DOCTOR"}
+        />
       </aside>
       <main className="main-layout__page__container">
         <Outlet />
