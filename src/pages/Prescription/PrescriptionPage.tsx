@@ -5,6 +5,7 @@ import "./PrescriptionPage.css";
 import PrescriptionTable from "./components/PrescriptionTable";
 import { useEffect, useState } from "react";
 import type { BloodResult, Hb } from "../../types/PrescriptionTypes";
+import EmptyDataState from "../../components/EmptyDataState";
 
 export default function PrescriptionPage() {
   const { patientId, date: rawDate } = useParams<{
@@ -14,8 +15,8 @@ export default function PrescriptionPage() {
 
   const date = rawDate!.slice(0, 7);
 
-  const [bloodResult, setBloodResult] = useState<BloodResult[] | null>(null);
-  const [hb, setHb] = useState<Hb[] | null>(null);
+  const [bloodResult, setBloodResult] = useState<BloodResult[]>([]);
+  const [hb, setHb] = useState<Hb[]>([]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -60,6 +61,8 @@ export default function PrescriptionPage() {
 
     Promise.all([fetchBloodResult(), fetchHb()]);
   }, [patientId, date]);
+
+  console.log(bloodResult, hb);
   return (
     <div className="prescription__details__container">
       <div className="prescription__detail__graphs">
@@ -71,7 +74,15 @@ export default function PrescriptionPage() {
           >
             혈액 검사 결과
           </h3>
-          <BloodResultChart data={bloodResult} />
+          {bloodResult.length === 0 ? (
+            <EmptyDataState
+              type="bp"
+              title="혈액 검사 결과가 없습니다"
+              description=""
+            />
+          ) : (
+            <BloodResultChart data={bloodResult} />
+          )}
         </div>
         <div className="prescription__hb__container card-container">
           <h3
@@ -81,7 +92,15 @@ export default function PrescriptionPage() {
           >
             헤모글로빈
           </h3>
-          <HbLineChart data={hb} />
+          {bloodResult.length === 0 ? (
+            <EmptyDataState
+              type="bpnote"
+              title="헤모글로빈 기록이 존재하지 않습니다"
+              description=""
+            />
+          ) : (
+            <HbLineChart data={hb} />
+          )}
         </div>
       </div>
       <PrescriptionTable patientId={patientId!} date={date!} />
