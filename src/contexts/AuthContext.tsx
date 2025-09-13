@@ -56,6 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (accessToken) {
         setAccess(accessToken);
         localStorage.setItem("accessToken", accessToken);
+        nav("/main");
       }
 
       if (!res.ok) {
@@ -77,6 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setAccess(null);
     localStorage.removeItem("accessToken");
+    alert("로그아웃 되었습니다.");
     nav("/");
   };
 
