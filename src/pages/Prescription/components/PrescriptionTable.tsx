@@ -51,9 +51,23 @@ export default function PrescriptionTable({
           </tr>
         </thead>
         <tbody className="prescription__tbody">
-          {prescriptionData?.map((data, index) => (
-            <PrescriptionTableRow {...data} index={index} />
-          ))}
+          {prescriptionData === null ? (
+            <tr>
+              <td colSpan={4} style={{ textAlign: "center" }}>
+                로딩 중...
+              </td>
+            </tr>
+          ) : prescriptionData.length > 0 ? (
+            prescriptionData.map((data, index) => (
+              <PrescriptionTableRow key={data.id} {...data} index={index} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} style={{ textAlign: "center" }}>
+                처방 기록이 없습니다.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
