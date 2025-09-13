@@ -1,8 +1,9 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import InHospitalIcon from "./ui/InHospital";
 import type { PatientListRow } from "../types/patientSummaryType";
 import { useEffect, useState } from "react";
 import { sortISOStrings } from "../utils/sortISOStrings";
+import "./PatientRow.css"; // CSS 파일 임포트
 
 type PatientRowProps = PatientListRow & { index: number };
 
@@ -13,13 +14,16 @@ export default function PatientRow({
   age,
   birth,
   visiting,
-  index,
 }: PatientRowProps) {
   const [lastSession, setLastSession] = useState<number>(0);
   const [lastDate, setLastDate] = useState<string>("9999-99-99");
   const nav = useNavigate();
   const location = useLocation();
   const pageName = location.pathname.split("/")[1];
+
+  // URL에서 patientId 파라미터를 가져옴
+  const { patientId: selectedPatientId } = useParams<{ patientId?: string }>();
+
   function handleClickPatientRow() {
     if (pageName === "prescription") nav(`/${pageName}/${id}/${lastDate}`);
     else nav(`/${pageName}/${id}/${lastSession}`);
@@ -35,20 +39,25 @@ export default function PatientRow({
       const response = await fetch(`/api/session?patientId=${id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      const data = await response.json();
 
       if (!response.ok) {
-        if (data.code === "SESSION_NOT_FOUND") {
+        if (response.status === 404) {
           setLastSession(0);
           return;
         }
-
         throw new Error(`HTTP Error - ${response.status}`);
       }
 
-      setLastSession(data[data.length - 1].session);
+      const data = await response.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        setLastSession(data[data.length - 1].session);
+      } else {
+        setLastSession(0);
+      }
     } catch (err) {
       console.log("에러메세지(fetchAllSession) : ", err);
+      setLastSession(0);
     }
   };
 
@@ -62,7 +71,6 @@ export default function PatientRow({
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
       const data: string[] = await res.json();
 
-      // 중복 제거 후 최신순 정렬(원하면 'asc'로 변경)
       const uniq = Array.from(new Set(data));
       setLastDate(sortISOStrings(uniq, "asc")[uniq.length - 1]);
     } catch (err) {
@@ -74,15 +82,14 @@ export default function PatientRow({
     fetchAllSession();
     fetchPrescriptionDates();
   }, []);
+
+  // 현재 행이 선택되었는지 확인
+  const isSelected = selectedPatientId === id.toString();
+
+  const rowClassName = `patient-row ${isSelected ? "patient-row--selected" : ""}`;
+
   return (
-    <tr
-      style={
-        index % 2 === 0
-          ? { backgroundColor: "#cbe8ee", borderRadius: "1rem" }
-          : { backgroundColor: "#E6F1FD", borderRadius: "1rem" }
-      }
-      onClick={handleClickPatientRow}
-    >
+    <tr className={rowClassName} onClick={handleClickPatientRow}>
       <td>
         <div className="patient__name">
           {name} ({gender === "MALE" ? "남" : "여"})
