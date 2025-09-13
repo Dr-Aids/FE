@@ -6,7 +6,7 @@ import Modal from "./Modal";
 import PatientInfoInput from "./PatientInfoInput";
 import EditButton from "./ui/EditButton";
 import TrashButton from "./ui/TrashButton";
-import SessionAdd from "./SessionAdd";
+import SessionInput from "./SessionInput";
 import PlusButton from "./ui/PlusButton";
 import { sortISOStrings } from "../utils/sortISOStrings";
 
@@ -42,6 +42,39 @@ export default function PatientSummaryCard() {
 
   const session = normalize(rawSession);
   const date = normalize(rawDate);
+
+  // 존재하지 않는 세션에 갔을 때 유효한 곳으로 리다이렉트 되도록 하는 로직
+  // 여기 다시 손 좀 보자
+  useEffect(() => {
+    if (session && sessions) {
+      // 쿼리 파라미터의 session이 존재할 때
+      if (
+        sessions.filter(
+          (item) => item.session.toString() === session.toString()
+        ).length === 0
+      ) {
+        // 만약 현재 url의 session이 유효한 session이 아니라면 0번 session으로 이동 -> 여기서 에러처리할거임
+
+        nav(`/patient/${patientId}/0`);
+      }
+    }
+  }, [sessions]);
+
+  useEffect(() => {
+    // 예측처방 페이지로 갔을 때
+
+    if (date === undefined && pageName === "prescription") {
+      nav(`/prescription/${patientId}/-1`);
+    }
+    if (date && prescriptionDates.length !== 0) {
+      if (
+        prescriptionDates.filter((item) => date.toString() === item.toString())
+          .length === 0
+      ) {
+        nav(`/prescription/${patientId}/${prescriptionDates[0]}`);
+      }
+    }
+  }, [prescriptionDates]);
 
   // 드롭다운의 선택값: session 모드면 session, 아니면 date(없으면 임시 기본값)
   const selectedValue = session
@@ -165,6 +198,8 @@ export default function PatientSummaryCard() {
         }
       );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      nav(`/patient/${patientId}/${sessions ? sessions[0].session : "0"}`);
+      window.location.reload();
     } catch (err) {
       console.log("에러메세지(투석 회차 삭제) : ", err);
     }
@@ -259,7 +294,7 @@ export default function PatientSummaryCard() {
         isOpen={openAddSessionModal}
         onClose={() => setOpenAddSessionModal(false)}
       >
-        <SessionAdd
+        <SessionInput
           patientId={patientId!}
           onClose={() => setOpenAddSessionModal(false)}
           onSessionAdded={fetchAllSession}
