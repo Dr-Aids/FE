@@ -13,7 +13,8 @@
   margin: 5rem auto;
   gap: 1rem;
   border: none;
-  width: 52rem;
+  min-width: 20rem;
+  max-width: 60rem;
   height: auto;
   background-color: #ffffff;
   border-radius: 10px;
@@ -81,6 +82,6 @@
   padding: 0.8rem;
   border-radius: 10px;
   width: 100%;
-  height: 3rem;
+  height: 4.5rem;
   box-sizing: border-box;
 }
