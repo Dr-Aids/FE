@@ -91,19 +91,22 @@ export default function PatientSummaryCard() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        if (data.status === 404) {
-          setSessions(null);
-          if (data.code === "SESSION_NOT_FOUND") return;
-          throw new Error(`HTTP Error - ${res.status}`);
+        if (res.status === 404) {
+          console.log(
+            `환자 ID(${patientId})에 대한 세션 정보가 없어 404 응답을 받았습니다.`
+          );
+          setSessions(null); // 세션이 없으므로 null로 설정
+          return;
         }
+        throw new Error(`HTTP Error - ${res.status}`);
       }
 
+      const data = await res.json();
       setSessions(data);
     } catch (err) {
       console.log("에러메세지(fetchAllSession) : ", err);
+      setSessions(null); // 에러 발생 시 null로 설정
     }
   };
 
@@ -140,7 +143,9 @@ export default function PatientSummaryCard() {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-      const data = await res.json();
+
+      nav("/patient");
+      window.location.reload();
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
     }
@@ -160,7 +165,6 @@ export default function PatientSummaryCard() {
         }
       );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-      const data = await res.json();
     } catch (err) {
       console.log("에러메세지(투석 회차 삭제) : ", err);
     }
@@ -201,14 +205,20 @@ export default function PatientSummaryCard() {
                 sessions ? (
                   sessions.map((item) => (
                     <option
-                      key={`${patient.id}/${item.session}`}
+                      key={`${patient.id}/${item.session}-${item.date}`}
                       value={`${patient.id}/${item.session}`}
                     >
                       {item.session}회차 / {item.date}
                     </option>
                   ))
                 ) : (
-                  <option value="" disabled>
+                  <option
+                    value=""
+                    hidden
+                    style={{
+                      color: "lightgray",
+                    }}
+                  >
                     회차를 추가해주세요
                   </option>
                 )
@@ -228,7 +238,7 @@ export default function PatientSummaryCard() {
           {pageName === "patient" && (
             <>
               <PlusButton onClick={() => setOpenAddSessionModal(true)} />
-              <TrashButton onClick={handleClickDeleteSession} />
+              {sessions && <TrashButton onClick={handleClickDeleteSession} />}
             </>
           )}
         </div>
