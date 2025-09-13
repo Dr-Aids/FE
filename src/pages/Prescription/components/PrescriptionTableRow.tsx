@@ -70,6 +70,7 @@ export default function PrescriptionTableRow({
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                paddingRight: "1rem",
               }}
             >
               {description}
@@ -108,18 +109,16 @@ export default function PrescriptionTableRow({
           </div>
         </td>
       </tr>
-      <div>
-        <Modal
-          title="처방 내역 수정"
-          isOpen={openPrescriptionModal}
+      <Modal
+        title="처방 내역 수정"
+        isOpen={openPrescriptionModal}
+        onClose={() => setOpenPrescriptionModal(false)}
+      >
+        <PrescriptionInput
           onClose={() => setOpenPrescriptionModal(false)}
-        >
-          <PrescriptionInput
-            onClose={() => setOpenPrescriptionModal(false)}
-            prescription={newRow}
-          />
-        </Modal>
-      </div>
+          prescription={newRow}
+        />
+      </Modal>
     </>
   );
 }
