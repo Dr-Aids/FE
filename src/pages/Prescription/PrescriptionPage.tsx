@@ -62,7 +62,17 @@ export default function PrescriptionPage() {
     Promise.all([fetchBloodResult(), fetchHb()]);
   }, [patientId, date]);
 
-  console.log(bloodResult, hb);
+  if (date === "-1")
+    return (
+      <div className="card-container">
+        <EmptyDataState
+          type="bpnote"
+          title={`처방내역이 존재하지 않습니다.`}
+          description="아직 처방 내역이 존재하지 않습니다."
+        />
+      </div>
+    );
+
   return (
     <div className="prescription__details__container">
       <div className="prescription__detail__graphs">
