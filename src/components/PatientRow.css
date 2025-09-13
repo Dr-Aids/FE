@@ -1,14 +1,38 @@
-.patient__container {
-  display: flex;
-  gap: 15px;
-  background-color: #cbe8ee;
-  padding-block: 12px;
-  padding-right: 20px;
-  padding-left: 10px;
-  width: 90%;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  align-items: center;
-  justify-content: space-around;
+.patient-row {
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 1rem; /* Note: border-radius on <tr> might not be supported in all browsers */
+}
+
+/* Alternating row colors */
+.patient-row:nth-child(even) {
+  background-color: #e6f1fd;
+}
+
+.patient-row:nth-child(odd) {
+  background-color: #cbe8ee;
+}
+
+/* Hover effect for all rows */
+.patient-row:hover {
+  background-color: #b0d9e8;
+}
+
+/* Selected row style */
+.patient-row--selected {
+  background-color: #a3cde2 !important;
+  font-weight: bold;
+}
+
+.patient-row td:last-child {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.patient__name {
+  font-weight: 500;
+}
+
+.patient__age {
+  color: #555;
 }

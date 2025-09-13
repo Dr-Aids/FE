@@ -2,14 +2,14 @@ import "./Sidebar.css";
 import MainLogo from "../assets/login-logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  LogOut,
   Home,
   Users,
   Pill,
   AlertTriangle,
   Settings,
+  Stethoscope,
+  Syringe,
 } from "lucide-react";
-import { useState } from "react";
 
 const navigation = [
   {
@@ -21,13 +21,13 @@ const navigation = [
   {
     title: "환자",
     icon: Users,
-    url: "patient/1/1",
+    url: "patient",
     isActive: false,
   },
   {
     title: "예측처방",
     icon: Pill,
-    url: "prescription/1/2025-12",
+    url: "prescription",
     isActive: false,
   },
   {
@@ -53,6 +53,7 @@ function Menu() {
     <div className="menu__container">
       {navigation.map((item) => (
         <div
+          key={`sidebar-${item.title}`}
           className={
             item.url.split("/")[0] === nowUrl
               ? `menu__item__container__selected`
@@ -68,13 +69,32 @@ function Menu() {
   );
 }
 
-export default function Sidebar({ username }) {
+export default function Sidebar({
+  username,
+  role = "DOCTOR",
+}: {
+  username: string;
+  role: "DOCTOR" | "NURSE";
+}) {
+  const nav = useNavigate();
+
+  const Icon = role === "DOCTOR" ? Stethoscope : Syringe;
+  const Color =
+    role === "DOCTOR"
+      ? "oklch(77.7% 0.152 181.912)"
+      : "oklch(80.8% 0.114 19.571)";
   return (
     <div className="sidebar__container">
-      <img className="sidebar__mainlogo" src={MainLogo} />
+      <img
+        className="sidebar__mainlogo"
+        src={MainLogo}
+        onClick={() => nav("/main")}
+      />
       <div className="profile__container">
-        <div className="profile__image">👨‍⚕️</div>
-        <b>Dr. {username}</b>
+        <div className="profile__image">
+          <Icon className="setting__profile__icon" size={25} color={Color} />
+        </div>
+        <h3>{username}</h3>
       </div>
       <Menu />
     </div>

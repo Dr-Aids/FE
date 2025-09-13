@@ -1,7 +1,7 @@
 .record__container {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .record__header {
@@ -10,31 +10,28 @@
 }
 
 .record__title {
-  font-size: 16px;
   color: #1e6774;
-  font-weight: 500;
 }
 
 .record__buttons {
   display: flex;
-  gap: 5px;
+  gap: 0.5rem;
 }
 
 .record__content {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 395px;
-  min-height: 315px;
+  gap: 1.5rem;
+
+  min-height: 31.5rem;
   overflow-y: auto;
-  border: 1px solid gray;
 
   border-radius: 7px;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .recordrow {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.6rem;
 }

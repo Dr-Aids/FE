@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./SessionAdd.css";
+import { useNavigate } from "react-router-dom";
 
 interface SessionAddProps {
   onClose: () => void;
   patientId: string;
+  onSessionAdded: () => void;
 }
 
 interface SessionFormData {
@@ -14,13 +16,19 @@ interface SessionFormData {
   date: string;
 }
 
-export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
+export default function SessionAdd({
+  patientId,
+  onClose,
+  onSessionAdded,
+}: SessionAddProps) {
   const formatDate = (d = new Date()) => {
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, "0"); // 01~12
     const dd = String(d.getDate()).padStart(2, "0"); // 01~31
     return `${yyyy}-${mm}-${dd}`;
   };
+
+  const nav = useNavigate();
 
   const [formData, setFormData] = useState<SessionFormData>({
     patientId: patientId,
@@ -29,6 +37,8 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
     targetUF: null,
     date: formatDate(),
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.id;
@@ -43,6 +53,7 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoading(true);
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
@@ -55,8 +66,22 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
         body: JSON.stringify({ ...formData }),
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+      const text = await res.text();
+
+      const match = text.match(/\d+/); // text에서 추가된 투석회차만 추출하기
+      if (match) {
+        const addedSession = Number(match[0]);
+        console.log(addedSession);
+        nav(`patient/${patientId}/${addedSession}`);
+      }
+
+      onSessionAdded();
+      onClose();
     } catch (err) {
       console.log("에러메세지(투석 회차 추가) : ", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -107,7 +132,9 @@ export default function SessionAdd({ patientId, onClose }: SessionAddProps) {
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">추가</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "추가 중..." : "추가"}
+        </button>
       </div>
     </form>
   );

@@ -141,7 +141,7 @@ const ComparisonChart = ({
   ];
 
   return (
-    <div style={{ textAlign: "center", padding: "10px" }}>
+    <div style={{ textAlign: "center", padding: "1rem" }}>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
@@ -209,12 +209,14 @@ const ComparisonChart = ({
           )}
         </BarChart>
       </ResponsiveContainer>
-      <div style={{ fontWeight: "bold", fontSize: "1.1em", marginTop: "5px" }}>
+      <div
+        style={{ fontWeight: "bold", fontSize: "1.1em", marginTop: "0.5rem" }}
+      >
         <span>
           {compareValue.toFixed(1)}kg → {currentValue.toFixed(1)}kg
         </span>
       </div>
-      <h4 style={{ marginTop: "10px" }}>{title}</h4>
+      <h4 style={{ marginTop: "1rem" }}>{title}</h4>
     </div>
   );
 };
@@ -247,7 +249,7 @@ export default function WeightCMPChart({
         flexWrap: "nowrap",
       }}
     >
-      <div style={{ width: "100%", minWidth: "200px", maxWidth: "250px" }}>
+      <div style={{ width: "100%", minWidth: "20rem", maxWidth: "25rem" }}>
         <ComparisonChart
           title={
             session !== "0" ? `${session}회차 대비 현재 몸무게` : "현재 몸무게"
@@ -256,7 +258,7 @@ export default function WeightCMPChart({
           compareValue={beforePreWeight}
         />
       </div>
-      <div style={{ width: "100%", minWidth: "200px", maxWidth: "250px" }}>
+      <div style={{ width: "100%", minWidth: "20rem", maxWidth: "25rem" }}>
         <ComparisonChart
           title={`평균 대비 현재 몸무게`}
           currentValue={nowWeight}

@@ -1,22 +1,20 @@
-.patients__list__container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.patient__list__table {
+  border-collapse: separate;
+  border-spacing: 0px 0.8rem;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.patients__list__title {
-  font-size: 12px;
-  color: gray;
-  display: flex;
-  justify-content: space-between;
-  padding-inline: 15px;
-  align-items: center;
+.patient__list__table td {
+  padding: 1rem;
 }
 
-.patients__list__list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  max-height: 800px;
-  overflow-y: auto;
+.patient__list__table tbody tr {
+  cursor: pointer;
+  flex: 1;
+}
+
+.patient__list__table tbody tr td:last-child {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }

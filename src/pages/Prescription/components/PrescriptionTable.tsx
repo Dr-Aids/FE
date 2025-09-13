@@ -1,5 +1,5 @@
-import "./PrescriptionTable.css";
 import PrescriptionTableRow from "./PrescriptionTableRow";
+import "./PrescriptionTable.css";
 
 import { useEffect, useState } from "react";
 import type { Prescription } from "../../../types/PrescriptionTypes";
@@ -40,7 +40,7 @@ export default function PrescriptionTable({
     fetchPrescription();
   }, [patientId, date]);
   return (
-    <div className="prescription__table__container">
+    <div className="card-container">
       <table className="prescription__table">
         <thead className="prescription__thead">
           <tr>
@@ -51,9 +51,23 @@ export default function PrescriptionTable({
           </tr>
         </thead>
         <tbody className="prescription__tbody">
-          {prescriptionData?.map((data, index) => (
-            <PrescriptionTableRow {...data} index={index} />
-          ))}
+          {prescriptionData === null ? (
+            <tr>
+              <td colSpan={4} style={{ textAlign: "center" }}>
+                로딩 중...
+              </td>
+            </tr>
+          ) : prescriptionData.length > 0 ? (
+            prescriptionData.map((data, index) => (
+              <PrescriptionTableRow key={data.id} {...data} index={index} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} style={{ textAlign: "center" }}>
+                처방 기록이 없습니다.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

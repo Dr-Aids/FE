@@ -57,58 +57,68 @@ export default function PrescriptionTableRow({
         <td>{date}</td>
         <td>{hematapoieticAgent}</td>
         <td>{iu}IU</td>
-        <td
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          {description}
-          <span
+        <td>
+          <div
             style={{
               display: "flex",
-              justifyContent: "center",
               alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            <Pencil
-              size={20}
+            <span
               style={{
-                border: "1px solid #ccc",
-                padding: "8px",
-                borderRadius: "12px",
-                cursor: "pointer",
-                background: "transparent",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                paddingRight: "1rem",
               }}
-              onClick={() => setOpenPrescriptionModal(true)}
-            />
-            <Trash2
-              size={20}
+            >
+              {description}
+            </span>
+
+            <span
               style={{
-                border: "1px solid #ccc",
-                padding: "8px",
-                borderRadius: "12px",
-                cursor: "pointer",
-                background: "transparent",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "0.5rem",
               }}
-              onClick={handleClickDeletePrescription}
-            />
-          </span>
+            >
+              <Pencil
+                size={20}
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "0.8rem",
+                  borderRadius: "12px",
+                  cursor: "pointer",
+                }}
+                onClick={() => setOpenPrescriptionModal(true)}
+              />
+              <Trash2
+                size={20}
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "0.8rem",
+                  borderRadius: "12px",
+                  cursor: "pointer",
+                  background: "transparent",
+                }}
+                onClick={handleClickDeletePrescription}
+              />
+            </span>
+          </div>
         </td>
       </tr>
-      <div>
-        <Modal
-          title="처방 내역 수정"
-          isOpen={openPrescriptionModal}
+      <Modal
+        title="처방 내역 수정"
+        isOpen={openPrescriptionModal}
+        onClose={() => setOpenPrescriptionModal(false)}
+      >
+        <PrescriptionInput
           onClose={() => setOpenPrescriptionModal(false)}
-        >
-          <PrescriptionInput
-            onClose={() => setOpenPrescriptionModal(false)}
-            prescription={newRow}
-          />
-        </Modal>
-      </div>
+          prescription={newRow}
+        />
+      </Modal>
     </>
   );
 }

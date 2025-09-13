@@ -8,9 +8,10 @@ import {
   Line,
   ResponsiveContainer,
 } from "recharts";
+import "./BloodHistoryChart.css";
 
 import { formatYMDTHM } from "../../../utils/formatYMDTHM";
-import type { TwoBpsItem } from "./RemarkPersonalDetails";
+import type { TwoBpsItem } from "../RemarkPersonalPage";
 
 export default function BloodHistoryChart({ data }: { data: TwoBpsItem[] }) {
   if (!data || data.length === 0) {
@@ -18,15 +19,12 @@ export default function BloodHistoryChart({ data }: { data: TwoBpsItem[] }) {
   }
 
   return (
-    <div
-      className="blood__chart__container"
-      style={{ display: "flex", width: "100%" }}
-    >
+    <div className="blood__history__chart__container">
       {data.map((sessionData, index) => {
         return (
           <div key={index} style={{ width: data.length > 1 ? "50%" : "100%" }}>
             <h4>{sessionData.session}회차</h4>
-            <ResponsiveContainer width="100%" height={280}>
+            <ResponsiveContainer width="100%">
               <LineChart
                 data={sessionData.bloodPressureDto.map((item) => ({
                   ...item,

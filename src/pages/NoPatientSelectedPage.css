@@ -1,0 +1,6 @@
+.sub__container {
+  min-height: 50rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

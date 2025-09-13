@@ -1,8 +1,9 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import "./PatientRow.css";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import InHospitalIcon from "./ui/InHospital";
 import type { PatientListRow } from "../types/patientSummaryType";
 import { useEffect, useState } from "react";
+import { sortISOStrings } from "../utils/sortISOStrings";
+import "./PatientRow.css"; // CSS 파일 임포트
 
 type PatientRowProps = PatientListRow & { index: number };
 
@@ -13,56 +14,97 @@ export default function PatientRow({
   age,
   birth,
   visiting,
-  index,
 }: PatientRowProps) {
-  const [seesionLength, setSessionLength] = useState<number>(0);
+  const [lastSession, setLastSession] = useState<number>(0);
+  const [lastDate, setLastDate] = useState<string>("9999-99-99");
   const nav = useNavigate();
   const location = useLocation();
   const pageName = location.pathname.split("/")[1];
+
+  // URL에서 patientId 파라미터를 가져옴
+  const { patientId: selectedPatientId } = useParams<{ patientId?: string }>();
+
   function handleClickPatientRow() {
-    // if (pageName === "remark") nav(`/${pageName}/${id}`);
-    nav(`/${pageName}/${id}/${seesionLength}`);
+    if (pageName === "prescription") nav(`/${pageName}/${id}/${lastDate}`);
+    else nav(`/${pageName}/${id}/${lastSession}`);
   }
 
+  const accessToken = localStorage.getItem("accessToken");
+
+  const fetchAllSession = async () => {
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+
+      const response = await fetch(`/api/session?patientId=${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          setLastSession(0);
+          return;
+        }
+        throw new Error(`HTTP Error - ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        setLastSession(data[data.length - 1].session);
+      } else {
+        setLastSession(0);
+      }
+    } catch (err) {
+      console.log("에러메세지(fetchAllSession) : ", err);
+      setLastSession(0);
+    }
+  };
+
+  const fetchPrescriptionDates = async () => {
+    try {
+      if (!accessToken)
+        throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
+      const res = await fetch(`/api/prescriptions/dates?patientId=${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      const data: string[] = await res.json();
+
+      const uniq = Array.from(new Set(data));
+      setLastDate(sortISOStrings(uniq, "asc")[uniq.length - 1]);
+    } catch (err) {
+      console.log("에러메세지(fetchPrescriptionDates) : ", err);
+    }
+  };
+
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const fetchAllSession = async () => {
-      try {
-        if (!accessToken)
-          throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-
-        const response = await fetch(`/api/session?patientId=${id}`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-        const data = await response.json();
-
-        setSessionLength(data.length);
-      } catch (err) {
-        console.log("에러메세지(fetchAllSession) : ", err);
-      }
-    };
     fetchAllSession();
+    fetchPrescriptionDates();
   }, []);
-  return (
-    <div
-      className="patient__container"
-      style={
-        index % 2 === 0
-          ? { backgroundColor: "#cbe8ee" }
-          : { backgroundColor: "#E6F1FD" }
-      }
-      onClick={handleClickPatientRow}
-    >
-      <div className="patient__name">
-        {name} ({gender === "MALE" ? "남" : "여"})
-      </div>
 
-      <div className="patient__age">
-        {age}세, {birth}
-      </div>
-      <InHospitalIcon inHospital={visiting} />
-    </div>
+  // 현재 행이 선택되었는지 확인
+  const isSelected = selectedPatientId === id.toString();
+
+  const rowClassName = `patient-row ${isSelected ? "patient-row--selected" : ""}`;
+
+  return (
+    <tr className={rowClassName} onClick={handleClickPatientRow}>
+      <td>
+        <div className="patient__name">
+          {name} ({gender === "MALE" ? "남" : "여"})
+        </div>
+      </td>
+
+      <td>
+        <div className="patient__age">
+          {age}세, {birth}
+        </div>
+      </td>
+
+      <td>
+        <InHospitalIcon inHospital={visiting} />
+      </td>
+    </tr>
   );
 }

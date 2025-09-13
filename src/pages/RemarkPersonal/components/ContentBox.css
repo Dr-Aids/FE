@@ -4,12 +4,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  gap: 10px;
+  gap: 1rem;
   height: auto;
-  min-width: 150px;
-  max-width: 200px;
+
   background-color: #f5f4f5;
-  border: 1px solid rgb(235, 221, 221);
-  border-radius: 10px;
-  padding: 10px;
+  border: 0.1rem solid rgb(235, 221, 221);
+  border-radius: 1rem;
+  padding: 1rem;
 }

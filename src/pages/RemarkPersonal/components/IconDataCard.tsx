@@ -8,7 +8,7 @@ export default function IconDataCard({
   value: string;
 }) {
   return (
-    <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+    <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
       <div
         style={{
           display: "flex",
@@ -20,15 +20,17 @@ export default function IconDataCard({
         <img
           src={type === "bp" ? BpIcon : WeightIcon}
           alt={`${type} 아이콘`}
-          width={30}
-          height={30}
+          style={{
+            width: "3rem",
+            height: "3rem",
+          }}
         />
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          padding: "8px",
+          padding: "0.8rem",
           justifyContent: "center",
           alignItems: "center",
         }}

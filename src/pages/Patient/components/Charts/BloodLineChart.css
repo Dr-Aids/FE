@@ -1,0 +1,6 @@
+.blood__chart__container {
+  flex: 1;
+  min-width: 30rem;
+  min-height: 30rem;
+  padding-right: 3rem;
+}

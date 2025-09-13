@@ -1,18 +1,18 @@
 .patient-info-modify-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 10px;
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
 .form-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .form-row label {
-  width: 80px;
+  width: 8rem;
   font-weight: bold;
 }
 
@@ -21,9 +21,9 @@
   resize: none;
   width: 15rem;
   height: 5rem;
-  padding: 8px;
-  border: 1px solid #ccc; /* 명확한 border 색상 지정 */
-  border-radius: 4px;
+  padding: 0.8rem;
+  border: 0.1rem solid #ccc; /* 명확한 border 색상 지정 */
+  border-radius: 0.4rem;
   overflow-y: auto;
 }
 
@@ -34,9 +34,9 @@
 
 .form-row select {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc; /* 명확한 border 색상 지정 */
-  border-radius: 4px;
+  padding: 0.8rem;
+  border: 0.1rem solid #ccc; /* 명확한 border 색상 지정 */
+  border-radius: 0.4rem;
 }
 
 .form-row select:focus {
@@ -47,14 +47,14 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .form-actions button {
-  padding: 8px 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 0.4rem;
   cursor: pointer;
 }
 

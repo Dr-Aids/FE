@@ -32,7 +32,7 @@ export default function Modal({
               textAlign: "center",
             }}
           >
-            {title}
+            <h3>{title}</h3>
           </span>
           <X style={{ cursor: "pointer" }} size={20} onClick={onClose} />
         </span>

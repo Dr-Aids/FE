@@ -7,10 +7,12 @@ export type WeightListItem = {
   targetUF: number | null;
 };
 
-export type FiveSessionWeightList = Pick<
-  WeightListItem,
-  "preWeight" | "dryWeight" | "postWeight"
-> & { session: number; date: string };
+export type FiveSessionWeightList =
+  | (Pick<WeightListItem, "preWeight" | "dryWeight" | "postWeight"> & {
+      session: number;
+      date: string;
+    })
+  | null;
 
 export type Bp = {
   bloodPressureId: number;

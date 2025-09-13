@@ -9,9 +9,10 @@ import RemarkPage from "./pages/Remark/RemarkPage";
 import SettingPage from "./pages/Settings/SettingPage";
 import MainLayout from "./layouts/MainLayout";
 import SignupPage from "./pages/Signup/SignupPage";
-import RemarkPersonalPage from "./pages/RemarkPersonal/RemarkPersonalPage";
 import MainContentWithPatient from "./layouts/MainContentWithPatient";
 import { AuthProvider } from "./contexts/AuthContext";
+import RemarkPersonalPage from "./pages/RemarkPersonal/RemarkPersonalPage";
+import NoPatientSelectedPage from "./pages/NoPatientSelectedPage";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
             <Route element={<MainContentWithPatient />}>
               {/*여기부터는 우측에 환자 리스트 뜨는애들 */}
               <Route path="remark" element={<RemarkPage />} />
+              <Route path="patient" element={<NoPatientSelectedPage />} />
+              <Route path="prescription" element={<NoPatientSelectedPage />} />
               <Route
                 path="patient/:patientId/:session"
                 element={<PatientPage />}

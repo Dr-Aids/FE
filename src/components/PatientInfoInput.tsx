@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import type { PatientSummaryHeader } from "../types/patientSummaryType";
 import "./PatientInfoInput.css";
+import { useNavigate } from "react-router-dom";
 
 interface PatientInfoInputProps {
   patient?: PatientSummaryHeader;
   onClose: () => void;
+  onPatientModified: () => void;
 }
-
 export default function PatientInfoInput({
   patient,
   onClose,
+  onPatientModified,
 }: PatientInfoInputProps) {
   const [formData, setFormData] = useState<PatientSummaryHeader>({
     id: patient?.id ?? -1,
@@ -20,6 +22,9 @@ export default function PatientInfoInput({
     disease: patient?.disease ?? "",
     pic: patient?.pic ?? "",
   });
+
+  const nav = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.id;
@@ -43,6 +48,8 @@ export default function PatientInfoInput({
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
 
+    setIsLoading(true);
+
     if (patient) {
       try {
         if (!accessToken)
@@ -56,8 +63,14 @@ export default function PatientInfoInput({
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+        // 성공했을 때 최신 데이터 반영 및 모달 닫기
+        onPatientModified();
+        onClose();
       } catch (err) {
         console.log("에러메세지(환자정보 수정) : ", err);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       try {
@@ -72,8 +85,25 @@ export default function PatientInfoInput({
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+        // 성공했을 때 text 받고, text로부터 새로 추가된 환자 ID 추출하기
+        // 그 후 추가한 환자 페이지로 이동
+        const text = await res.text();
+
+        const match = text.match(/\d+/); // text에서 추가된 투석회차 ID만 추출하기
+        if (match) {
+          const addedpatientId = Number(match[0]);
+          console.log(addedpatientId);
+          nav(`patient/${addedpatientId}/0`);
+        }
+
+        // 성공했을 때 최신 데이터 반영 및 모달 닫기
+        onPatientModified();
+        onClose();
       } catch (err) {
         console.log("에러메세지(환자 추가) : ", err);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -110,16 +140,6 @@ export default function PatientInfoInput({
           onChange={handleInput}
         />
       </div>
-      {/* <div className="form-row">
-        <label htmlFor="gender">성별</label>
-        <input
-          type="text"
-          id="gender"
-          value={formData.gender}
-          placeholder="23"
-          onChange={handleInput}
-        />
-      </div> */}
       <div className="form-row">
         <label htmlFor="gender">성별</label>
         <select
@@ -157,7 +177,9 @@ export default function PatientInfoInput({
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">{patient ? "수정" : "추가"}</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "추가 중..." : patient ? "수정" : "추가"}
+        </button>
       </div>
     </form>
   );

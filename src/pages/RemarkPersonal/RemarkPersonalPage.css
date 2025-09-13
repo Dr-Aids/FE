@@ -1,12 +1,28 @@
-.remark-personal__container {
+.remark__personal__content__container {
+  padding: 2.4rem;
   display: flex;
-  gap: 10px;
-  background-color: white;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+.remark__personal__graphs__container {
+  display: flex;
+  align-items: stretch; /* Align items to stretch to full height */
+  justify-content: start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   box-sizing: border-box;
-  padding: 50px;
-  border: 1px solid #fffeff;
-  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
+}
+
+.content__box__list {
+  flex-basis: 25rem;
+  max-width: 25rem;
+}
+
+.blood__history__container h3,
+.content__box__list h3,
+.weight__cmp__container h3 {
+  margin-bottom: 1rem; /* Add some space below the title */
+  font-size: 1.6rem;
 }

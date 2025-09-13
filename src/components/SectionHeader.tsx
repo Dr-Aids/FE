@@ -7,9 +7,11 @@ import PlusButton from "./ui/PlusButton";
 export default function SectionHeader({
   title,
   children,
+  onPatientModified,
 }: {
   title: string;
   children?: ReactNode;
+  onPatientModified?: () => void;
 }) {
   const [openPatientAdd, setOpenPatientAdd] = useState<boolean>(false);
 
@@ -37,7 +39,10 @@ export default function SectionHeader({
         isOpen={openPatientAdd}
         onClose={() => setOpenPatientAdd(false)}
       >
-        <PatientInfoInput onClose={() => setOpenPatientAdd(false)} />
+        <PatientInfoInput
+          onClose={() => setOpenPatientAdd(false)}
+          onPatientModified={onPatientModified ? onPatientModified : () => {}}
+        />
       </Modal>
     </div>
   );

@@ -9,6 +9,7 @@ interface RecordInputProps {
   session: string;
   bps?: Bp[];
   bpNote?: BpNote;
+  onChangedRecord: () => void;
 }
 
 interface RecordFormData {
@@ -22,6 +23,7 @@ export default function RecordInput({
   session,
   bps,
   bpNote,
+  onChangedRecord,
 }: RecordInputProps) {
   const isModify = !bps && bpNote != null;
 
@@ -31,6 +33,8 @@ export default function RecordInput({
     note: bpNote?.note ?? "",
     isChecked: bpNote?.isChecked ?? false,
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const key = e.target.id;
@@ -58,7 +62,7 @@ export default function RecordInput({
       note: formData.note,
       isChecked: formData.isChecked,
     };
-
+    setIsLoading(true);
     if (isModify) {
       try {
         if (!accessToken)
@@ -71,13 +75,15 @@ export default function RecordInput({
           },
           body: JSON.stringify(requestBody),
         });
-        const data = await res.json();
-        if (!res.ok)
-          throw new Error(`HTTP Error - ${res.status} - ${data.message}`);
 
+        if (!res.ok) throw new Error(`HTTP Error - ${res.status} `);
+
+        onChangedRecord();
         onClose();
       } catch (err) {
         console.log("에러메세지(혈압 노트 수정) : ", err);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       try {
@@ -91,13 +97,15 @@ export default function RecordInput({
           },
           body: JSON.stringify(requestBody),
         });
-        const data = await res.json();
-        if (!res.ok)
-          throw new Error(`HTTP Error - ${res.status} - ${data.message}`);
 
+        if (!res.ok) throw new Error(`HTTP Error - ${res.status} `);
+
+        onChangedRecord();
         onClose();
       } catch (err) {
         console.log("에러메세지(혈압 노트 등록) : ", err);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -114,7 +122,7 @@ export default function RecordInput({
           disabled={isModify}
         >
           <option value="" hidden>
-            선택하세요
+            {bpNote?.time ?? "선택하세요"}
           </option>
           {!isModify ? (
             bps!.map((item) => (
@@ -157,7 +165,9 @@ export default function RecordInput({
         <button type="button" onClick={onClose}>
           취소
         </button>
-        <button type="submit">{isModify ? "수정" : "추가"}</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "추가 중..." : isModify ? "수정" : "추가"}
+        </button>
       </div>
     </form>
   );

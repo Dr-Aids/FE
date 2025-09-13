@@ -3,11 +3,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid oklch(88.5% 0.062 18.334);
-  border-radius: 10px;
+  border: 0.1rem solid oklch(88.5% 0.062 18.334);
+  border-radius: 1rem;
   background-color: white;
   color: oklch(57.7% 0.245 27.325);
-  padding: 8px 12px;
+  padding: 0.8rem 1.2rem;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s, padding 0.2s;
 }
