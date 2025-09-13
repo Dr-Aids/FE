@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./SessionAdd.css";
+import "./SessionInput.css";
 import { useNavigate } from "react-router-dom";
 
 interface SessionAddProps {
@@ -16,7 +16,7 @@ interface SessionFormData {
   date: string;
 }
 
-export default function SessionAdd({
+export default function SessionInput({
   patientId,
   onClose,
   onSessionAdded,
@@ -121,7 +121,7 @@ export default function SessionAdd({
       <div className="form-row">
         <label htmlFor="date">날짜</label>
         <input
-          type="text"
+          type="date"
           id="date"
           value={formData.date}
           placeholder="2000-01-01"
