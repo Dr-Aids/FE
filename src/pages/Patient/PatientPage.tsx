@@ -29,7 +29,16 @@ export default function PatientPage() {
     session: string;
   }>();
 
-  if (session?.toString() === "0") return <div>회차가 존재하지 않습니다.</div>;
+  if (session?.toString() === "0")
+    return (
+      <div className="card-container">
+        <EmptyDataState
+          type="bpnote"
+          title="회차를 추가해주세요"
+          description="우측 상단에서 새로운 회차를 추가해주세요"
+        />
+      </div>
+    );
 
   const [weightList, setWeightList] = useState<WeightListItem | null>(null);
   const [fiveSessionWeightList, setFiveSessionWeightList] = useState<
