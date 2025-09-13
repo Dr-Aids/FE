@@ -36,7 +36,6 @@ export default function PatientInfoInput({
         }
   );
 
-  console.log(formData);
   const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -110,7 +109,7 @@ export default function PatientInfoInput({
         const match = text.match(/\d+/); // text에서 추가된 투석회차 ID만 추출하기
         if (match) {
           const addedpatientId = Number(match[0]);
-          console.log(addedpatientId);
+
           nav(`patient/${addedpatientId}/0`);
         }
 
