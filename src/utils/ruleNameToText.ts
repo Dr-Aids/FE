@@ -16,8 +16,8 @@ export default function ruleNameToText({
 }) {
   if (type === "weight") {
     if (ruleName === "PREV_DIFF_OVER_3.5KG")
-      return `이전 투석 후 몸무게보다 ${value}kg 증가`;
-    else return `평균 몸무게보다 ${value}kg 증가`;
+      return `이전 투석 후 몸무게보다 ${value.toFixed(1)}kg 증가`;
+    else return `평균 몸무게보다 ${value.toFixed(1)}kg 증가`;
   } else if (type === "bloodPressure") {
     if (
       ruleName === "START_BP_OVER_150" ||
