@@ -34,8 +34,8 @@ export default function PatientPage() {
       <div className="card-container">
         <EmptyDataState
           type="bpnote"
-          title="회차를 추가해주세요"
-          description="우측 상단에서 새로운 회차를 추가해주세요"
+          title={`올바른 회차를 선택해주세요`}
+          description="회차가 없다면 우측 상단에서 새로운 회차를 추가해주세요"
         />
       </div>
     );
