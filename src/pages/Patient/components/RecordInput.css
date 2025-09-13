@@ -44,6 +44,10 @@
   border-color: #007bff; /* 포커스 시 색상 변경 */
 }
 
+.form-row input[type="checkbox"] {
+  margin-left: 29.5rem;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
