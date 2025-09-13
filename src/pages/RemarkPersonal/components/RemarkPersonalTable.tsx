@@ -69,7 +69,11 @@ export default function RemarkPersonalTable({
                   />
                   <IconDataCard
                     type="weight"
-                    value={`${prevRound.preWeight.toFixed(1) ?? "-"}`}
+                    value={
+                      prevRound.preWeight == null
+                        ? "-"
+                        : prevRound.preWeight.toFixed(1)
+                    }
                   />
                 </div>
               </td>
@@ -83,7 +87,11 @@ export default function RemarkPersonalTable({
                   />
                   <IconDataCard
                     type="weight"
-                    value={`${nowRound.preWeight.toFixed(1) ?? "-"}`}
+                    value={
+                      nowRound.preWeight == null
+                        ? "-"
+                        : nowRound.preWeight.toFixed(1)
+                    }
                   />
                 </div>
               ) : (
