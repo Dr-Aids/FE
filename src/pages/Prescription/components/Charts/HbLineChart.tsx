@@ -27,7 +27,7 @@ export default function HbLineChart({ data }: HbLineChart) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="hemoglobin" stroke="blue" />
+          <Line type="monotone" dataKey="hemoglobin" stroke="blue" activeDot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>

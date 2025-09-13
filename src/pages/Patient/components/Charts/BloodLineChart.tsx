@@ -21,8 +21,8 @@ export default function BloodLineChart({ data }: { data: Bp[] }) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="sbp" stroke="#FF928A" />
-          <Line type="monotone" dataKey="dbp" stroke="#8979FF" />
+                    <Line type="monotone" dataKey="sbp" stroke="#FF928A" activeDot={false} />
+          <Line type="monotone" dataKey="dbp" stroke="#8979FF" activeDot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>

@@ -42,12 +42,14 @@ export default function BloodHistoryChart({ data }: { data: TwoBpsItem[] }) {
                   dataKey="dbp"
                   name="DBP"
                   stroke="#8979FF"
+                  activeDot={false}
                 />
                 <Line
                   type="monotone"
                   dataKey="sbp"
                   name="SBP"
                   stroke="#FF928A"
+                  activeDot={false}
                 />
               </LineChart>
             </ResponsiveContainer>
