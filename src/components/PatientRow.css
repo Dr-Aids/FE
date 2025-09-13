@@ -21,7 +21,6 @@
 /* Selected row style */
 .patient-row--selected {
   background-color: #a3cde2 !important;
-  font-weight: bold;
 }
 
 .patient-row td:last-child {
