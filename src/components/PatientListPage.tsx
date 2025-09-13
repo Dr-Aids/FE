@@ -19,7 +19,11 @@ export default function PatientListPage({
         />
       </div>
       <div className="patient-list">
-        {patients && <PatientsList patients={patients} />}
+        {patients?.length === 0 ? (
+          "환자를 추가해주세요"
+        ) : (
+          <PatientsList patients={patients!} />
+        )}
       </div>
     </div>
   );
