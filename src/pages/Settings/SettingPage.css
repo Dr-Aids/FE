@@ -70,6 +70,11 @@
   border-radius: 1rem;
   padding: 1rem;
   box-sizing: border-box;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.setting__logout:hover {
+  background-color: oklch(97.1% 0.013 17.38);
 }
 
 .setting__edit {
@@ -86,4 +91,9 @@
   border-radius: 1rem;
   padding: 1rem;
   box-sizing: border-box;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.setting__edit:hover {
+  background-color: oklch(98.4% 0.014 180.72);
 }
