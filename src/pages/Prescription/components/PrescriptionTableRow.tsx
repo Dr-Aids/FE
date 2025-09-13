@@ -26,6 +26,15 @@ export default function PrescriptionTableRow({
   };
   const [openPrescriptionModal, setOpenPrescriptionModal] =
     useState<boolean>(false);
+  const [isEditHovered, setIsEditHovered] = useState(false);
+  const [isTrashHovered, setIsTrashHovered] = useState(false);
+
+  const evenRowColor = "#CBE8EE";
+  const oddRowColor = "#E6F1FD";
+  const rowColor = index % 2 === 0 ? evenRowColor : oddRowColor;
+
+  const editButtonColor = isEditHovered ? "#B0C4DE" : rowColor;
+  const trashButtonColor = isTrashHovered ? "#E57373" : rowColor;
 
   const handleClickDeletePrescription = async () => {
     if (!confirm("정말로 삭제하시겠습니까?")) return;
@@ -48,11 +57,9 @@ export default function PrescriptionTableRow({
     <>
       <tr
         className="prescription__tr"
-        style={
-          index % 2 === 0
-            ? { backgroundColor: "#CBE8EE" }
-            : { backgroundColor: "#E6F1FD" }
-        }
+        style={{
+          backgroundColor: rowColor,
+        }}
       >
         <td>{date}</td>
         <td>{hematapoieticAgent}</td>
@@ -86,24 +93,33 @@ export default function PrescriptionTableRow({
             >
               <Pencil
                 size={20}
+                color="#4A90E2"
                 style={{
                   border: "1px solid #ccc",
                   padding: "0.8rem",
                   borderRadius: "12px",
                   cursor: "pointer",
+                  backgroundColor: editButtonColor,
+                  transition: "background-color 0.3s",
                 }}
                 onClick={() => setOpenPrescriptionModal(true)}
+                onMouseEnter={() => setIsEditHovered(true)}
+                onMouseLeave={() => setIsEditHovered(false)}
               />
               <Trash2
                 size={20}
+                color="#D0021B"
                 style={{
                   border: "1px solid #ccc",
                   padding: "0.8rem",
                   borderRadius: "12px",
                   cursor: "pointer",
-                  background: "transparent",
+                  backgroundColor: trashButtonColor,
+                  transition: "background-color 0.3s",
                 }}
                 onClick={handleClickDeletePrescription}
+                onMouseEnter={() => setIsTrashHovered(true)}
+                onMouseLeave={() => setIsTrashHovered(false)}
               />
             </span>
           </div>
