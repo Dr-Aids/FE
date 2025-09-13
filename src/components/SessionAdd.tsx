@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./SessionAdd.css";
+import { useNavigate } from "react-router-dom";
 
 interface SessionAddProps {
   onClose: () => void;
@@ -26,6 +27,8 @@ export default function SessionAdd({
     const dd = String(d.getDate()).padStart(2, "0"); // 01~31
     return `${yyyy}-${mm}-${dd}`;
   };
+
+  const nav = useNavigate();
 
   const [formData, setFormData] = useState<SessionFormData>({
     patientId: patientId,
@@ -63,6 +66,15 @@ export default function SessionAdd({
         body: JSON.stringify({ ...formData }),
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+      const text = await res.text();
+
+      const match = text.match(/\d+/); // text에서 추가된 투석회차만 추출하기
+      if (match) {
+        const addedSession = Number(match[0]);
+        console.log(addedSession);
+        nav(`patient/${patientId}/${addedSession}`);
+      }
 
       onSessionAdded();
       onClose();
