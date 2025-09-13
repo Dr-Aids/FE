@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import type { PatientSummaryHeader } from "../types/patientSummaryType";
 import "./PatientInfoInput.css";
+import { useNavigate } from "react-router-dom";
 
 interface PatientInfoInputProps {
   patient?: PatientSummaryHeader;
@@ -22,6 +23,7 @@ export default function PatientInfoInput({
     pic: patient?.pic ?? "",
   });
 
+  const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +85,17 @@ export default function PatientInfoInput({
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+        // 성공했을 때 text 받고, text로부터 새로 추가된 환자 ID 추출하기
+        // 그 후 추가한 환자 페이지로 이동
+        const text = await res.text();
+
+        const match = text.match(/\d+/); // text에서 추가된 투석회차 ID만 추출하기
+        if (match) {
+          const addedpatientId = Number(match[0]);
+          console.log(addedpatientId);
+          nav(`patient/${addedpatientId}/0`);
+        }
 
         // 성공했을 때 최신 데이터 반영 및 모달 닫기
         onPatientModified();
