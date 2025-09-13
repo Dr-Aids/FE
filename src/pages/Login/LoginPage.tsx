@@ -11,6 +11,8 @@ export default function LoginPage() {
   const [pw, setPw] = useState("");
   const { login } = useAuth();
 
+  if (localStorage.getItem("accessToken")) nav("/main");
+
   function handleInputId(e: React.ChangeEvent<HTMLInputElement>) {
     setId(e.target.value);
   }
@@ -22,7 +24,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(id, pw);
-      nav("/main");
     } catch (err) {
       alert(err);
     }
