@@ -207,7 +207,7 @@ export default function SignupPage() {
               <div>병원</div>
               <div
                 style={{
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   cursor: "pointer",
                 }}
                 onClick={() => setOpenHospitalModal(true)}
