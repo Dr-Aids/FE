@@ -21,7 +21,7 @@ export default function PRELineChart({ data }) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="preWeight" stroke="#8884d8" />
+          <Line type="monotone" dataKey="preWeight" stroke="#8884d8" activeDot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>

@@ -14,10 +14,10 @@ export default function PatientsList({
       <thead>
         <tr>
           <th>
-            <div>Name/gender</div>
+            <div>이름 (성별)</div>
           </th>
           <th>
-            <div>age / birth</div>
+            <div>생년월일</div>
           </th>
           <th>
             <div>구분</div>

@@ -20,9 +20,9 @@ export default function BarGraph({ data }) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="preWeight" fill="#CBE8EE" />
-          <Bar dataKey="dryWeight" fill="#E6F1FD" />
-          <Bar dataKey="postWeight" fill="#7FBBE9" />
+          <Bar dataKey="preWeight" fill="#CBE8EE" activeBar={false} />
+          <Bar dataKey="dryWeight" fill="#E6F1FD" activeBar={false} />
+          <Bar dataKey="postWeight" fill="#7FBBE9" activeBar={false} />
         </BarChart>
       </ResponsiveContainer>
     </div>

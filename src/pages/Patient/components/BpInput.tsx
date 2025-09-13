@@ -37,7 +37,7 @@ export default function BpInput({
           session: session,
           sbp: "",
           dbp: "",
-          measurementTime: `${new Date().getHours}:${new Date().getMinutes}`,
+          measurementTime: `${new Date().getHours()}:${new Date().getMinutes()}`,
         }
       : {
           patientId: patientId,

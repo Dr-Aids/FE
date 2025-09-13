@@ -14,6 +14,7 @@ export type PatientSummaryHeader = {
   birth: string;
   gender: "MALE" | "FEMALE";
   disease: string;
+  visiting?: string;
   pic: string;
 };
 

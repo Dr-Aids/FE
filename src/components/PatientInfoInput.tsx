@@ -13,16 +13,30 @@ export default function PatientInfoInput({
   onClose,
   onPatientModified,
 }: PatientInfoInputProps) {
-  const [formData, setFormData] = useState<PatientSummaryHeader>({
-    id: patient?.id ?? -1,
-    name: patient?.name ?? "",
-    age: patient?.age ?? 0,
-    birth: patient?.birth ?? "",
-    gender: patient?.gender ?? "MALE",
-    disease: patient?.disease ?? "",
-    pic: patient?.pic ?? "",
-  });
+  const [formData, setFormData] = useState<PatientSummaryHeader>(
+    patient
+      ? {
+          id: patient?.id ?? -1,
+          name: patient?.name ?? "",
+          age: patient?.age ?? 0,
+          birth: patient?.birth ?? "",
+          gender: patient?.gender ?? "MALE",
+          disease: patient?.disease ?? "",
+          visiting: patient?.visiting,
+          pic: patient?.pic ?? "",
+        }
+      : {
+          id: -1,
+          name: "",
+          age: 0,
+          birth: "",
+          gender: "MALE",
+          disease: "",
+          pic: "",
+        }
+  );
 
+  console.log(formData);
   const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -60,7 +74,10 @@ export default function PatientInfoInput({
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({ ...formData }),
+          body: JSON.stringify({
+            ...formData,
+            visiting: formData.visiting === "true" ? true : false,
+          }),
         });
         if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
 
@@ -123,17 +140,18 @@ export default function PatientInfoInput({
       <div className="form-row">
         <label htmlFor="age">나이</label>
         <input
-          type="text"
+          type="number"
           id="age"
           value={formData.age}
           placeholder="23"
           onChange={handleInput}
+          min={0}
         />
       </div>
       <div className="form-row">
         <label htmlFor="birth">생년월일</label>
         <input
-          type="text"
+          type="date"
           id="birth"
           value={formData.birth}
           placeholder="2000-01-01"
@@ -162,6 +180,24 @@ export default function PatientInfoInput({
           onChange={handleInput}
         />
       </div>
+
+      {patient && (
+        <div className="form-row">
+          <label htmlFor="visiting">내원 여부</label>
+          <select
+            id="visiting"
+            onChange={handleChangeOption}
+            value={formData.visiting}
+          >
+            <option value="" hidden>
+              선택하세요
+            </option>
+            <option value={"true"}>내원</option>
+            <option value={"false"}>외래</option>
+          </select>
+        </div>
+      )}
+
       <div className="form-row">
         <label htmlFor="pic">주치의</label>
         <input

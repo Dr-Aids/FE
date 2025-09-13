@@ -146,6 +146,9 @@ export default function RecordInput({
           value={formData.note}
           placeholder="노트를 입력하세요"
           onChange={handleInput}
+          style={{
+            minWidth: "30rem",
+          }}
         />
       </div>
 

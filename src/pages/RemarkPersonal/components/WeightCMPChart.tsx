@@ -169,6 +169,7 @@ const ComparisonChart = ({
                 stackId="a"
                 fill={BASE_COLOR}
                 shape={<SideBorderedBar />}
+                activeBar={false}
               >
                 <LabelList dataKey="base" content={<InsideLabel />} />
               </Bar>
@@ -177,6 +178,7 @@ const ComparisonChart = ({
                 stackId="a"
                 fill={INCREASE_COLOR}
                 shape={<TopBorderedBar />}
+                activeBar={false}
               >
                 <LabelList
                   dataKey="change"
@@ -191,6 +193,7 @@ const ComparisonChart = ({
                 stackId="a"
                 fill={BASE_COLOR}
                 shape={<FullBorderedBar />}
+                activeBar={false}
               >
                 <LabelList dataKey="base" content={<InsideLabel />} />
               </Bar>
@@ -199,6 +202,7 @@ const ComparisonChart = ({
                 stackId="a"
                 fill={DECREASE_COLOR}
                 shape={<TopRoundedBar />}
+                activeBar={false}
               >
                 <LabelList
                   dataKey="change"

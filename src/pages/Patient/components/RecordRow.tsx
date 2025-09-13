@@ -1,5 +1,5 @@
 import { useState } from "react";
-import EditButton from "../../../components/ui/EditButton";
+
 import TrashButton from "../../../components/ui/TrashButton";
 import type { BpNote } from "../../../types/PatientDetailTypes";
 import "./RecordRow.css";
@@ -19,6 +19,7 @@ export default function RecordRow({
 }: RecordRowProps) {
   const [openModifyRecord, setOpenRecordModifyRecord] =
     useState<boolean>(false);
+
   const { time, isChecked, author, note } = bpNote;
 
   const handleClickDeleteRecord = async () => {
@@ -43,29 +44,24 @@ export default function RecordRow({
   };
   return (
     <div className="recordrow__container">
-      <div className="recordrow__info">
+      <div
+        className="recordrow__info"
+        onClick={() => setOpenRecordModifyRecord(true)}
+        style={{ cursor: "pointer" }}
+      >
         <input type="checkbox" checked={isChecked} readOnly />
         <span>{time}</span>
         <span style={{ color: "#6F9EA6", fontWeight: "bold", flexShrink: 0 }}>
           {author}
         </span>
-        <span
-          style={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {note}
-        </span>
+        <span className="recordrow__note">{note}</span>
       </div>
       <span className="recordrow__buttons">
-        <EditButton onClick={() => setOpenRecordModifyRecord(true)} />
         <TrashButton onClick={handleClickDeleteRecord} />
       </span>
 
       <Modal
-        title="혈압 노트 수정"
+        title="혈압 노트"
         isOpen={openModifyRecord}
         onClose={() => setOpenRecordModifyRecord(false)}
       >
