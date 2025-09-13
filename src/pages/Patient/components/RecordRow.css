@@ -3,6 +3,8 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  overflow: hidden;
 }
 
 .recordrow__info {
@@ -10,13 +12,17 @@
   flex-direction: row;
   gap: 0.8rem;
   align-items: center;
+
+  min-width: 0;
+  flex: 1;
 }
 
-.recordrow__buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  gap: 0.5rem;
-  padding-left: 1rem;
+.recordrow__note {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  max-width: 65rem;
+  min-width: 0;
+  flex: 1;
 }
