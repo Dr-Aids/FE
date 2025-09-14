@@ -2,16 +2,20 @@ import "./LoginPage.css";
 import Button from "../../components/ui/LoginButton";
 import LoginLogo from "../../assets/login-logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function LoginPage() {
   const nav = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const { login } = useAuth();
+  const { login, isLogin } = useAuth();
 
-  if (localStorage.getItem("accessToken")) nav("/main");
+  useEffect(() => {
+    if (isLogin) {
+      nav("/main");
+    }
+  }, [isLogin, nav]);
 
   function handleInputId(e: React.ChangeEvent<HTMLInputElement>) {
     setId(e.target.value);

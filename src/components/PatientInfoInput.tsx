@@ -125,7 +125,18 @@ export default function PatientInfoInput({
             visiting: formData.visiting === "true" ? true : false,
           }),
         });
-        if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+        // 에러 분기 처리
+        if (!res.ok) {
+          const errorStatus: ResponseStatus = await res.json();
+          if (errorStatus.status === 404) {
+            if (errorStatus.code === "DOCTOR_NOT_FOUND") {
+              setFormErrors((prev) => ({ ...prev, pic: errorStatus.message }));
+              throw new Error(errorStatus.message);
+            }
+          }
+
+          throw new Error(`HTTP Error - ${res.status}`);
+        }
 
         // 성공했을 때 최신 데이터 반영 및 모달 닫기
         onPatientModified();
