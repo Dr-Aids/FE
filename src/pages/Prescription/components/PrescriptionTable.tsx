@@ -15,28 +15,28 @@ export default function PrescriptionTable({
     Prescription[] | null
   >(null);
 
+  const accessToken = localStorage.getItem("accessToken");
+
+  const fetchPrescription = async () => {
+    try {
+      if (!accessToken) throw new Error("잘못된 접근입니다");
+
+      const response = await fetch(
+        `/api/prescriptions?patientId=${patientId}&targetDate=${date}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
+      const data = await response.json();
+      setPrescriptionData(data);
+    } catch (err) {
+      console.log("에러메세지(fetchBloodResult) : ", err);
+    }
+  };
+
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-
-    const fetchPrescription = async () => {
-      try {
-        if (!accessToken) throw new Error("잘못된 접근입니다");
-
-        const response = await fetch(
-          `/api/prescriptions?patientId=${patientId}&targetDate=${date}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-
-        if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
-        const data = await response.json();
-        setPrescriptionData(data);
-      } catch (err) {
-        console.log("에러메세지(fetchBloodResult) : ", err);
-      }
-    };
-
     fetchPrescription();
   }, [patientId, date]);
   return (
@@ -59,7 +59,12 @@ export default function PrescriptionTable({
             </tr>
           ) : prescriptionData.length > 0 ? (
             prescriptionData.map((data, index) => (
-              <PrescriptionTableRow key={data.id} {...data} index={index} />
+              <PrescriptionTableRow
+                key={data.id}
+                {...data}
+                index={index}
+                onChangedPrescription={fetchPrescription}
+              />
             ))
           ) : (
             <tr>
