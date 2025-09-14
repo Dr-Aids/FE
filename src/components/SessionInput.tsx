@@ -16,7 +16,7 @@ interface SessionFormData {
   date: string;
 }
 
-interface SessionFormErros {
+interface SessionFormErrors {
   preWeight?: string;
   dryWeight?: string;
   targetUF?: string;
@@ -45,12 +45,12 @@ export default function SessionInput({
     date: formatDate(),
   });
 
-  const [formErrors, setFormErrors] = useState<SessionFormErros>({});
+  const [formErrors, setFormErrors] = useState<SessionFormErrors>({});
 
   const [isLoading, setIsLoading] = useState(false);
 
   const checkField = () => {
-    const newErrors: SessionFormErros = {};
+    const newErrors: SessionFormErrors = {};
     if (!formData.dryWeight) {
       newErrors.dryWeight = "건체중을 입력해주세요";
     }
@@ -72,7 +72,7 @@ export default function SessionInput({
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.target.id as keyof SessionFormErros;
+    const key = e.target.id as keyof SessionFormErrors;
     const value = e.target.value;
     setFormData((prev) => ({
       ...prev,
