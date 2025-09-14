@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import type { PatientSummaryHeader } from "../types/patientSummaryType";
 import "./PatientInfoInput.css";
 import { useNavigate } from "react-router-dom";
+import type { ResponseStatus } from "../types/ResponseStatus";
 
 interface PatientInfoInputProps {
   patient?: PatientSummaryHeader;
@@ -46,6 +47,7 @@ export default function PatientInfoInput({
           pic: "",
         }
   );
+  const [formErrors, setFormErrors] = useState<PatientFormErros>({});
 
   const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +55,7 @@ export default function PatientInfoInput({
   const checkField = () => {
     const newErrors: PatientFormErros = {};
     if (formData.name === "") {
-      newErrors.age = "이름을 입력해주세요";
+      newErrors.name = "이름을 입력해주세요";
     }
     if (formData.age < 0) {
       newErrors.age = "올바른 나이를 입력해주세요";
@@ -75,16 +77,21 @@ export default function PatientInfoInput({
       newErrors.pic = "주치의를 입력해주세요";
     }
 
-    console.log(newErrors);
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // checkFiled의 반환이 true여야 데이터가 정상 입력된 상태
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.target.id;
+    const key = e.target.id as keyof PatientFormErros;
     const value = e.target.value;
     setFormData((prev) => ({
       ...prev,
       [key]: value,
     }));
+
+    if (formErrors[key]) {
+      setFormErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   };
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -98,7 +105,7 @@ export default function PatientInfoInput({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    checkField();
+    if (!checkField()) return;
     const accessToken = localStorage.getItem("accessToken");
 
     setIsLoading(true);
@@ -140,7 +147,19 @@ export default function PatientInfoInput({
           },
           body: JSON.stringify({ ...formData }),
         });
-        if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+
+        // 에러 분기 처리
+        if (!res.ok) {
+          const errorStatus: ResponseStatus = await res.json();
+          if (errorStatus.status === 404) {
+            if (errorStatus.code === "DOCTOR_NOT_FOUND") {
+              setFormErrors((prev) => ({ ...prev, pic: errorStatus.message }));
+              throw new Error(errorStatus.message);
+            }
+          }
+
+          throw new Error(`HTTP Error - ${res.status}`);
+        }
 
         // 성공했을 때 text 받고, text로부터 새로 추가된 환자 ID 추출하기
         // 그 후 추가한 환자 페이지로 이동
@@ -176,81 +195,102 @@ export default function PatientInfoInput({
             placeholder="홍길동"
             onChange={handleInput}
           />
-          <span>?</span>
+
+          {formErrors.name && <span>{formErrors.name}</span>}
         </div>
       </div>
 
       <div className="form-row">
         <label htmlFor="age">나이</label>
-        <input
-          type="number"
-          id="age"
-          value={formData.age}
-          placeholder="23"
-          onChange={handleInput}
-          min={1}
-        />
+        <div className="form-input-col">
+          <input
+            type="number"
+            id="age"
+            value={formData.age}
+            placeholder="23"
+            onChange={handleInput}
+            min={1}
+          />
+          {formErrors.age && <span>{formErrors.age}</span>}
+        </div>
       </div>
+
       <div className="form-row">
         <label htmlFor="birth">생년월일</label>
-        <input
-          type="date"
-          id="birth"
-          value={formData.birth}
-          placeholder="2000-01-01"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="date"
+            id="birth"
+            value={formData.birth}
+            placeholder="2000-01-01"
+            onChange={handleInput}
+          />
+          {formErrors.birth && <span>{formErrors.birth}</span>}
+        </div>
       </div>
       <div className="form-row">
         <label htmlFor="gender">성별</label>
-        <select
-          id="gender"
-          onChange={handleChangeOption}
-          defaultValue={formData.gender}
-          value={formData.gender}
-        >
-          <option value={"MALE"}>남</option>
-          <option value={"FEMALE"}>여</option>
-        </select>
+        <div className="form-input-col">
+          <select
+            id="gender"
+            onChange={handleChangeOption}
+            defaultValue={formData.gender}
+            value={formData.gender}
+          >
+            <option value={"MALE"}>남</option>
+            <option value={"FEMALE"}>여</option>
+          </select>
+        </div>
       </div>
+
       <div className="form-row">
         <label htmlFor="disease">병명</label>
-        <input
-          type="text"
-          id="disease"
-          value={formData.disease}
-          placeholder="당뇨병"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="text"
+            id="disease"
+            value={formData.disease}
+            placeholder="당뇨병"
+            onChange={handleInput}
+          />
+          {formErrors.disease && <span>{formErrors.disease}</span>}
+        </div>
       </div>
 
       {patient && (
         <div className="form-row">
           <label htmlFor="visiting">내원 여부</label>
-          <select
-            id="visiting"
-            onChange={handleChangeOption}
-            value={formData.visiting}
-          >
-            <option value="" hidden>
-              선택하세요
-            </option>
-            <option value={"true"}>내원</option>
-            <option value={"false"}>외래</option>
-          </select>
+          <div className="form-input-col">
+            <select
+              id="visiting"
+              onChange={handleChangeOption}
+              value={formData.visiting}
+              defaultValue={"true"}
+            >
+              <option value="" hidden>
+                선택하세요
+              </option>
+              <option value={"true"}>내원</option>
+              <option value={"false"}>외래</option>
+            </select>
+            {formErrors.visiting && <span>{formErrors.visiting}</span>}
+          </div>
         </div>
       )}
 
       <div className="form-row">
         <label htmlFor="pic">주치의</label>
-        <input
-          disabled={patient != null}
-          type="text"
-          id="pic"
-          value={formData.pic}
-          placeholder="강희승"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            disabled={patient != null}
+            type="text"
+            id="pic"
+            value={formData.pic}
+            placeholder="강희승"
+            onChange={handleInput}
+          />
+          {formErrors.pic && <span>{formErrors.pic}</span>}
+        </div>
       </div>
       <div className="form-actions">
         <button type="button" onClick={onClose}>
