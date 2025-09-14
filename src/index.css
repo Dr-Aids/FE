@@ -65,6 +65,14 @@ div {
   position: relative;
 }
 
+.form-input-col span {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  color: #007bff;
+  font-size: 1.4rem;
+}
+
 .form-row label {
   width: 8rem;
   font-weight: bold;
