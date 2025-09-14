@@ -7,6 +7,7 @@ import { useState } from "react";
 
 interface PrescriptionTableRowProps extends Prescription {
   index: number;
+  onChangedPrescription: () => void;
 }
 
 export default function PrescriptionTableRow({
@@ -16,6 +17,7 @@ export default function PrescriptionTableRow({
   hematapoieticAgent,
   iu,
   description,
+  onChangedPrescription,
 }: PrescriptionTableRowProps) {
   const newRow: Prescription = {
     id: id,
@@ -47,8 +49,6 @@ export default function PrescriptionTableRow({
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
-      const data = await res.json();
-      console.log(data.message);
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
     }
@@ -133,6 +133,7 @@ export default function PrescriptionTableRow({
         <PrescriptionInput
           onClose={() => setOpenPrescriptionModal(false)}
           prescription={newRow}
+          onChangedPrescription={onChangedPrescription}
         />
       </Modal>
     </>
