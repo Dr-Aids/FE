@@ -86,7 +86,7 @@ export default function SessionInput({
   };
 
   return (
-    <form className="patient-info-modify-form" onSubmit={handleSubmit}>
+    <form className="session-input-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="preWeight">Pre-Weight</label>
         <input

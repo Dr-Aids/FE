@@ -8,6 +8,17 @@ interface PatientInfoInputProps {
   onClose: () => void;
   onPatientModified: () => void;
 }
+
+interface PatientFormErros {
+  name?: string;
+  age?: string;
+  birth?: string;
+  gender?: string;
+  disease?: string;
+  visiting?: string;
+  pic?: string;
+}
+
 export default function PatientInfoInput({
   patient,
   onClose,
@@ -28,7 +39,7 @@ export default function PatientInfoInput({
       : {
           id: -1,
           name: "",
-          age: 0,
+          age: 1,
           birth: "",
           gender: "MALE",
           disease: "",
@@ -38,6 +49,34 @@ export default function PatientInfoInput({
 
   const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
+  const checkField = () => {
+    const newErrors: PatientFormErros = {};
+    if (formData.name === "") {
+      newErrors.age = "이름을 입력해주세요";
+    }
+    if (formData.age < 0) {
+      newErrors.age = "올바른 나이를 입력해주세요";
+    }
+
+    if (!formData.birth) {
+      newErrors.birth = "생년월일을 입력해주세요";
+    }
+
+    if (formData.disease === "") {
+      newErrors.disease = "병명을 입력해주세요";
+    }
+
+    if (formData.visiting && !formData.visiting) {
+      newErrors.visiting = "내원 여부를 선탹해주세요";
+    }
+
+    if (formData.pic === "") {
+      newErrors.pic = "주치의를 입력해주세요";
+    }
+
+    console.log(newErrors);
+  };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.id;
@@ -59,6 +98,7 @@ export default function PatientInfoInput({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    checkField();
     const accessToken = localStorage.getItem("accessToken");
 
     setIsLoading(true);
@@ -128,14 +168,18 @@ export default function PatientInfoInput({
     <form className="patient-info-modify-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="name">이름</label>
-        <input
-          type="text"
-          id="name"
-          value={formData.name}
-          placeholder="홍길동"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="text"
+            id="name"
+            value={formData.name}
+            placeholder="홍길동"
+            onChange={handleInput}
+          />
+          <span>?</span>
+        </div>
       </div>
+
       <div className="form-row">
         <label htmlFor="age">나이</label>
         <input
@@ -144,7 +188,7 @@ export default function PatientInfoInput({
           value={formData.age}
           placeholder="23"
           onChange={handleInput}
-          min={0}
+          min={1}
         />
       </div>
       <div className="form-row">

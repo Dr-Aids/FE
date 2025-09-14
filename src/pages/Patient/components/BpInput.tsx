@@ -151,7 +151,7 @@ export default function BpInput({
     }));
   }, [formData.bloodId]);
   return (
-    <form className="patient-info-modify-form" onSubmit={handleSubmit}>
+    <form className="bp-input-form" onSubmit={handleSubmit}>
       {bps && (
         <div className="form-row">
           <label htmlFor="bloodId">수정할 시간 선택</label>

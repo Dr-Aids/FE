@@ -111,7 +111,7 @@ export default function RecordInput({
   };
 
   return (
-    <form className="patient-info-modify-form" onSubmit={handleSubmit}>
+    <form className="record-input-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="bloodId">시간 선택</label>
         <select
