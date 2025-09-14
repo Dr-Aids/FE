@@ -16,6 +16,13 @@ interface SessionFormData {
   date: string;
 }
 
+interface SessionFormErros {
+  preWeight?: string;
+  dryWeight?: string;
+  targetUF?: string;
+  date?: string;
+}
+
 export default function SessionInput({
   patientId,
   onClose,
@@ -38,19 +45,48 @@ export default function SessionInput({
     date: formatDate(),
   });
 
+  const [formErrors, setFormErrors] = useState<SessionFormErros>({});
+
   const [isLoading, setIsLoading] = useState(false);
 
+  const checkField = () => {
+    const newErrors: SessionFormErros = {};
+    if (!formData.dryWeight) {
+      newErrors.dryWeight = "건체중을 입력해주세요";
+    }
+
+    if (!formData.preWeight) {
+      newErrors.preWeight = "현재 체중을 입력해주세요";
+    }
+
+    if (!formData.targetUF) {
+      newErrors.targetUF = "목표 UF를 입력해주세요";
+    }
+
+    if (!formData.date) {
+      newErrors.date = "날짜를 입력해주세요";
+    }
+
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // checkFiled의 반환이 true여야 데이터가 정상 입력된 상태
+  };
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.target.id;
+    const key = e.target.id as keyof SessionFormErros;
     const value = e.target.value;
     setFormData((prev) => ({
       ...prev,
       [key]: value,
     }));
+
+    if (formErrors[key]) {
+      setFormErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    if (!checkField()) return;
     const accessToken = localStorage.getItem("accessToken");
 
     setIsLoading(true);
@@ -89,45 +125,63 @@ export default function SessionInput({
     <form className="session-input-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="preWeight">Pre-Weight</label>
-        <input
-          type="number"
-          id="preWeight"
-          value={formData.preWeight ?? ""}
-          placeholder="10.0"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="number"
+            id="preWeight"
+            value={formData.preWeight ?? ""}
+            placeholder="10.0"
+            onChange={handleInput}
+            min={0}
+          />
+          {formErrors.preWeight && <span>{formErrors.preWeight}</span>}
+        </div>
       </div>
+
       <div className="form-row">
         <label htmlFor="dryWeight">Dry Weight</label>
-        <input
-          type="number"
-          id="dryWeight"
-          value={formData.dryWeight ?? ""}
-          placeholder="10.0"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="number"
+            id="dryWeight"
+            value={formData.dryWeight ?? ""}
+            placeholder="10.0"
+            onChange={handleInput}
+            min={0}
+          />
+          {formErrors.dryWeight && <span>{formErrors.dryWeight}</span>}
+        </div>
       </div>
+
       <div className="form-row">
         <label htmlFor="targetUF">Target UF</label>
-        <input
-          type="number"
-          id="targetUF"
-          value={formData.targetUF ?? ""}
-          placeholder="10.0"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="number"
+            id="targetUF"
+            value={formData.targetUF ?? ""}
+            placeholder="10.0"
+            onChange={handleInput}
+            min={0}
+          />
+          {formErrors.targetUF && <span>{formErrors.targetUF}</span>}
+        </div>
       </div>
 
       <div className="form-row">
         <label htmlFor="date">날짜</label>
-        <input
-          type="date"
-          id="date"
-          value={formData.date}
-          placeholder="2000-01-01"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="date"
+            id="date"
+            value={formData.date}
+            placeholder="2000-01-01"
+            onChange={handleInput}
+          />
+          {formErrors.date && <span>{formErrors.date}</span>}
+        </div>
       </div>
+
       <div className="form-actions">
         <button type="button" onClick={onClose}>
           취소
