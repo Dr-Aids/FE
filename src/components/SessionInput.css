@@ -1,49 +1,6 @@
-.patient-info-modify-form {
+.session-input-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   padding: 1rem;
-}
-
-.form-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.form-row label {
-  width: 8rem;
-  font-weight: bold;
-}
-
-.form-row input {
-  flex: 1;
-  padding: 0.8rem;
-  border: 0.1rem solid #ccc; /* 명확한 border 색상 지정 */
-  border-radius: 0.4rem;
-}
-
-.form-row input:focus {
-  outline: none;
-  border-color: #007bff; /* 포커스 시 색상 변경 */
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.form-actions button {
-  padding: 0.8rem 1.5rem;
-  border: 0.1rem solid #ccc;
-  border-radius: 0.4rem;
-  cursor: pointer;
-}
-
-.form-actions button[type="submit"] {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
 }
