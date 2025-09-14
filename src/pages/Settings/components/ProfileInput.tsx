@@ -6,9 +6,30 @@ interface ProfileInputProsp {
   onClose: () => void;
   user: User;
 }
+
+interface ProfileFormErrors {
+  username?: string;
+  role?: string;
+}
 export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
   const [formData, setFormData] = useState<User>(user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [formErrors, setFormErrors] = useState<ProfileFormErrors>({});
+
+  const checkField = () => {
+    const newErrors: ProfileFormErrors = {};
+    if (!formData!.username) {
+      newErrors.username = "이름을 입력해주세요";
+    }
+
+    if (!formData!.role) {
+      newErrors.role = "역할을 선택해주세요";
+    }
+
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // checkFiled의 반환이 true여야 데이터가 정상 입력된 상태
+  };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,6 +59,7 @@ export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    if (!checkField()) return;
 
     const accessToken = localStorage.getItem("accessToken");
 
@@ -71,26 +93,32 @@ export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
     <form className="profile-input-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="username">이름</label>
-        <input
-          type="text"
-          id="username"
-          value={formData?.username}
-          placeholder="홍길동"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="text"
+            id="username"
+            value={formData?.username}
+            placeholder="홍길동"
+            onChange={handleInput}
+          />
+          {formErrors.username && <span>{formErrors.username}</span>}
+        </div>
       </div>
 
       <div className="form-row">
-        <label htmlFor="role">성별</label>
-        <select
-          id="role"
-          onChange={handleChangeOption}
-          defaultValue={formData?.role}
-          value={formData?.role}
-        >
-          <option value={"DOCTOR"}>DOCTOR</option>
-          <option value={"NURSE"}>NURSE</option>
-        </select>
+        <label htmlFor="role">역할</label>
+        <div className="form-input-col">
+          <select
+            id="role"
+            onChange={handleChangeOption}
+            defaultValue={formData?.role}
+            value={formData?.role}
+          >
+            <option value={"DOCTOR"}>DOCTOR</option>
+            <option value={"NURSE"}>NURSE</option>
+          </select>
+          {formErrors.role && <span>{formErrors.role}</span>}
+        </div>
       </div>
 
       <div className="form-actions">
