@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Bp } from "../../../types/PatientDetailTypes";
 import "./BpInput.css";
+// import type { ResponseStatus } from "../../../types/ResponseStatus";
 
 interface BpInputProps {
   patientId: string;
@@ -21,6 +22,12 @@ interface BpFormData {
   sbp: string;
   dbp: string;
   measurementTime: string;
+}
+
+interface BpFormErrors {
+  sbp?: string;
+  dbp?: string;
+  measurementTime?: string;
 }
 
 export default function BpInput({
@@ -49,6 +56,8 @@ export default function BpInput({
         }
   );
 
+  const [formErrors, setFormErrors] = useState<BpFormErrors>({});
+
   const [isLoadingDelete, setIsLoadingDelete] = useState<boolean>(false);
   const [isLoadingModify, setIsLoadingModify] = useState<boolean>(false);
 
@@ -61,14 +70,36 @@ export default function BpInput({
     return local.toISOString();
   }
 
+  const checkField = () => {
+    const newErrors: BpFormErrors = {};
+    if (!formData.sbp) {
+      newErrors.sbp = "수축기 혈압을 입력해주세요";
+    }
+
+    if (!formData.dbp) {
+      newErrors.dbp = "이완기 혈압을 입력해주세요";
+    }
+
+    if (!formData.measurementTime) {
+      newErrors.measurementTime = "측정 시간을 입력해주세요";
+    }
+
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // checkFiled의 반환이 true여야 데이터가 정상 입력된 상태
+  };
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const key = e.target.id;
+    const key = e.target.id as keyof BpFormErrors;
     const value = e.target.value;
 
     setFormData((prev) => ({
       ...prev,
       [key]: value,
     }));
+
+    if (formErrors[key]) {
+      setFormErrors((prev) => ({ ...prev, [key]: undefined }));
+    }
   };
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -80,6 +111,7 @@ export default function BpInput({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    if (!checkField()) return;
     const accessToken = localStorage.getItem("accessToken");
 
     setIsLoadingModify(true);
@@ -97,7 +129,12 @@ export default function BpInput({
           measurementTime: todayAt(formData.measurementTime),
         }),
       });
-      if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      if (!res.ok) {
+        // const errorStatus: ResponseStatus = await res.json();
+        // console.log(errorStatus);
+
+        throw new Error(`HTTP Error - ${res.status}`);
+      }
 
       onChangedBp();
       onClose();
@@ -155,24 +192,26 @@ export default function BpInput({
       {bps && (
         <div className="form-row">
           <label htmlFor="bloodId">수정할 시간 선택</label>
-          <select
-            id="bloodId"
-            value={formData.bloodId}
-            onChange={handleChangeOption}
-            required
-          >
-            <option value="" hidden>
-              선택하세요
-            </option>
-            {bps!.map((item) => (
-              <option
-                key={item.bloodPressureId}
-                value={String(item.bloodPressureId)}
-              >
-                {item.time}
+          <div className="form-input-col">
+            <select
+              id="bloodId"
+              value={formData.bloodId}
+              onChange={handleChangeOption}
+              required
+            >
+              <option value="" hidden>
+                선택하세요
               </option>
-            ))}
-          </select>
+              {bps!.map((item) => (
+                <option
+                  key={item.bloodPressureId}
+                  value={String(item.bloodPressureId)}
+                >
+                  {item.time}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
@@ -180,35 +219,46 @@ export default function BpInput({
         <label htmlFor="measurementTime">
           시간 {bps == null ? "입력" : "변경"}
         </label>
-        <input
-          id="measurementTime"
-          type="time"
-          value={formData.measurementTime}
-          placeholder="노트를 입력하세요"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            id="measurementTime"
+            type="time"
+            value={formData.measurementTime}
+            placeholder="노트를 입력하세요"
+            onChange={handleInput}
+          />
+        </div>
+        {formErrors.measurementTime && (
+          <span>{formErrors.measurementTime}</span>
+        )}
       </div>
 
       <div className="form-row">
         <label htmlFor="sbp">수축기(sbp)</label>
-        <input
-          type="text"
-          id="sbp"
-          value={formData.sbp}
-          placeholder="135"
-          onChange={handleInput}
-        />
+        <div className="form-input-col">
+          <input
+            type="number"
+            id="sbp"
+            value={formData.sbp}
+            placeholder="135"
+            onChange={handleInput}
+          />
+          {formErrors.sbp && <span>{formErrors.sbp}</span>}
+        </div>
       </div>
 
       <div className="form-row">
-        <label htmlFor="sbp">이완기(dbp)</label>
-        <input
-          type="text"
-          id="dbp"
-          value={formData.dbp}
-          placeholder="70"
-          onChange={handleInput}
-        />
+        <label htmlFor="dbp">이완기(dbp)</label>
+        <div className="form-input-col">
+          <input
+            type="number"
+            id="dbp"
+            value={formData.dbp}
+            placeholder="70"
+            onChange={handleInput}
+          />
+          {formErrors.dbp && <span>{formErrors.dbp}</span>}
+        </div>
       </div>
 
       <div className="form-actions">
