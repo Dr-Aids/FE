@@ -67,7 +67,7 @@ export default function HospitalInput({
   };
 
   return (
-    <form className="patient-info-modify-form" onSubmit={handleSubmit}>
+    <form className="hospital-input-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="hospitalName">병원 이름</label>
         <input

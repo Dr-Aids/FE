@@ -60,7 +60,7 @@ export default function PrescriptionInput({
     }
   };
   return (
-    <form className="patient-info-modify-form" onSubmit={handleSubmit}>
+    <form className="prescription-input-form" onSubmit={handleSubmit}>
       <div className="form-row">
         <label htmlFor="date">날짜</label>
         <input
