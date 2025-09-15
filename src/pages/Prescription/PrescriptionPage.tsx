@@ -6,6 +6,7 @@ import PrescriptionTable from "./components/PrescriptionTable";
 import { useEffect, useState } from "react";
 import type { BloodResult, Hb } from "../../types/PrescriptionTypes";
 import EmptyDataState from "../../components/EmptyDataState";
+import { API_URL } from "../../config";
 
 export default function PrescriptionPage() {
   const { patientId, date: rawDate } = useParams<{
@@ -26,7 +27,7 @@ export default function PrescriptionPage() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/blood-test/all?patientId=${patientId}&targetDate=${rawDate}`,
+          `${API_URL}/blood-test/all?patientId=${patientId}&targetDate=${rawDate}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
@@ -45,7 +46,7 @@ export default function PrescriptionPage() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/blood-test/only-hb?patientId=${patientId}&targetDate=${date}-01`,
+          `${API_URL}/blood-test/only-hb?patientId=${patientId}&targetDate=${date}-01`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }

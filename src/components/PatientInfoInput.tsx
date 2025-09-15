@@ -3,6 +3,7 @@ import type { PatientSummaryHeader } from "../types/patientSummaryType";
 import "./PatientInfoInput.css";
 import { useNavigate } from "react-router-dom";
 import type { ResponseStatus } from "../types/ResponseStatus";
+import { API_URL } from "../config";
 
 interface PatientInfoInputProps {
   patient?: PatientSummaryHeader;
@@ -114,7 +115,7 @@ export default function PatientInfoInput({
       try {
         if (!accessToken)
           throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch(`/api/patient/info/${patient.id}`, {
+        const res = await fetch(`${API_URL}/patient/info/${patient.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -150,7 +151,7 @@ export default function PatientInfoInput({
       try {
         if (!accessToken)
           throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch(`/api/patient/info`, {
+        const res = await fetch(`${API_URL}/patient/info`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

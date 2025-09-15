@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import type { Prescription } from "../../../types/PrescriptionTypes";
 import "./PrescriptionInput.css";
 import { useState } from "react";
+import { API_URL } from "../../../config";
 
 interface PrescriptionInputPorps {
   onClose: () => void;
@@ -82,7 +83,7 @@ export default function PrescriptionInput({
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/prescriptions`, {
+      const res = await fetch(`${API_URL}/prescriptions`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

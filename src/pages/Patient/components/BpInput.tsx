@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Bp } from "../../../types/PatientDetailTypes";
 import "./BpInput.css";
+import { API_URL } from "../../../config";
 // import type { ResponseStatus } from "../../../types/ResponseStatus";
 
 interface BpInputProps {
@@ -118,7 +119,7 @@ export default function BpInput({
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/blood-pressure`, {
+      const res = await fetch(`${API_URL}/blood-pressure`, {
         method: bps == null ? "POST" : "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -154,7 +155,7 @@ export default function BpInput({
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
       const res = await fetch(
-        `/api/blood-pressure?bloodId=${formData.bloodId}`,
+        `${API_URL}/blood-pressure?bloodId=${formData.bloodId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${accessToken}` },

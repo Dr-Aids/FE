@@ -9,6 +9,7 @@ import TrashButton from "./ui/TrashButton";
 import SessionInput from "./SessionInput";
 import PlusButton from "./ui/PlusButton";
 import { sortISOStrings } from "../utils/sortISOStrings";
+import { API_URL } from "../config";
 
 type SessionItem = {
   session: number;
@@ -86,7 +87,7 @@ export default function PatientSummaryCard() {
   const fetchPatientSummary = async () => {
     try {
       if (!token) throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/patient/info/${patientId}`, {
+      const res = await fetch(`${API_URL}/patient/info/${patientId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
@@ -101,7 +102,7 @@ export default function PatientSummaryCard() {
     try {
       if (!token) throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
       const res = await fetch(
-        `/api/prescriptions/dates?patientId=${patientId}`,
+        `${API_URL}/prescriptions/dates?patientId=${patientId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -120,7 +121,7 @@ export default function PatientSummaryCard() {
   const fetchAllSession = async () => {
     try {
       if (!token) throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/session?patientId=${patientId}`, {
+      const res = await fetch(`${API_URL}/session?patientId=${patientId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -171,7 +172,7 @@ export default function PatientSummaryCard() {
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/patient/info/${patientId}`, {
+      const res = await fetch(`${API_URL}/patient/info/${patientId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -191,7 +192,7 @@ export default function PatientSummaryCard() {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
       const res = await fetch(
-        `/api/session?patientId=${patientId}&sessionId=${session}`,
+        `${API_URL}/session?patientId=${patientId}&sessionId=${session}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${accessToken}` },

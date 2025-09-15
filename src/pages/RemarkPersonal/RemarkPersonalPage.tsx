@@ -13,6 +13,7 @@ import type { Bp } from "../../types/PatientDetailTypes";
 import BloodHistoryChart from "./components/BloodHistoryChart";
 import type { ResponseStatus } from "../../types/ResponseStatus";
 import EmptyDataState from "../../components/EmptyDataState";
+import { API_URL } from "../../config";
 
 export interface TwoBpsItem {
   session: string;
@@ -72,7 +73,7 @@ export default function RemarkPersonalPage() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/special-note/patient/${patientId}/${session}`,
+          `${API_URL}/special-note/patient/${patientId}/${session}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
@@ -104,7 +105,7 @@ export default function RemarkPersonalPage() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/blood-pressure/special-note/current?patientId=${patientId}&session=${session}`,
+          `${API_URL}/blood-pressure/special-note/current?patientId=${patientId}&session=${session}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
@@ -128,7 +129,7 @@ export default function RemarkPersonalPage() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/weight/special-note/compare?patientId=${patientId}&session=${session}`,
+          `${API_URL}/weight/special-note/compare?patientId=${patientId}&session=${session}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
@@ -147,7 +148,7 @@ export default function RemarkPersonalPage() {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
         const response = await fetch(
-          `/api/blood-pressure/special-note/recent?patientId=${patientId}&session=${session}`,
+          `${API_URL}/blood-pressure/special-note/recent?patientId=${patientId}&session=${session}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ProfileInput.css";
 import type { User } from "../../../types/userData";
+import { API_URL } from "../../../config";
 
 interface ProfileInputProsp {
   onClose: () => void;
@@ -67,7 +68,7 @@ export default function ProfileInput({ onClose, user }: ProfileInputProsp) {
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/user`, {
+      const res = await fetch(`${API_URL}/user`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

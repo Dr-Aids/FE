@@ -4,6 +4,7 @@ import type { PatientListRow } from "../types/patientSummaryType";
 import { useEffect, useState } from "react";
 import { sortISOStrings } from "../utils/sortISOStrings";
 import "./PatientRow.css"; // CSS 파일 임포트
+import { API_URL } from "../config";
 
 type PatientRowProps = PatientListRow & { index: number };
 
@@ -36,7 +37,7 @@ export default function PatientRow({
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
 
-      const response = await fetch(`/api/session?patientId=${id}`, {
+      const response = await fetch(`${API_URL}/session?patientId=${id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
@@ -65,9 +66,12 @@ export default function PatientRow({
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/prescriptions/dates?patientId=${id}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      const res = await fetch(
+        `${API_URL}/prescriptions/dates?patientId=${id}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
       const data: string[] = await res.json();
 
@@ -86,7 +90,9 @@ export default function PatientRow({
   // 현재 행이 선택되었는지 확인
   const isSelected = selectedPatientId === id.toString();
 
-  const rowClassName = `patient-row ${isSelected ? "patient-row--selected" : ""}`;
+  const rowClassName = `patient-row ${
+    isSelected ? "patient-row--selected" : ""
+  }`;
 
   return (
     <tr className={rowClassName} onClick={handleClickPatientRow}>

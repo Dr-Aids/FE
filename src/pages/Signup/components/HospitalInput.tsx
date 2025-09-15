@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./HospitalInput.css";
 import type { ResponseStatus } from "../../../types/ResponseStatus";
+import { API_URL } from "../../../config";
 
 export default function HospitalInput({
   onClose,
@@ -37,7 +38,7 @@ export default function HospitalInput({
     setIsLoading(true);
     try {
       const res = await fetch(
-        `/api/hospital?hospitalName=${formData.hospitalName}`,
+        `${API_URL}/hospital?hospitalName=${formData.hospitalName}`,
         {
           method: "POST",
         }

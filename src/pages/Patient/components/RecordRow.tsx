@@ -5,6 +5,7 @@ import type { BpNote } from "../../../types/PatientDetailTypes";
 import "./RecordRow.css";
 import Modal from "../../../components/Modal";
 import RecordInput from "./RecordInput";
+import { API_URL } from "../../../config";
 
 interface RecordRowProps {
   bpNote: BpNote;
@@ -29,7 +30,7 @@ export default function RecordRow({
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
       const res = await fetch(
-        `/api/blood-pressure/notes?pressureId=${bpNote.bloodPressureId}`,
+        `${API_URL}/blood-pressure/notes?pressureId=${bpNote.bloodPressureId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${accessToken}` },

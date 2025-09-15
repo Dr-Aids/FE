@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./RecordInput.css";
 import type { Bp, BpNote } from "../../../types/PatientDetailTypes";
+import { API_URL } from "../../../config";
 
 // 수정하러 들어오는거면 bpNote를 받고, bps를 받지 않음
 // 새로 추가하는거면 bps만 받고, bpNote를 받지않음
@@ -67,7 +68,7 @@ export default function RecordInput({
       try {
         if (!accessToken)
           throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch("/api/blood-pressure/notes", {
+        const res = await fetch(`${API_URL}/blood-pressure/notes`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -89,7 +90,7 @@ export default function RecordInput({
       try {
         if (!accessToken)
           throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-        const res = await fetch("/api/blood-pressure/notes", {
+        const res = await fetch(`${API_URL}/blood-pressure/notes`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

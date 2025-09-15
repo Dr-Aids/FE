@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { User } from "../types/userData";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 
 type AuthContextValue = {
   user: User | null; // ← nullable
@@ -40,7 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // 만료 시 새 accessToken 재발급
   const refresh = async (): Promise<string | null> => {
-    const r = await fetch("/api/auth/refresh", {
+    const r = await fetch(`${API_URL}/auth/refresh`, {
       method: "POST",
       credentials: "include", // 👈 쿠키 전송 필수
     });
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     (async () => {
       // 1) 현재 토큰으로 프로필 조회
-      let res = await fetch("/api/user", {
+      let res = await fetch(`${API_URL}/user`, {
         headers: { Authorization: `Bearer ${access}` },
         credentials: "include",
       });
@@ -75,7 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           nav("/");
           return;
         }
-        res = await fetch("/api/user", {
+        res = await fetch(`${API_URL}/user`, {
           headers: { Authorization: `Bearer ${next}` },
           credentials: "include",
         });
@@ -89,7 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // 로그인 로직
   const login = async (email: string, password: string) => {
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -111,14 +112,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // (3) 내 정보 세팅
-      const me = await fetch("/api/user", {
-        headers: { Authorization: `Bearer ${next ?? access ?? ""}` },
+      const tokenForReq = next; // 'login' 직후이므로 항상 'next' 토큰을 사용해야 합니다.
+      if (!tokenForReq) {
+        alert("로그인에 성공했으나 인증 토큰을 받지 못했습니다.");
+        return;
+      }
+
+      const me = await fetch(`${API_URL}/user`, {
+        headers: { Authorization: `Bearer ${tokenForReq}` },
         credentials: "include",
       });
-      if (me.ok) setUser(await me.json());
 
-      // (4) 이동
-      nav("/main");
+      if (me.ok) {
+        setUser(await me.json());
+        // (4) 이동
+        nav("/main");
+      } else {
+        alert("사용자 정보를 가져오는 데 실패했습니다. 다시 로그인해주세요.");
+        // 토큰은 받았지만 후속 요청이 실패했으므로, 받은 토큰을 무효화 처리합니다.
+        setAccess(null);
+        localStorage.removeItem("accessToken");
+      }
     } catch (e) {
       console.error(e);
       alert("로그인 중 오류가 발생했습니다.");

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import type { RemarkPatient } from "../../types/RemarkTypes";
 import ruleNameToText from "../../utils/ruleNameToText";
 import EmptyDataState from "../../components/EmptyDataState";
+import { API_URL } from "../../config";
 
 const TypeCell = ({ type }: { type: string }) => (
   <span className="type__container">
@@ -25,7 +26,7 @@ export default function RemarkAllPatients() {
       try {
         if (!accessToken) throw new Error("잘못된 접근입니다");
 
-        const response = await fetch("/api/special-note/all", {
+        const response = await fetch(`${API_URL}/special-note/all`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
 

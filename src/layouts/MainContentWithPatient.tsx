@@ -5,6 +5,7 @@ import PatientListPage from "../components/PatientListPage";
 import SectionHeader from "../components/SectionHeader.tsx";
 import { useEffect, useState } from "react";
 import type { PatientListRow } from "../types/patientSummaryType.ts";
+import { API_URL } from "../config.ts";
 
 export default function MainContentWithPatient() {
   const { patientId, session } = useParams<{
@@ -26,7 +27,7 @@ export default function MainContentWithPatient() {
       if (!accessToken) throw new Error("잘못된 접근입니다");
 
       // 여기까지 온거면 로그인은 되어 있는 상태
-      const response = await fetch("/api/patient/list", {
+      const response = await fetch(`${API_URL}/patient/list`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 

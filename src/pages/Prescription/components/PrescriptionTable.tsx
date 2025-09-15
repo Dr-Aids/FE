@@ -3,6 +3,7 @@ import "./PrescriptionTable.css";
 
 import { useEffect, useState } from "react";
 import type { Prescription } from "../../../types/PrescriptionTypes";
+import { API_URL } from "../../../config";
 
 export default function PrescriptionTable({
   patientId,
@@ -22,7 +23,7 @@ export default function PrescriptionTable({
       if (!accessToken) throw new Error("잘못된 접근입니다");
 
       const response = await fetch(
-        `/api/prescriptions?patientId=${patientId}&targetDate=${date}`,
+        `${API_URL}/prescriptions?patientId=${patientId}&targetDate=${date}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }

@@ -4,6 +4,7 @@ import "./PrescriptionTable.css";
 import Modal from "../../../components/Modal";
 import PrescriptionInput from "./PrescriptionInput";
 import { useState } from "react";
+import { API_URL } from "../../../config";
 
 interface PrescriptionTableRowProps extends Prescription {
   index: number;
@@ -44,7 +45,7 @@ export default function PrescriptionTableRow({
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/prescriptions?prescriptionId=${id}`, {
+      const res = await fetch(`${API_URL}/prescriptions?prescriptionId=${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${accessToken}` },
       });

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal";
 import HospitalInput from "./components/HospitalInput";
+import { API_URL } from "../../config";
 
 interface FormErrors {
   email?: string;
@@ -44,7 +45,7 @@ export default function SignupPage() {
 
   const fetchHospitals = async () => {
     try {
-      const res = await fetch("api/hospital/list");
+      const res = await fetch(`${API_URL}/hospital/list`);
       if (!res.ok) throw new Error(`HTTP ERROR - ${res.status}`);
       const data = await res.json();
       setHospitalList(data);
@@ -94,7 +95,7 @@ export default function SignupPage() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/join", {
+        const response = await fetch(`${API_URL}/join`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

@@ -22,6 +22,7 @@ import PlusButton from "../../components/ui/PlusButton";
 import BpInput from "./components/BpInput";
 import BloodLineChart from "./components/Charts/BloodLineChart";
 import EmptyDataState from "../../components/EmptyDataState";
+import { API_URL } from "../../config";
 
 export default function PatientPage() {
   const { patientId, session } = useParams<{
@@ -59,7 +60,7 @@ export default function PatientPage() {
       if (!accessToken) throw new Error("잘못된 접근입니다");
 
       const response = await fetch(
-        `/api/session/weight?patientId=${patientId}&session=${session}`,
+        `${API_URL}/session/weight?patientId=${patientId}&session=${session}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
@@ -83,7 +84,7 @@ export default function PatientPage() {
       if (!accessToken) throw new Error("잘못된 접근입니다");
 
       const response = await fetch(
-        `/api/session/bps?patientId=${patientId}&session=${session}`,
+        `${API_URL}/session/bps?patientId=${patientId}&session=${session}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
@@ -109,7 +110,7 @@ export default function PatientPage() {
       if (!accessToken) throw new Error("잘못된 접근입니다");
 
       const response = await fetch(
-        `/api/session/bpnotes?patientId=${patientId}&session=${session}`,
+        `${API_URL}/session/bpnotes?patientId=${patientId}&session=${session}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
@@ -137,7 +138,7 @@ export default function PatientPage() {
       if (!accessToken) throw new Error("잘못된 접근입니다");
 
       const response = await fetch(
-        `/api/session/weights?patientId=${patientId}&session=${session}`,
+        `${API_URL}/session/weights?patientId=${patientId}&session=${session}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
@@ -174,7 +175,7 @@ export default function PatientPage() {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
       const res = await fetch(
-        `/api/weight?patientId=${patientId}&session=${session}`,
+        `${API_URL}/weight?patientId=${patientId}&session=${session}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${accessToken}` },

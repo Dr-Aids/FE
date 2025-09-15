@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./WeightInput.css";
 import type { WeightListItem } from "../../../types/PatientDetailTypes";
+import { API_URL } from "../../../config";
 // import type { ResponseStatus } from "../../../types/ResponseStatus";
 
 interface WeightInputProps {
@@ -94,7 +95,7 @@ export default function WeightInput({
     try {
       if (!accessToken)
         throw new Error("잘못된 접근입니다 - 로그인 후 시도해주세요");
-      const res = await fetch(`/api/weight`, {
+      const res = await fetch(`${API_URL}/weight`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
