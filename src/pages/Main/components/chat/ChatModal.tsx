@@ -3,7 +3,13 @@ import CloseButton from "../../../../assets/close_chat_modal_icon.svg";
 import HistoryIcon from "../../../../assets/history_icon.svg";
 import SmallChat from "./SmallChat";
 
-export default function ChatModal({ isModalOpen, onClose }) {
+export default function ChatModal({
+  isModalOpen,
+  onClose,
+}: {
+  isModalOpen: boolean;
+  onClose: () => void;
+}) {
   return (
     <div>
       {isModalOpen && (

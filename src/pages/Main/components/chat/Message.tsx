@@ -2,7 +2,7 @@ import "./Message.css";
 import AiIcon from "../../../../assets/main_logo.svg";
 import DoctorIcon from "../../../../assets/doctor_icon.svg";
 
-export default function Message({ role }) {
+export default function Message({ role }: { role: string }) {
   return (
     <div className={`message__container__${role}`}>
       <img

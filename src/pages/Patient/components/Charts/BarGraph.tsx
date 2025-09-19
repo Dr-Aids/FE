@@ -10,7 +10,8 @@ import {
 } from "recharts";
 
 import "./BarGraph.css";
-export default function BarGraph({ data }) {
+import type { FiveSessionWeightList } from "../../../../types/PatientDetailTypes";
+export default function BarGraph({ data }: { data: FiveSessionWeightList[] }) {
   return (
     <div className="bar__chart__container">
       <ResponsiveContainer width="100%">

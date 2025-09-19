@@ -2,7 +2,13 @@ import "./HistoryCard.css";
 import HistoryIcon from "../../../assets/history_icon.svg";
 import HistoryList from "./HistoryList";
 
-export default function HistoryCard({ title, onRowClick }) {
+export default function HistoryCard({
+  title,
+  onRowClick,
+}: {
+  title: string;
+  onRowClick: () => void;
+}) {
   return (
     <div className="history__card__container">
       <div className="history__card__header">

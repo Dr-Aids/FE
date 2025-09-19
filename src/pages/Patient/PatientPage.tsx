@@ -95,10 +95,11 @@ export default function PatientPage() {
       if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
       // State에 값 넣어주는 지점
-      const newData = data.map((item) => ({
+      const newData = data.map((item: Bp) => ({
         ...item,
         time: formatYMDTHM(item.time).slice(9),
       }));
+      console.log(newData);
       setBp(newData);
     } catch (err) {
       console.log("에러메세지(fetchBp) : ", err);
@@ -120,8 +121,8 @@ export default function PatientPage() {
       if (!response.ok) throw new Error(`HTTP Error - ${response.status}`);
 
       const newData = data
-        .filter((item) => item.author !== null)
-        .map((item) => ({
+        .filter((item: BpNote) => item.author !== null)
+        .map((item: BpNote) => ({
           ...item,
           time: formatYMDTHM(item.time).slice(9),
         }));

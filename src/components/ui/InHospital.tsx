@@ -1,6 +1,10 @@
 import "./InHospital.css";
 
-export default function InHospitalIcon({ inHospital }) {
+export default function InHospitalIcon({
+  inHospital,
+}: {
+  inHospital: boolean;
+}) {
   return (
     <div
       className="in-hospital__icon"

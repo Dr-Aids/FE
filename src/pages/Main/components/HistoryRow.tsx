@@ -1,7 +1,7 @@
 import "./HistoryRow.css";
 import SoundIcon from "../../../assets/sound_icon.svg";
 
-export default function HistoryRow({ onRowClick }) {
+export default function HistoryRow({ onRowClick }: { onRowClick: () => void }) {
   return (
     <div className="historyrow__container" onClick={onRowClick}>
       <div className="historyrow__text__container">

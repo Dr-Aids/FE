@@ -3,7 +3,7 @@ import VoiceIcon from "../../../assets/voice_icon.svg";
 import DocumentIcon from "../../../assets/document_icon.svg";
 import SmallChat from "./chat/SmallChat";
 
-export default function MainCard({ title }) {
+export default function MainCard({ title }: { title: string }) {
   return (
     <div className="main__card__container">
       <div className="main__card__header">
