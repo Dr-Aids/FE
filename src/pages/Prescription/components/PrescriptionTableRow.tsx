@@ -50,6 +50,7 @@ export default function PrescriptionTableRow({
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
+      onChangedPrescription();
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
     }
