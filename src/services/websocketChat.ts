@@ -83,10 +83,17 @@ export class WebSocketChatService {
       return;
     }
 
+    const payload = { 
+      roomId: this.roomId, 
+      message
+    };
+
+    console.log("[SEND] Full payload:", payload);
+
     this.stompClient.publish({
       destination: "/app/send",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ roomId: this.roomId, message }),
+      body: JSON.stringify(payload),
     });
 
     console.log("[SEND] me:", message);

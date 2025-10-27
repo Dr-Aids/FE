@@ -55,9 +55,11 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
   }, [propRoomId]);
 
   useEffect(() => {
+    if (!roomId) return; // roomId가 없으면 연결하지 않음
+
     const token = localStorage.getItem("accessToken");
-    if (!token || !roomId) {
-      console.error("Access token 또는 roomId가 없습니다.");
+    if (!token) {
+      console.error("Access token이 없습니다.");
       return;
     }
 
@@ -88,7 +90,12 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
     e.preventDefault();
     if (!inputValue.trim() || !wsServiceRef.current) return;
 
-    wsServiceRef.current.sendMessage(inputValue.trim());
+    // 사용자 메시지를 즉시 추가
+    const userMessage = inputValue.trim();
+    setMessages((prev) => [...prev, { message: userMessage, role: "user" }]);
+    
+    console.log("[SEND] Sending message:", userMessage, "to room:", roomId);
+    wsServiceRef.current.sendMessage(userMessage);
     setInputValue("");
   };
 
