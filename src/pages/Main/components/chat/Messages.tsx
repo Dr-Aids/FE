@@ -1,12 +1,22 @@
 import Message from "./Message";
 import "./Messages.css";
 
-export default function Messages() {
+interface MessagesProps {
+  messages: Array<{ message: string; role: string }>;
+}
+
+export default function Messages({ messages }: MessagesProps) {
   return (
     <div className="messages__container">
-      <Message role={"ai"} /> <Message role={"doctor"} />
-      <Message role={"ai"} /> <Message role={"doctor"} />
-      <Message role={"ai"} /> <Message role={"doctor"} />
+      {messages.length === 0 ? (
+        <div style={{ textAlign: "center", padding: "2rem", color: "#999" }}>
+          메시지가 없습니다.
+        </div>
+      ) : (
+        messages.map((msg, idx) => (
+          <Message key={idx} message={msg.message} role={msg.role} />
+        ))
+      )}
     </div>
   );
 }

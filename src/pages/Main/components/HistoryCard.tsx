@@ -7,7 +7,7 @@ export default function HistoryCard({
   onRowClick,
 }: {
   title: string;
-  onRowClick: () => void;
+  onRowClick: (roomId: string) => void;
 }) {
   return (
     <div className="history__card__container">
