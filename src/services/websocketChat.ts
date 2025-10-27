@@ -43,34 +43,36 @@ export class WebSocketChatService {
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
-      onConnect: () => {
-        console.log("[CONNECTED]");
-
-        // 메시지 구독
-        this.stompClient?.subscribe(`/topic/messages/${this.roomId}`, (msg) => {
-          try {
-            const body = JSON.parse(msg.body);
-            this.onMessageCallback({
-              message: body.message || body.text || "",
-              role: body.role || "ai",
-              roomId: this.roomId,
-            });
-          } catch (e) {
-            console.error("[RECV RAW]", msg.body);
-          }
-        });
-
-        if (this.onConnectCallback) {
-          this.onConnectCallback();
-        }
-      },
-      onError: (err) => {
-        console.error("[ERROR]", err);
-        if (this.onErrorCallback) {
-          this.onErrorCallback(err);
-        }
-      },
     });
+
+    this.stompClient.onConnect = () => {
+      console.log("[CONNECTED]");
+
+      // 메시지 구독
+      this.stompClient?.subscribe(`/topic/messages/${this.roomId}`, (msg) => {
+        try {
+          const body = JSON.parse(msg.body);
+          this.onMessageCallback({
+            message: body.message || body.text || "",
+            role: body.role || "ai",
+            roomId: this.roomId,
+          });
+        } catch (e) {
+          console.error("[RECV RAW]", msg.body);
+        }
+      });
+
+      if (this.onConnectCallback) {
+        this.onConnectCallback();
+      }
+    };
+
+    this.stompClient.onStompError = (frame) => {
+      console.error("[ERROR]", frame);
+      if (this.onErrorCallback) {
+        this.onErrorCallback(new Error(frame.headers.message || "WebSocket error"));
+      }
+    };
 
     this.stompClient.activate();
   }
