@@ -6,9 +6,11 @@ import SmallChat from "./SmallChat";
 export default function ChatModal({
   isModalOpen,
   onClose,
+  roomId,
 }: {
   isModalOpen: boolean;
   onClose: () => void;
+  roomId?: string;
 }) {
   return (
     <div>
@@ -20,13 +22,13 @@ export default function ChatModal({
               onClick={(e) => e.stopPropagation()}
             >
               <div className="close__modal__container" onClick={onClose}>
-                <img className="close__modal__btn" src={CloseButton} />
+                <img className="close__modal__btn" src={CloseButton} alt="닫기" />
               </div>
               <div className="modal__header">
-                <img className="close__modal__btn" src={HistoryIcon} />
+                <img className="close__modal__btn" src={HistoryIcon} alt="히스토리" />
                 Q&A 기록
               </div>
-              <SmallChat />
+              <SmallChat roomId={roomId} />
             </div>
           </div>
         </>

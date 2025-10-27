@@ -7,13 +7,15 @@ import ChatModal from "./components/chat/ChatModal";
 
 export default function MainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRoomId, setSelectedRoomId] = useState<string | undefined>();
 
-  const openModal = () => {
+  const openModal = (roomId: string) => {
+    setSelectedRoomId(roomId);
     setIsModalOpen(true);
-    console.log(isModalOpen);
   };
   const closeModal = () => {
     setIsModalOpen(false);
+    setSelectedRoomId(undefined);
   };
   return (
     <div className="mainpage__container">
@@ -21,10 +23,14 @@ export default function MainPage() {
       <div className="mainpage__top__content">
         <MainCard title={"Q&A"} />
         <MainCard title={"Summary"} />
-        <HistoryCard title={"Q&A 기록"} onRowClick={openModal} />
-        <HistoryCard title={"Summary 기록"} onRowClick={openModal} />
+        <HistoryCard title={"Q&A 기록"} onRowClick={(roomId) => openModal(roomId)} />
+        <HistoryCard title={"Summary 기록"} onRowClick={(roomId) => openModal(roomId)} />
       </div>
-      <ChatModal isModalOpen={isModalOpen} onClose={closeModal} />
+      <ChatModal
+        isModalOpen={isModalOpen}
+        onClose={closeModal}
+        roomId={selectedRoomId}
+      />
     </div>
   );
 }
