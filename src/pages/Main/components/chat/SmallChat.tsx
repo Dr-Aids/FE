@@ -15,6 +15,7 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
   const [messages, setMessages] = useState<Array<{ message: string; role: string }>>([]);
   
   const [inputValue, setInputValue] = useState("");
+  const [isWaitingForAI, setIsWaitingForAI] = useState(false);
   const wsServiceRef = useRef<WebSocketChatService | null>(null);
 
   // 메시지 히스토리 로드
@@ -68,12 +69,28 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
       roomId,
       (msg) => {
         console.log("[RECV]", msg.role, ":", msg.message);
+        
+        // 메시지 추가
         setMessages((prev) => [
           ...prev,
           { message: msg.message, role: msg.role || "ai" },
         ]);
+        
+        // AI 응답을 받으면 로딩 상태 해제
+        if (msg.role === "ai" || msg.role === "assistant") {
+          setIsWaitingForAI(false);
+        }
+        
+        // 사용자 메시지를 받았을 때도 로딩 상태 해제 (에러 방지)
+        if (msg.role === "user") {
+          setIsWaitingForAI(false);
+        }
       },
-      (err) => console.error("[ERROR]", err),
+      (err) => {
+        console.error("[ERROR]", err);
+        // 에러 발생 시에도 로딩 상태 해제
+        setIsWaitingForAI(false);
+      },
       () => console.log("[CONNECTED]")
     );
 
@@ -88,11 +105,12 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim() || !wsServiceRef.current) return;
+    if (!inputValue.trim() || !wsServiceRef.current || isWaitingForAI) return;
 
-    // 사용자 메시지를 즉시 추가
     const userMessage = inputValue.trim();
-    setMessages((prev) => [...prev, { message: userMessage, role: "user" }]);
+    
+    // AI 응답 대기 중 상태로 전환
+    setIsWaitingForAI(true);
     
     console.log("[SEND] Sending message:", userMessage, "to room:", roomId);
     wsServiceRef.current.sendMessage(userMessage);
@@ -101,15 +119,20 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
 
   return (
     <div className="smallchat__container">
-      <Messages messages={messages} />
+      <Messages messages={messages} isWaitingForAI={isWaitingForAI} />
 
       <form className="smallchat__form" onSubmit={handleSubmit}>
         <input
           placeholder="메세지 입력"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          disabled={isWaitingForAI}
+          style={{ 
+            opacity: isWaitingForAI ? 0.6 : 1,
+            cursor: isWaitingForAI ? 'not-allowed' : 'text'
+          }}
         />
-        <button type="submit">
+        <button type="submit" disabled={isWaitingForAI}>
           <img src={SendButton} alt="전송" />
         </button>
       </form>

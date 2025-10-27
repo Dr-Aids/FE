@@ -5,9 +5,11 @@ import DoctorIcon from "../../../../assets/doctor_icon.svg";
 export default function Message({
   message,
   role,
+  isLoading = false,
 }: {
   message: string;
   role: string;
+  isLoading?: boolean;
 }) {
   // role 정규화: ai/assistant -> ai, 나머지는 user
   const normalizedRole = role === "ai" || role === "assistant" ? "ai" : "user";
@@ -19,7 +21,15 @@ export default function Message({
         src={normalizedRole === "ai" ? AiIcon : DoctorIcon}
         alt={normalizedRole}
       />
-      <div>{message}</div>
+      {isLoading ? (
+        <div className="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      ) : (
+        <div>{message}</div>
+      )}
     </div>
   );
 }
