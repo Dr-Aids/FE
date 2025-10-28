@@ -2,12 +2,15 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.5rem;
   width: 100%;
-  max-height: 500px;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  padding: 1rem;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 .messages__container::-webkit-scrollbar {

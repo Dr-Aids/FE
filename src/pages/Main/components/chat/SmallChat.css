@@ -5,27 +5,29 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  border: 0.1rem solid #f9f9fa;
-  border-radius: 10px;
-  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9fa;
+  background-color: white;
   overflow: hidden;
   box-sizing: border-box;
-  padding: 2rem 1rem;
 }
 
 .smallchat__form {
-  width: 90%;
-  height: 7rem;
+  width: 100%;
+  max-width: 800px;
+  min-height: 56px;
   box-sizing: border-box;
-  background: none;
-  border: 0.1rem solid #fffeff;
-  border-radius: 10px;
-  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.1);
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  transition: border-color 0.2s;
+}
+
+.smallchat__form:focus-within {
+  border-color: #10a37f;
 }
 
 .smallchat__form > input {
@@ -35,7 +37,12 @@
   border: none;
   height: 100%;
   box-sizing: border-box;
-  font-size: 1.8rem;
+  font-size: 1rem;
+  color: #202123;
+}
+
+.smallchat__form > input::placeholder {
+  color: #8e8ea0;
 }
 
 .smallchat__form input:focus {
@@ -45,8 +52,24 @@
 .smallchat__form button {
   background: none;
   border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: opacity 0.2s;
+}
+
+.smallchat__form button:hover:not(:disabled) {
+  opacity: 0.7;
+}
+
+.smallchat__form button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .smallchat__form button img {
-  background: none;
+  width: 24px;
+  height: 24px;
 }

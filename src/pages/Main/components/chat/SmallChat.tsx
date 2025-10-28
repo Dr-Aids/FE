@@ -18,12 +18,23 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
   const [isWaitingForAI, setIsWaitingForAI] = useState(false);
   const wsServiceRef = useRef<WebSocketChatService | null>(null);
 
+  // propRoomId가 변경되면 roomId 업데이트
+  useEffect(() => {
+    if (propRoomId && propRoomId !== roomId) {
+      console.log("채팅방 전환:", propRoomId);
+      setRoomId(propRoomId);
+      setMessages([]); // 메시지 초기화
+      setInputValue(""); // 입력창 초기화
+    }
+  }, [propRoomId, roomId]);
+
   // 메시지 히스토리 로드
   useEffect(() => {
     if (!roomId) return;
 
     const loadMessages = async () => {
       try {
+        console.log("메시지 로드 중:", roomId);
         const data = await chatApi.getRecentMessages(roomId);
         setMessages(data);
       } catch (error) {
@@ -70,19 +81,19 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
       (msg) => {
         console.log("[RECV]", msg.role, ":", msg.message);
         
-        // 메시지 추가
-        setMessages((prev) => [
-          ...prev,
-          { message: msg.message, role: msg.role || "ai" },
-        ]);
-        
-        // AI 응답을 받으면 로딩 상태 해제
-        if (msg.role === "ai" || msg.role === "assistant") {
-          setIsWaitingForAI(false);
+        // 사용자 메시지는 이미 UI에 표시했으므로 무시
+        if (msg.role === "user") {
+          console.log("ℹ️ 사용자 메시지 echo 무시");
+          return;
         }
         
-        // 사용자 메시지를 받았을 때도 로딩 상태 해제 (에러 방지)
-        if (msg.role === "user") {
+        // AI 메시지만 추가
+        if (msg.role === "ai" || msg.role === "assistant") {
+          console.log("✅ AI 응답 수신, 로딩 해제");
+          setMessages((prev) => [
+            ...prev,
+            { message: msg.message, role: msg.role || "ai" },
+          ]);
           setIsWaitingForAI(false);
         }
       },
@@ -109,8 +120,15 @@ export default function SmallChat({ roomId: propRoomId }: SmallChatProps) {
 
     const userMessage = inputValue.trim();
     
+    // 사용자 메시지를 즉시 UI에 표시
+    setMessages((prev) => [
+      ...prev,
+      { message: userMessage, role: "user" },
+    ]);
+    
     // AI 응답 대기 중 상태로 전환
     setIsWaitingForAI(true);
+    console.log("🔄 AI 응답 대기 중...", { isWaitingForAI: true });
     
     console.log("[SEND] Sending message:", userMessage, "to room:", roomId);
     wsServiceRef.current.sendMessage(userMessage);

@@ -3,24 +3,36 @@ import HistoryRow from "./HistoryRow";
 import { useEffect, useState } from "react";
 import { chatApi, type RoomResponse } from "../../../services/chatApi";
 
+interface HistoryListProps {
+  onRowClick: (roomId: string) => void;
+  selectedRoomId?: string;
+  refreshTrigger?: number;
+}
+
 export default function HistoryList({
   onRowClick,
-}: {
-  onRowClick: (roomId: string) => void;
-}) {
+  selectedRoomId,
+  refreshTrigger = 0,
+}: HistoryListProps) {
   const [rooms, setRooms] = useState<RoomResponse[]>([]);
 
   useEffect(() => {
     const loadRooms = async () => {
       try {
+        console.log("📋 채팅방 목록 로딩 시작...");
         const data = await chatApi.getRooms();
+        console.log("✅ 채팅방 목록 로드 성공:", data);
+        console.log("- 채팅방 개수:", data.length);
+        if (data.length > 0) {
+          console.log("- 첫 번째 채팅방:", data[0]);
+        }
         setRooms(data);
       } catch (error) {
-        console.error("채팅방 목록 로드 실패:", error);
+        console.error("❌ 채팅방 목록 로드 실패:", error);
       }
     };
     loadRooms();
-  }, []);
+  }, [refreshTrigger]);
 
   if (rooms.length === 0) {
     return (
@@ -34,11 +46,12 @@ export default function HistoryList({
 
   return (
     <div className="historylist__container">
-      {rooms.slice(0, 6).map((room) => (
+      {rooms.map((room) => (
         <HistoryRow
           key={room.roomId}
           room={room}
           onRowClick={() => onRowClick(room.roomId)}
+          isSelected={room.roomId === selectedRoomId}
         />
       ))}
     </div>

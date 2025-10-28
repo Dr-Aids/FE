@@ -1,6 +1,6 @@
 import Message from "./Message";
 import "./Messages.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useLayoutEffect } from "react";
 
 interface MessagesProps {
   messages: Array<{ message: string; role: string }>;
@@ -8,18 +8,36 @@ interface MessagesProps {
 }
 
 export default function Messages({ messages, isWaitingForAI = false }: MessagesProps) {
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // 스크롤을 맨 아래로
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
   };
 
+  // 메시지가 추가되거나 로딩 상태가 변경될 때 자동 스크롤
+  useLayoutEffect(() => {
+    // 첫 로드 시에는 즉시 스크롤
+    if (messages.length > 0) {
+      scrollToBottom("auto");
+    }
+  }, []);
+
   useEffect(() => {
-    scrollToBottom();
+    console.log("📨 Messages 상태 업데이트:", {
+      messageCount: messages.length,
+      isWaitingForAI: isWaitingForAI,
+    });
+    // 새 메시지가 추가될 때 부드럽게 스크롤
+    scrollToBottom("smooth");
   }, [messages, isWaitingForAI]);
 
   return (
-    <div className="messages__container">
+    <div className="messages__container" ref={messagesContainerRef}>
       {messages.length === 0 ? (
         <div style={{ textAlign: "center", padding: "2rem", color: "#999" }}>
           메시지가 없습니다.

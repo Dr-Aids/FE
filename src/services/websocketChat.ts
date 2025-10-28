@@ -34,19 +34,16 @@ export class WebSocketChatService {
     const baseUrl = API_URL.replace(/\/$/, "");
     const url = `${baseUrl}/ws/chat?access_token=${encodeURIComponent(this.token)}`;
 
-    console.log("[WebSocket] Connecting to:", url);
 
     const sock = new SockJS(url);
     this.stompClient = new Client({
       webSocketFactory: () => sock as WebSocket,
-      debug: (str) => console.log(str),
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
     });
 
     this.stompClient.onConnect = () => {
-      console.log("[CONNECTED]");
 
       // 메시지 구독
       this.stompClient?.subscribe(`/topic/messages/${this.roomId}`, (msg) => {
@@ -88,7 +85,6 @@ export class WebSocketChatService {
       message
     };
 
-    console.log("[SEND] Full payload:", payload);
 
     this.stompClient.publish({
       destination: "/app/send",
@@ -103,7 +99,6 @@ export class WebSocketChatService {
     if (this.stompClient) {
       this.stompClient.deactivate();
       this.stompClient = null;
-      console.log("[DISCONNECTED]");
     }
   }
 

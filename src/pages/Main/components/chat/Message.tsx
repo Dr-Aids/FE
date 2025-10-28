@@ -14,6 +14,10 @@ export default function Message({
   // role 정규화: ai/assistant -> ai, 나머지는 user
   const normalizedRole = role === "ai" || role === "assistant" ? "ai" : "user";
   
+  if (isLoading) {
+    console.log("⏳ 로딩 애니메이션 렌더링 중");
+  }
+  
   return (
     <div className={`message__container__${normalizedRole}`}>
       <img

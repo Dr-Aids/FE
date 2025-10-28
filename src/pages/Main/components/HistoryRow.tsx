@@ -1,13 +1,14 @@
 import "./HistoryRow.css";
-import SoundIcon from "../../../assets/sound_icon.svg";
 import type { RoomResponse } from "../../../services/chatApi";
 
 export default function HistoryRow({
   room,
   onRowClick,
+  isSelected = false,
 }: {
   room: RoomResponse;
   onRowClick: () => void;
+  isSelected?: boolean;
 }) {
   const date = new Date(room.createdAt);
   const dateStr = date.toLocaleDateString("ko-KR");
@@ -17,14 +18,16 @@ export default function HistoryRow({
   });
 
   return (
-    <div className="historyrow__container" onClick={onRowClick}>
+    <div
+      className={`historyrow__container ${isSelected ? "active" : ""}`}
+      onClick={onRowClick}
+    >
       <div className="historyrow__text__container">
         <div className="historyrow__time">
           {dateStr} {timeStr}
         </div>
         <div className="historyrow__summary">{room.title}</div>
       </div>
-      <img src={SoundIcon} alt="사운드" />
     </div>
   );
 }
