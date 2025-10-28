@@ -11,38 +11,45 @@
 }
 
 .smallchat__form {
-  width: 100%;
-  max-width: 800px;
-  min-height: 56px;
+  width: calc(100% - 3rem);
+  max-width: 900px;
+  min-height: 52px;
   box-sizing: border-box;
   background: white;
-  border: 1px solid #d1d5db;
-  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1.5rem auto;
+  margin: 1.25rem auto;
   padding: 0 1rem;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.smallchat__form:hover {
+  border-color: #c0c0c0;
 }
 
 .smallchat__form:focus-within {
   border-color: #10a37f;
+  box-shadow: 0 2px 8px rgba(16, 163, 127, 0.15);
 }
 
 .smallchat__form > input {
   flex: 1;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   background: none;
   border: none;
   height: 100%;
   box-sizing: border-box;
   font-size: 1rem;
-  color: #202123;
+  color: #1a1a1a;
+  line-height: 1.5;
 }
 
 .smallchat__form > input::placeholder {
-  color: #8e8ea0;
+  color: #999;
 }
 
 .smallchat__form input:focus {
@@ -50,26 +57,37 @@
 }
 
 .smallchat__form button {
-  background: none;
+  background: linear-gradient(135deg, #10a37f 0%, #0d8c6c 100%);
   border: none;
+  border-radius: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
-  transition: opacity 0.2s;
+  padding: 0.625rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(16, 163, 127, 0.2);
 }
 
 .smallchat__form button:hover:not(:disabled) {
-  opacity: 0.7;
+  background: linear-gradient(135deg, #0d8c6c 0%, #0a7556 100%);
+  box-shadow: 0 3px 6px rgba(16, 163, 127, 0.3);
+  transform: scale(1.05);
+}
+
+.smallchat__form button:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 .smallchat__form button:disabled {
-  opacity: 0.4;
+  background: #cccccc;
   cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
 }
 
 .smallchat__form button img {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
 }

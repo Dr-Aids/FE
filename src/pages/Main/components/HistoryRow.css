@@ -14,44 +14,55 @@
 /* 사이드바의 히스토리 행 */
 .main-page__sidebar .historyrow__container {
   background-color: white;
-  border: 1px solid #e5e5e5;
-  margin: 0.3rem 0.5rem;
+  border: 1px solid #e8e8e8;
+  margin: 0 0.25rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 .main-page__sidebar .historyrow__container:hover {
-  background-color: #f0f0f0;
-  border-color: #d1d5db;
+  background-color: #f8f8f8;
+  border-color: #d0d0d0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
 }
 
 .main-page__sidebar .historyrow__container.active {
-  background-color: #e8f4f8;
+  background: linear-gradient(135deg, #e6f7f1 0%, #d4f0e6 100%);
   border-color: #10a37f;
+  box-shadow: 0 2px 6px rgba(16, 163, 127, 0.15);
 }
 
 .main-page__sidebar .historyrow__time,
 .main-page__sidebar .historyrow__summary {
-  color: #202123;
+  color: #1a1a1a;
 }
 
 .main-page__sidebar .historyrow__time {
-  font-size: 0.85rem;
-  color: #6e6e80;
+  font-size: 0.8125rem;
+  color: #888;
+  font-weight: 500;
 }
 
 .main-page__sidebar .historyrow__summary {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
 }
 
 /* 오디오 리스트의 히스토리 행 */
 .main-page__audio-history .historyrow__container {
   background-color: white;
-  border: 1px solid #e5e5e5;
-  margin-bottom: 0.5rem;
+  border: 1px solid #e8e8e8;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
 .main-page__audio-history .historyrow__container:hover {
-  background-color: #f7f7f8;
+  background-color: #f8f8f8;
+  border-color: #d0d0d0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
 }
 
 .historyrow__text__container {
@@ -60,13 +71,13 @@
 }
 
 .historyrow__time {
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: #6e6e80;
   margin-bottom: 0.3rem;
 }
 
 .historyrow__summary {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #202123;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -28,11 +28,14 @@
 
 .message__container__ai > div,
 .message__container__user > div {
-  max-width: 70%;
-  padding: 1rem;
-  border-radius: 12px;
+  max-width: 75%;
+  padding: 0.875rem 1.125rem;
+  border-radius: 16px;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  line-height: 1.6;
+  font-size: 1.4rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .message__container__user > div {
@@ -40,25 +43,29 @@
 }
 
 .message__container__ai > div {
-  background-color: #e8f4f8;
-  color: #333;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #1a1a1a;
+  border: 1px solid #bae6fd;
 }
 
 .message__container__user > div {
-  background-color: #33afc5;
+  background: linear-gradient(135deg, #10a37f 0%, #0d8c6c 100%);
   color: white;
+  box-shadow: 0 2px 4px rgba(16, 163, 127, 0.2);
 }
 
 /* 로딩 애니메이션 */
 .loading-dots {
   display: flex;
   gap: 0.4rem;
-  padding: 0.8rem 1.2rem;
-  background-color: #e8f4f8;
-  border-radius: 12px;
+  padding: 0.875rem 1.125rem;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+  border-radius: 16px;
   align-items: center;
   justify-content: flex-start;
   min-width: 60px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .loading-dots span {
