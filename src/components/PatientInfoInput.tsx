@@ -181,7 +181,7 @@ export default function PatientInfoInput({
         if (match) {
           const addedpatientId = Number(match[0]);
 
-          nav(`patient/${addedpatientId}/0`);
+          nav(`/patient/${addedpatientId}/0`);
         }
 
         // 성공했을 때 최신 데이터 반영 및 모달 닫기

@@ -179,7 +179,6 @@ export default function PatientSummaryCard() {
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
 
       nav("/patient");
-      window.location.reload();
     } catch (err) {
       console.log("에러메세지(환자 삭제) : ", err);
     }
@@ -200,7 +199,6 @@ export default function PatientSummaryCard() {
       );
       if (!res.ok) throw new Error(`HTTP Error - ${res.status}`);
       nav(`/patient/${patientId}/${sessions ? sessions[0].session : "0"}`);
-      window.location.reload();
     } catch (err) {
       console.log("에러메세지(투석 회차 삭제) : ", err);
     }
