@@ -10,6 +10,11 @@ interface AudioHistoryListProps {
 export default function AudioHistoryList({ refreshTrigger }: AudioHistoryListProps) {
   const [audioList, setAudioList] = useState<AudioListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteTrigger, setDeleteTrigger] = useState(0);
+
+  const handleAudioDeleted = () => {
+    setDeleteTrigger((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const loadAudioList = async () => {
@@ -25,7 +30,7 @@ export default function AudioHistoryList({ refreshTrigger }: AudioHistoryListPro
       }
     };
     loadAudioList();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, deleteTrigger]);
 
   if (isLoading) {
     return (
@@ -50,7 +55,7 @@ export default function AudioHistoryList({ refreshTrigger }: AudioHistoryListPro
   return (
     <div className="historylist__container">
       {audioList.map((audio) => (
-        <AudioHistoryRow key={audio.id} audio={audio} />
+        <AudioHistoryRow key={audio.id} audio={audio} onDeleted={handleAudioDeleted} />
       ))}
     </div>
   );

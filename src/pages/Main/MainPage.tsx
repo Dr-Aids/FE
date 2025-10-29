@@ -46,12 +46,11 @@ export default function MainPage() {
       setIsGeneratingAudio(true);
       const result = await chatApi.generateAudio();
       
-      console.log("오디오 생성 완료:", result);
       
       // 오디오 목록 새로고침
       setAudioRefreshTrigger((prev) => prev + 1);
       
-      alert(`오디오가 생성되었습니다: ${result.text}`);
+      alert(`오디오가 생성되었습니다 \n${result.text}`);
     } catch (error) {
       console.error("오디오 생성 실패:", error);
       alert("오디오 생성에 실패했습니다.");
@@ -92,13 +91,13 @@ export default function MainPage() {
       {/* 오디오 기록 */}
       <div className="main-page__audio-history">
         <div className="main-page__audio-header">
-          <h2>오디오 기록</h2>
+          <h2>특이사항 음성 요약 기록</h2>
           <button
             className="main-page__new-chat-button"
             onClick={handleGenerateAudio}
             disabled={isGeneratingAudio}
           >
-            {isGeneratingAudio ? "생성 중..." : "+ 오디오 생성"}
+            {isGeneratingAudio ? "생성 중..." : "+ 특이사항 음성기록 생성"}
           </button>
         </div>
         <AudioHistoryList refreshTrigger={audioRefreshTrigger} />

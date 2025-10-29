@@ -126,3 +126,28 @@
     transform: rotate(360deg);
   }
 }
+
+/* 삭제 버튼 스타일 */
+.historyrow__delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.historyrow__delete-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.historyrow__delete-button svg path {
+  stroke: #e57373;
+}

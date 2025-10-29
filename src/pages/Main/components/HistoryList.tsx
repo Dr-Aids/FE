@@ -15,6 +15,11 @@ export default function HistoryList({
   refreshTrigger = 0,
 }: HistoryListProps) {
   const [rooms, setRooms] = useState<RoomResponse[]>([]);
+  const [deleteTrigger, setDeleteTrigger] = useState(0);
+
+  const handleRoomDeleted = () => {
+    setDeleteTrigger((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const loadRooms = async () => {
@@ -32,7 +37,7 @@ export default function HistoryList({
       }
     };
     loadRooms();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, deleteTrigger]);
 
   if (rooms.length === 0) {
     return (
@@ -52,6 +57,7 @@ export default function HistoryList({
           room={room}
           onRowClick={() => onRowClick(room.roomId)}
           isSelected={room.roomId === selectedRoomId}
+          onDeleted={handleRoomDeleted}
         />
       ))}
     </div>

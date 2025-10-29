@@ -189,6 +189,50 @@ class ChatApiService {
 
     return response.json();
   }
+
+  // 채팅방 삭제
+  async deleteRoom(roomId: string): Promise<void> {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("인증이 필요합니다");
+    }
+
+    const response = await fetch(`${API_URL}/chats/${roomId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({
+        message: `HTTP Error - ${response.status}`,
+      }));
+      throw new Error(error.message || "채팅방 삭제에 실패했습니다");
+    }
+  }
+
+  // 오디오 삭제
+  async deleteAudio(audioId: string): Promise<void> {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("인증이 필요합니다");
+    }
+
+    const response = await fetch(`${API_URL}/audio/${audioId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({
+        message: `HTTP Error - ${response.status}`,
+      }));
+      throw new Error(error.message || "오디오 삭제에 실패했습니다");
+    }
+  }
 }
 
 export const chatApi = new ChatApiService();

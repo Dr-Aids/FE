@@ -3,8 +3,17 @@ import "./HistoryRow.css";
 import SoundIcon from "../../../assets/sound_icon.svg";
 import type { AudioListItem } from "../../../services/chatApi";
 import { chatApi } from "../../../services/chatApi";
+import { Trash2 } from "lucide-react";
+import Modal from "../../../components/Modal";
 
-export default function AudioHistoryRow({ audio }: { audio: AudioListItem }) {
+export default function AudioHistoryRow({ 
+  audio,
+  onDeleted 
+}: { 
+  audio: AudioListItem;
+  onDeleted?: () => void;
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const date = new Date(audio.date);
   const dateStr = date.toLocaleDateString("ko-KR");
   const timeStr = date.toLocaleTimeString("ko-KR", {
@@ -83,23 +92,80 @@ export default function AudioHistoryRow({ audio }: { audio: AudioListItem }) {
     }
   };
 
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (!confirm("정말로 이 오디오를 삭제하시겠습니까?")) return;
+
+    try {
+      await chatApi.deleteAudio(audio.audioId);
+      console.log("✅ 오디오 삭제 완료:", audio.audioId);
+      
+      if (onDeleted) {
+        onDeleted();
+      }
+    } catch (error) {
+      console.error("❌ 오디오 삭제 실패:", error);
+      alert("오디오 삭제에 실패했습니다.");
+    }
+  };
+
+  const handleRowClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
-    <div className="historyrow__container">
-      <div className="historyrow__text__container">
-        <div className="historyrow__time">
-          {dateStr} {timeStr}
+    <>
+      <div 
+        className="historyrow__container" 
+        onClick={handleRowClick}
+        style={{ cursor: "pointer" }}
+      >
+        <div className="historyrow__text__container">
+          <div className="historyrow__time">
+            {dateStr} {timeStr}
+          </div>
+          <div className="historyrow__summary">{audio.text}</div>
         </div>
-        <div className="historyrow__summary">{audio.text}</div>
+        <div 
+          style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <img
+            src={SoundIcon}
+            alt="사운드"
+            onClick={handleSoundClick}
+            className={`historyrow__sound-icon ${isPlaying ? "playing" : ""} ${
+              isLoading ? "loading" : ""
+            }`}
+          />
+          <button
+            className="historyrow__delete-button"
+            onClick={handleDelete}
+            title="오디오 삭제"
+          >
+            <Trash2 size={18} />
+          </button>
+        </div>
       </div>
-      <img
-        src={SoundIcon}
-        alt="사운드"
-        onClick={handleSoundClick}
-        className={`historyrow__sound-icon ${isPlaying ? "playing" : ""} ${
-          isLoading ? "loading" : ""
-        }`}
-      />
-    </div>
+
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        title="오디오 내용"
+      >
+        <div style={{ 
+          padding: "1rem", 
+          fontSize: "1.1rem", 
+          lineHeight: "1.6",
+          whiteSpace: "pre-wrap",
+          maxHeight: "60vh",
+          overflowY: "auto"
+        }}>
+          {audio.text}
+        </div>
+      </Modal>
+    </>
   );
 }
 
