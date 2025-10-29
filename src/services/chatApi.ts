@@ -159,6 +159,36 @@ class ChatApiService {
 
     return blob;
   }
+
+  // 오디오 생성
+  async generateAudio(): Promise<{
+    id: string;
+    playbackUrl: string;
+    filename: string;
+    contentType: string;
+    text: string;
+  }> {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("인증이 필요합니다");
+    }
+
+    const response = await fetch(`${API_URL}/audio`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({
+        message: `HTTP Error - ${response.status}`,
+      }));
+      throw new Error(error.message || "오디오 생성에 실패했습니다");
+    }
+
+    return response.json();
+  }
 }
 
 export const chatApi = new ChatApiService();

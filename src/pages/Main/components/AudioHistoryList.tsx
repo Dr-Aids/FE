@@ -3,7 +3,11 @@ import AudioHistoryRow from "./AudioHistoryRow";
 import { useEffect, useState } from "react";
 import { chatApi, type AudioListItem } from "../../../services/chatApi";
 
-export default function AudioHistoryList() {
+interface AudioHistoryListProps {
+  refreshTrigger?: number;
+}
+
+export default function AudioHistoryList({ refreshTrigger }: AudioHistoryListProps) {
   const [audioList, setAudioList] = useState<AudioListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +25,7 @@ export default function AudioHistoryList() {
       }
     };
     loadAudioList();
-  }, []);
+  }, [refreshTrigger]);
 
   if (isLoading) {
     return (

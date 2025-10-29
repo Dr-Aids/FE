@@ -113,7 +113,10 @@
 }
 
 .main-page__audio-header {
-  padding: 1rem 1.25rem;
+  padding: 1rem 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   background-color: white;
   border-bottom: 1px solid #e8e8e8;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);

@@ -9,6 +9,8 @@ export default function MainPage() {
   const [selectedRoomId, setSelectedRoomId] = useState<string | undefined>();
   const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [audioRefreshTrigger, setAudioRefreshTrigger] = useState(0);
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
 
   const handleRoomSelect = (roomId: string) => {
     setSelectedRoomId(roomId);
@@ -34,6 +36,27 @@ export default function MainPage() {
       alert("채팅방 생성에 실패했습니다.");
     } finally {
       setIsCreatingRoom(false);
+    }
+  };
+
+  const handleGenerateAudio = async () => {
+    if (isGeneratingAudio) return;
+
+    try {
+      setIsGeneratingAudio(true);
+      const result = await chatApi.generateAudio();
+      
+      console.log("오디오 생성 완료:", result);
+      
+      // 오디오 목록 새로고침
+      setAudioRefreshTrigger((prev) => prev + 1);
+      
+      alert(`오디오가 생성되었습니다: ${result.text}`);
+    } catch (error) {
+      console.error("오디오 생성 실패:", error);
+      alert("오디오 생성에 실패했습니다.");
+    } finally {
+      setIsGeneratingAudio(false);
     }
   };
 
@@ -70,8 +93,15 @@ export default function MainPage() {
       <div className="main-page__audio-history">
         <div className="main-page__audio-header">
           <h2>오디오 기록</h2>
+          <button
+            className="main-page__new-chat-button"
+            onClick={handleGenerateAudio}
+            disabled={isGeneratingAudio}
+          >
+            {isGeneratingAudio ? "생성 중..." : "+ 오디오 생성"}
+          </button>
         </div>
-        <AudioHistoryList />
+        <AudioHistoryList refreshTrigger={audioRefreshTrigger} />
       </div>
     </div>
   );
