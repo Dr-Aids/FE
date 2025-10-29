@@ -12,7 +12,7 @@ export default function Messages({ messages, isWaitingForAI = false }: MessagesP
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // 스크롤을 맨 아래로
-  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+  const scrollToBottom = () => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
@@ -23,7 +23,7 @@ export default function Messages({ messages, isWaitingForAI = false }: MessagesP
   useLayoutEffect(() => {
     // 첫 로드 시에는 즉시 스크롤
     if (messages.length > 0) {
-      scrollToBottom("auto");
+      scrollToBottom();
     }
   }, []);
 
@@ -33,7 +33,7 @@ export default function Messages({ messages, isWaitingForAI = false }: MessagesP
       isWaitingForAI: isWaitingForAI,
     });
     // 새 메시지가 추가될 때 부드럽게 스크롤
-    scrollToBottom("smooth");
+    scrollToBottom();
   }, [messages, isWaitingForAI]);
 
   return (
