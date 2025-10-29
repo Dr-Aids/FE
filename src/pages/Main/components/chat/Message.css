@@ -38,11 +38,108 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+/* 마크다운 스타일링 */
+.message__content {
+  max-width: 75%;
+  padding: 0.875rem 1.125rem;
+  border-radius: 16px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+  font-size: 1.4rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.message__content h1,
+.message__content h2,
+.message__content h3,
+.message__content h4,
+.message__content h5,
+.message__content h6 {
+  margin: 0.5rem 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.message__content h1 { font-size: 1.8rem; }
+.message__content h2 { font-size: 1.6rem; }
+.message__content h3 { font-size: 1.4rem; }
+.message__content h4 { font-size: 1.3rem; }
+.message__content h5 { font-size: 1.2rem; }
+.message__content h6 { font-size: 1.1rem; }
+
+.message__content p {
+  margin: 0.5rem 0;
+}
+
+.message__content ul,
+.message__content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.message__content li {
+  margin: 0.25rem 0;
+}
+
+.message__content code {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.message__content pre {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.message__content pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.message__content blockquote {
+  border-left: 4px solid #10a37f;
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.message__content a {
+  color: #10a37f;
+  text-decoration: underline;
+}
+
+.message__content a:hover {
+  color: #0d8c6c;
+}
+
+.message__content strong {
+  font-weight: 600;
+}
+
+.message__content em {
+  font-style: italic;
+}
+
+.message__content hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 1rem 0;
+}
+
 .message__container__user > div {
   margin-right: 0;
 }
 
-.message__container__ai > div {
+.message__container__ai > div,
+.message__content {
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   color: #1a1a1a;
   border: 1px solid #bae6fd;

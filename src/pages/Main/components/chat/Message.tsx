@@ -1,6 +1,7 @@
 import "./Message.css";
 import AiIcon from "../../../../assets/main_logo.svg";
 import DoctorIcon from "../../../../assets/doctor_icon.svg";
+import ReactMarkdown from "react-markdown";
 
 export default function Message({
   message,
@@ -32,7 +33,13 @@ export default function Message({
           <span></span>
         </div>
       ) : (
-        <div>{message}</div>
+        <div className="message__content">
+          {normalizedRole === "ai" ? (
+            <ReactMarkdown>{message}</ReactMarkdown>
+          ) : (
+            <div style={{ whiteSpace: "pre-wrap" }}>{message}</div>
+          )}
+        </div>
       )}
     </div>
   );
